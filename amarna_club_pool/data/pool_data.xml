@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="pool_reading_initial" model="amarna.club.pool.reading">
+            <field name="reading_time" eval="(datetime.now() - timedelta(minutes=35)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="temperature">28.5</field>
+            <field name="chlorine">1.2</field>
+            <field name="ph">7.4</field>
+            <field name="turbidity">0.5</field>
+            <field name="author">Jean (Maitre-Nageur)</field>
+        </record>
+
+    </data>
+</odoo>

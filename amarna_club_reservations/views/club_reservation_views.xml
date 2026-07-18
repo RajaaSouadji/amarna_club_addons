@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_club_reservation_tree" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.tree</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="status_normalized == 'cancelled'">
+                <field name="name"/>
+                <field name="start_at"/>
+                <field name="end_at"/>
+                <field name="activity_id"/>
+                <field name="client_name"/>
+                <field name="people_count"/>
+                <field name="status_normalized"
+                       widget="badge"
+                       decoration-success="status_normalized == 'checked_in'"
+                       decoration-info="status_normalized == 'confirmed'"
+                       decoration-warning="status_normalized == 'pending'"
+                       decoration-danger="status_normalized == 'cancelled'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_club_reservation_form" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.form</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Réservation">
+                <header>
+                    <button name="action_check_in" string="Check-in"
+                            type="object" class="oe_highlight"
+                            invisible="status_normalized in ('checked_in', 'cancelled')"/>
+                    <button name="action_cancel" string="Annuler"
+                            type="object"
+                            invisible="status_normalized == 'cancelled'"/>
+                    <field name="status_normalized" widget="statusbar"
+                           statusbar_visible="pending,confirmed,checked_in"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Activité - Client"/></h1>
+                    </div>
+                    <group>
+                        <group string="Réservation">
+                            <field name="mobile_activity_code"/>
+                            <field name="activity_id"/>
+                            <field name="client_name"/>
+                            <field name="partner_id"/>
+                            <field name="people_count"/>
+                        </group>
+                        <group string="Créneau">
+                            <field name="start_at"/>
+                            <field name="end_at"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_reservation_calendar" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.calendar</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="arch" type="xml">
+            <calendar date_start="start_at" date_stop="end_at"
+                      color="activity_id" mode="day">
+                <field name="client_name"/>
+                <field name="activity_id"/>
+                <field name="people_count"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_club_reservation_search" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.search</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="client_name"/>
+                <field name="activity_id"/>
+                <filter string="Aujourd'hui" name="filter_today"
+                        domain="[('start_at', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')),
+                                 ('start_at', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <separator/>
+                <filter string="Arrivés" name="filter_checked_in"
+                        domain="[('status_normalized', '=', 'checked_in')]"/>
+                <filter string="Confirmés" name="filter_confirmed"
+                        domain="[('status_normalized', '=', 'confirmed')]"/>
+                <filter string="En attente" name="filter_pending"
+                        domain="[('status_normalized', '=', 'pending')]"/>
+                <group expand="1" string="Regrouper par">
+                    <filter string="Activité" name="group_activity"
+                            context="{'group_by': 'activity_id'}"/>
+                    <filter string="Statut" name="group_status"
+                            context="{'group_by': 'status_normalized'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_reservations" model="ir.actions.act_window">
+        <field name="name">Réservations</field>
+        <field name="res_model">amarna.club.reservation</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="context">{'search_default_filter_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune réservation</p>
+            <p>Les réservations créées depuis la tablette apparaissent ici.</p>
+        </field>
+    </record>
+
+    <record id="action_club_reservations_all" model="ir.actions.act_window">
+        <field name="name">Toutes les réservations</field>
+        <field name="res_model">amarna.club.reservation</field>
+        <field name="view_mode">tree,calendar,form</field>
+    </record>
+
+    <!-- Root app: Réservations Club -->
+    <menuitem id="menu_club_reservations_root"
+              name="Réservations Club"
+              sequence="23"
+              groups="amarna_club_base.group_club_user"/>
+
+    <menuitem id="menu_club_reservations_today"
+              name="Planning du jour"
+              parent="menu_club_reservations_root"
+              action="action_club_reservations"
+              sequence="10"/>
+
+    <menuitem id="menu_club_reservations_all"
+              name="Historique"
+              parent="menu_club_reservations_root"
+              action="action_club_reservations_all"
+              sequence="20"/>
+
+</odoo>

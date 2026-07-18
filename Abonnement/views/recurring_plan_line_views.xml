@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_amarna_recurring_plan_line_tree" model="ir.ui.view">
+        <field name="name">amarna.recurring.plan.line.tree</field>
+        <field name="model">amarna.recurring.plan.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="plan_id"/>
+                <field name="product_id"/>
+                <field name="price_unit"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_amarna_recurring_plan_line_form" model="ir.ui.view">
+        <field name="name">amarna.recurring.plan.line.form</field>
+        <field name="model">amarna.recurring.plan.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="price_unit"/>
+                        <field name="validity_number"/>
+                        <field name="validity_unit_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_amarna_recurring_plan_line_search" model="ir.ui.view">
+        <field name="name">amarna.recurring.plan.line.search</field>
+        <field name="model">amarna.recurring.plan.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="plan_id"/>
+                <field name="product_id"/>
+            </search>
+        </field>
+    </record>
+
+
+
+    <record id="action_amarna_recurring_plan_line" model="ir.actions.act_window">
+        <field name="name">Plan Lines</field>
+        <field name="res_model">amarna.recurring.plan.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

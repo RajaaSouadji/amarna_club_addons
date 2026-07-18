@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="asset_pool_filter_01" model="amarna.club.asset">
+            <field name="name">Filtre Principal A</field>
+            <field name="code">asset-pool-filter-01</field>
+            <field name="serial_number">SN-POOL-FLTR-01</field>
+            <field name="category">Équipement Piscine</field>
+            <field name="mobile_activity_code">pool</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=60)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="specs_json">{"Débit": "50 m3/h"}</field>
+        </record>
+
+        <record id="asset_pool_pump_02" model="amarna.club.asset">
+            <field name="name">Pompe de Filtration 2</field>
+            <field name="code">asset-pool-pump-02</field>
+            <field name="serial_number">SN-POOL-PUMP-02</field>
+            <field name="category">Équipement Piscine</field>
+            <field name="mobile_activity_code">pool</field>
+            <field name="status">maintenance</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="specs_json">{"Puissance": "2.2 kW", "Tension": "400V Triphasé"}</field>
+        </record>
+
+        <record id="asset_pool_robot" model="amarna.club.asset">
+            <field name="name">Robot Nettoyeur Dolphin</field>
+            <field name="code">asset-pool-robot</field>
+            <field name="serial_number">SN-POOL-ROBT-99</field>
+            <field name="category">Équipement Piscine</field>
+            <field name="mobile_activity_code">pool</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=15)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=45)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="specs_json">{"Cycles": "1.5 / 2.5 / 3.5 h"}</field>
+        </record>
+
+        <record id="asset_horse_saddle_1" model="amarna.club.asset">
+            <field name="name">Selle Cuir Tornade</field>
+            <field name="code">asset-horse-saddle-1</field>
+            <field name="serial_number">SN-SADDLE-01</field>
+            <field name="category">Équipement Équitation</field>
+            <field name="mobile_activity_code">horses</field>
+            <field name="status">broken</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=120)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="specs_json">{"Taille": "17.5 pouces", "Matière": "Cuir de veau"}</field>
+        </record>
+
+        <record id="asset_horse_box_4" model="amarna.club.asset">
+            <field name="name">Écurie Box 4</field>
+            <field name="code">asset-horse-box-4</field>
+            <field name="serial_number">SN-BOX-04</field>
+            <field name="category">Infrastructures Écurie</field>
+            <field name="mobile_activity_code">horses</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=180)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="specs_json">{"Dimensions": "4m x 4m", "Matériau": "Chêne et acier"}</field>
+        </record>
+
+        <record id="asset_shoot_pistol_9mm" model="amarna.club.asset">
+            <field name="name">Pistolet 9mm Glock 17</field>
+            <field name="code">asset-shoot-pistol-9mm</field>
+            <field name="serial_number">SN-PISTOL-9MM-102</field>
+            <field name="category">Arme de Poing</field>
+            <field name="mobile_activity_code">shooting</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=25)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="specs_json">{"Calibre": "9x19mm", "Capacité": "17 coups"}</field>
+        </record>
+
+        <record id="asset_shoot_glock_002" model="amarna.club.asset">
+            <field name="name">Pistolet 9mm Glock 19</field>
+            <field name="code">asset-shoot-glock-002</field>
+            <field name="serial_number">SN-GLOCK-002</field>
+            <field name="category">Arme de Poing</field>
+            <field name="mobile_activity_code">shooting</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=18)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_shoot_ar15_001" model="amarna.club.asset">
+            <field name="name">Carabine AR-15</field>
+            <field name="code">asset-shoot-ar15-001</field>
+            <field name="serial_number">SN-AR15-001</field>
+            <field name="category">Arme d'Épaule</field>
+            <field name="mobile_activity_code">shooting</field>
+            <field name="status">maintenance</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=48)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_shoot_beretta_001" model="amarna.club.asset">
+            <field name="name">Pistolet Beretta 92</field>
+            <field name="code">asset-shoot-beretta-001</field>
+            <field name="serial_number">SN-BERETTA-001</field>
+            <field name="category">Arme de Poing</field>
+            <field name="mobile_activity_code">shooting</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=22)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_shoot_vent_02" model="amarna.club.asset">
+            <field name="name">Extracteur Air Standard</field>
+            <field name="code">asset-shoot-vent-02</field>
+            <field name="serial_number">SN-VENT-SH-02</field>
+            <field name="category">Infrastructures Stand</field>
+            <field name="mobile_activity_code">shooting</field>
+            <field name="status">maintenance</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="specs_json">{"Débit": "12000 m3/h", "Puissance": "4 kW"}</field>
+        </record>
+
+        <record id="asset_gym_treadmill_1" model="amarna.club.asset">
+            <field name="name">Tapis de course Matrix 1</field>
+            <field name="code">asset-gym-treadmill-1</field>
+            <field name="serial_number">SN-GYM-TM-01</field>
+            <field name="category">Équipement Cardio</field>
+            <field name="mobile_activity_code">gym</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=20)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=70)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_padel_court_1" model="amarna.club.asset">
+            <field name="name">Filet Court de Padel 1</field>
+            <field name="code">asset-padel-court-1</field>
+            <field name="serial_number">SN-PADEL-CT-01</field>
+            <field name="category">Infrastructures Terrain</field>
+            <field name="mobile_activity_code">padel</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+    </data>
+</odoo>

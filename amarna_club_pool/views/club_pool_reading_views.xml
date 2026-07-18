@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_club_pool_reading_tree" model="ir.ui.view">
+        <field name="name">amarna.club.pool.reading.tree</field>
+        <field name="model">amarna.club.pool.reading</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="not conform">
+                <field name="reading_time"/>
+                <field name="temperature"/>
+                <field name="chlorine"/>
+                <field name="ph"/>
+                <field name="turbidity"/>
+                <field name="score"/>
+                <field name="conform"/>
+                <field name="author" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_club_pool_reading_form" model="ir.ui.view">
+        <field name="name">amarna.club.pool.reading.form</field>
+        <field name="model">amarna.club.pool.reading</field>
+        <field name="arch" type="xml">
+            <form string="Relevé qualité de l'eau">
+                <sheet>
+                    <group>
+                        <group string="Relevé">
+                            <field name="reading_time"/>
+                            <field name="author"/>
+                            <field name="user_id" readonly="1"/>
+                        </group>
+                        <group string="Conformité">
+                            <field name="conform"/>
+                            <field name="issue_count"/>
+                            <field name="score"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Mesures">
+                            <field name="temperature"/>
+                            <field name="chlorine"/>
+                            <field name="ph"/>
+                            <field name="turbidity"/>
+                        </group>
+                        <group string="Contrôles">
+                            <field name="temperature_ok"/>
+                            <field name="chlorine_ok"/>
+                            <field name="ph_ok"/>
+                            <field name="turbidity_ok"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_pool_reading_search" model="ir.ui.view">
+        <field name="name">amarna.club.pool.reading.search</field>
+        <field name="model">amarna.club.pool.reading</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Non conformes" name="filter_nonconform"
+                        domain="[('conform', '=', False)]"/>
+                <filter string="Aujourd'hui" name="filter_today"
+                        domain="[('reading_time', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_pool_readings" model="ir.actions.act_window">
+        <field name="name">Relevés</field>
+        <field name="res_model">amarna.club.pool.reading</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Root app: Piscine Club -->
+    <menuitem id="menu_club_pool_root"
+              name="Piscine Club"
+              sequence="26"
+              groups="amarna_club_base.group_club_user"/>
+
+    <menuitem id="menu_club_pool_readings"
+              name="Relevés qualité de l'eau"
+              parent="menu_club_pool_root"
+              action="action_club_pool_readings"
+              sequence="10"/>
+
+</odoo>

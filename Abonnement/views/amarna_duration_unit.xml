@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_amarna_duration_unit_tree" model="ir.ui.view">
+        <field name="name">amarna.duration.unit.tree</field>
+        <field name="model">amarna.duration.unit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_amarna_duration_unit_form" model="ir.ui.view">
+        <field name="name">amarna.duration.unit.form</field>
+        <field name="model">amarna.duration.unit</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_amarna_duration_unit_search" model="ir.ui.view">
+        <field name="name">amarna.duration.unit.search</field>
+        <field name="model">amarna.duration.unit</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ACTION -->
+    <record id="action_amarna_duration_unit" model="ir.actions.act_window">
+        <field name="name">Duration Units</field>
+        <field name="res_model">amarna.duration.unit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_amarna_duration_unit_search"/>
+    </record>
+
+
+    <!-- MENU -->
+    <menuitem id="menu_amarna_duration_unit"
+              name="Duration Units"
+              parent="menu_amarna_configuration_root"
+              action="action_amarna_duration_unit"
+              sequence="6"/>
+
+</odoo>

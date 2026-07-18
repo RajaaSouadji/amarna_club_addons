@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_amarna_activity,amarna.activity,model_amarna_activity,,1,1,1,1
+access_amarna_subscription_plan,amarna.subscription.plan,model_amarna_subscription_plan,,1,1,1,1
+access_amarna_subscription_type,amarna.subscription.type,model_amarna_subscription_type,,1,1,1,1
+access_amarna_subscription,amarna.subscription,model_amarna_subscription,,1,1,1,1
+access_amarna_duration_unit_user,amarna.duration.unit.user,model_amarna_duration_unit,base.group_user,1,1,1,1
+access_amarna_recurring_plan_line,amarna.recurring.plan.line,model_amarna_recurring_plan_line,,1,1,1,1
+access_amarna_recurring_plan,amarna.recurring.plan,model_amarna_recurring_plan,,1,1,1,1
+access_amarna_subscription_line_user,access_amarna_subscription_line_user,model_amarna_subscription_line,base.group_user,1,1,1,1

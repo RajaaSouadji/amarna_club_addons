@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="item_pool_01" model="amarna.club.inventory.item">
+            <field name="name">Chlore Granulé</field>
+            <field name="code">inv-pool-01</field>
+            <field name="mobile_activity_code">pool</field>
+            <field name="qty">12</field>
+            <field name="low_threshold">5</field>
+            <field name="unit">seaux</field>
+        </record>
+
+        <record id="item_pool_02" model="amarna.club.inventory.item">
+            <field name="name">Régulateur pH Moins</field>
+            <field name="code">inv-pool-02</field>
+            <field name="mobile_activity_code">pool</field>
+            <field name="qty">3</field>
+            <field name="low_threshold">4</field>
+            <field name="unit">bidons</field>
+        </record>
+
+        <record id="item_horse_01" model="amarna.club.inventory.item">
+            <field name="name">Granulés de Foin Alfalfa</field>
+            <field name="code">inv-horse-01</field>
+            <field name="mobile_activity_code">horses</field>
+            <field name="qty">45</field>
+            <field name="low_threshold">10</field>
+            <field name="unit">sacs</field>
+        </record>
+
+        <record id="item_horse_02" model="amarna.club.inventory.item">
+            <field name="name">Fers à Cheval de Rechange</field>
+            <field name="code">inv-horse-02</field>
+            <field name="mobile_activity_code">horses</field>
+            <field name="qty">8</field>
+            <field name="low_threshold">10</field>
+            <field name="unit">paires</field>
+        </record>
+
+        <record id="item_pb_01" model="amarna.club.inventory.item">
+            <field name="name">Billes de Paintball (Boîte 2000)</field>
+            <field name="code">inv-pb-01</field>
+            <field name="mobile_activity_code">paintball</field>
+            <field name="qty">15</field>
+            <field name="low_threshold">6</field>
+            <field name="unit">boîtes</field>
+        </record>
+
+        <record id="item_pb_02" model="amarna.club.inventory.item">
+            <field name="name">Cartouches CO2 12g</field>
+            <field name="code">inv-pb-02</field>
+            <field name="mobile_activity_code">paintball</field>
+            <field name="qty">120</field>
+            <field name="low_threshold">50</field>
+            <field name="unit">unités</field>
+        </record>
+
+        <record id="item_shoot_01" model="amarna.club.inventory.item">
+            <field name="name">Munitions 9x19mm Parabellum</field>
+            <field name="code">inv-shoot-01</field>
+            <field name="mobile_activity_code">shooting</field>
+            <field name="qty">2500</field>
+            <field name="low_threshold">1000</field>
+            <field name="unit">balles</field>
+        </record>
+
+        <record id="item_shoot_02" model="amarna.club.inventory.item">
+            <field name="name">Cibles en carton standard</field>
+            <field name="code">inv-shoot-02</field>
+            <field name="mobile_activity_code">shooting</field>
+            <field name="qty">85</field>
+            <field name="low_threshold">100</field>
+            <field name="unit">feuilles</field>
+        </record>
+
+        <record id="item_padel_01" model="amarna.club.inventory.item">
+            <field name="name">Balles de Padel (Tube de 3)</field>
+            <field name="code">inv-padel-01</field>
+            <field name="mobile_activity_code">padel</field>
+            <field name="qty">30</field>
+            <field name="low_threshold">10</field>
+            <field name="unit">tubes</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+
+from . import activity
+from . import subscription_plan
+from . import subscription_type
+from . import subscription
+from . import card
+from . import checkin
+from . import amarna_duration_unit
+from . import recurring_plan
+from . import recurring_plan_line
+from . import amarna_subscription_line

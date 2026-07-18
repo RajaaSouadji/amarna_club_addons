@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TREE -->
+    <record id="view_amarna_subscription_type_tree" model="ir.ui.view">
+        <field name="name">amarna.subscription.type.tree</field>
+        <field name="model">amarna.subscription.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM -->
+    <record id="view_amarna_subscription_type_form" model="ir.ui.view">
+        <field name="name">amarna.subscription.type.form</field>
+        <field name="model">amarna.subscription.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_amarna_subscription_type" model="ir.actions.act_window">
+        <field name="name">Subscription Types</field>
+        <field name="res_model">amarna.subscription.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MENU -->
+    <menuitem id="menu_amarna_subscription_type"
+              name="Subscription Types"
+              parent="menu_amarna_configuration_root"
+              action="action_amarna_subscription_type"
+              sequence="2"/>
+
+</odoo>

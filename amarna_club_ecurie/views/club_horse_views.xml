@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_club_horse_tree" model="ir.ui.view">
+        <field name="name">amarna.club.horse.tree</field>
+        <field name="model">amarna.club.horse</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="box_number"/>
+                <field name="breed"/>
+                <field name="age"/>
+                <field name="status"
+                       widget="badge"
+                       decoration-success="status == 'available'"
+                       decoration-warning="status == 'resting'"
+                       decoration-danger="status == 'injured'"/>
+                <field name="fatigue_pct" widget="progressbar"/>
+                <field name="next_vet_visit"/>
+                <field name="farrier_due"/>
+                <field name="deworming_due"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_club_horse_form" model="ir.ui.view">
+        <field name="name">amarna.club.horse.form</field>
+        <field name="model">amarna.club.horse</field>
+        <field name="arch" type="xml">
+            <form string="Cheval">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom du cheval"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identité">
+                            <field name="code"/>
+                            <field name="breed"/>
+                            <field name="age"/>
+                            <field name="box_number"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="État">
+                            <field name="status"/>
+                            <field name="fatigue" widget="percentage"/>
+                            <field name="diet"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Suivi vétérinaire">
+                            <field name="next_vet_visit"/>
+                            <field name="last_vaccine"/>
+                            <field name="vet_note"/>
+                        </group>
+                        <group string="Soins">
+                            <field name="last_farrier"/>
+                            <field name="farrier_due"/>
+                            <field name="last_deworming"/>
+                            <field name="deworming_due"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_horse_search" model="ir.ui.view">
+        <field name="name">amarna.club.horse.search</field>
+        <field name="model">amarna.club.horse</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="breed"/>
+                <filter string="Disponibles" name="filter_available"
+                        domain="[('status', '=', 'available')]"/>
+                <filter string="Au repos" name="filter_resting"
+                        domain="[('status', '=', 'resting')]"/>
+                <filter string="Blessés" name="filter_injured"
+                        domain="[('status', '=', 'injured')]"/>
+                <separator/>
+                <filter string="Ferrage à prévoir" name="filter_farrier"
+                        domain="[('farrier_due', '=', True)]"/>
+                <filter string="Vermifuge à prévoir" name="filter_deworming"
+                        domain="[('deworming_due', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_horses" model="ir.actions.act_window">
+        <field name="name">Chevaux</field>
+        <field name="res_model">amarna.club.horse</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Root app: Écurie -->
+    <menuitem id="menu_club_ecurie_root"
+              name="Écurie"
+              sequence="25"
+              groups="amarna_club_base.group_club_user"/>
+
+    <menuitem id="menu_club_horses"
+              name="Chevaux"
+              parent="menu_club_ecurie_root"
+              action="action_club_horses"
+              sequence="10"/>
+
+</odoo>

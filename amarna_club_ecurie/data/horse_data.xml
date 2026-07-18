@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="horse_tornade" model="amarna.club.horse">
+            <field name="name">Tornade</field>
+            <field name="code">h1</field>
+            <field name="breed">Pur-sang arabe</field>
+            <field name="age">7</field>
+            <field name="box_number">Box 1</field>
+            <field name="status">available</field>
+            <field name="fatigue">0.2</field>
+            <field name="diet">Foin + granulés (2x/jour)</field>
+            <field name="last_farrier" eval="(datetime.now() - timedelta(days=21)).strftime('%Y-%m-%d')"/>
+            <field name="last_vaccine" eval="(datetime.now() - timedelta(days=120)).strftime('%Y-%m-%d')"/>
+            <field name="last_deworming" eval="(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="horse_pegase" model="amarna.club.horse">
+            <field name="name">Pégase</field>
+            <field name="code">h2</field>
+            <field name="breed">Selle français</field>
+            <field name="age">11</field>
+            <field name="box_number">Box 2</field>
+            <field name="status">resting</field>
+            <field name="fatigue">0.8</field>
+            <field name="diet">Foin enrichi + compléments articulaires</field>
+            <field name="vet_note">Surveillance tendon antérieur droit.</field>
+            <field name="next_vet_visit" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="last_farrier" eval="(datetime.now() - timedelta(days=50)).strftime('%Y-%m-%d')"/>
+            <field name="last_vaccine" eval="(datetime.now() - timedelta(days=200)).strftime('%Y-%m-%d')"/>
+            <field name="last_deworming" eval="(datetime.now() - timedelta(days=95)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="horse_eclair" model="amarna.club.horse">
+            <field name="name">Éclair</field>
+            <field name="code">h3</field>
+            <field name="breed">Barbe</field>
+            <field name="age">5</field>
+            <field name="box_number">Box 3</field>
+            <field name="status">available</field>
+            <field name="fatigue">0.5</field>
+            <field name="diet">Foin + orge aplatie</field>
+            <field name="last_farrier" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="last_vaccine" eval="(datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d')"/>
+            <field name="last_deworming" eval="(datetime.now() - timedelta(days=45)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="horse_ombre" model="amarna.club.horse">
+            <field name="name">Ombre</field>
+            <field name="code">h4</field>
+            <field name="breed">Frison</field>
+            <field name="age">9</field>
+            <field name="box_number">Box 4</field>
+            <field name="status">injured</field>
+            <field name="fatigue">0.0</field>
+            <field name="diet">Foin uniquement (repos)</field>
+            <field name="vet_note">Boiterie postérieure gauche — box strict jusqu'au contrôle.</field>
+            <field name="next_vet_visit" eval="(datetime.now() + timedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="last_farrier" eval="(datetime.now() - timedelta(days=35)).strftime('%Y-%m-%d')"/>
+            <field name="last_vaccine" eval="(datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')"/>
+            <field name="last_deworming" eval="(datetime.now() - timedelta(days=20)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="horse_spirit" model="amarna.club.horse">
+            <field name="name">Spirit</field>
+            <field name="code">h5</field>
+            <field name="breed">Mustang</field>
+            <field name="age">6</field>
+            <field name="box_number">Box 5</field>
+            <field name="status">available</field>
+            <field name="fatigue">0.1</field>
+            <field name="diet">Foin + granulés (2x/jour)</field>
+            <field name="last_farrier" eval="(datetime.now() - timedelta(days=14)).strftime('%Y-%m-%d')"/>
+            <field name="last_vaccine" eval="(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="last_deworming" eval="(datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="horse_jumper" model="amarna.club.horse">
+            <field name="name">Jumper</field>
+            <field name="code">h6</field>
+            <field name="breed">Hanovrien</field>
+            <field name="age">8</field>
+            <field name="box_number">Box 6</field>
+            <field name="status">resting</field>
+            <field name="fatigue">0.9</field>
+            <field name="diet">Ration récupération + électrolytes</field>
+            <field name="last_farrier" eval="(datetime.now() - timedelta(days=28)).strftime('%Y-%m-%d')"/>
+            <field name="last_vaccine" eval="(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d')"/>
+            <field name="last_deworming" eval="(datetime.now() - timedelta(days=80)).strftime('%Y-%m-%d')"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TREE -->
+    <record id="view_amarna_subscription_tree" model="ir.ui.view">
+        <field name="name">amarna.subscription.tree</field>
+        <field name="model">amarna.subscription</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="activity_id"/>
+                <field name="plan_id"/>
+                <field name="start_date"/>
+                <field name="expiration_date"/>
+                <field name="remaining_sessions"/>
+                <field name="state"/>
+
+                <field name="next_invoice_date"/>
+                <field name="sale_person_id"/>
+                <field name="activity_ids"
+                       widget="mail_activity"/>
+                <field name="recurring_amount"/>
+                <field name="recurring_plan_id"/>
+                <field name="subscription_status"
+                       widget="badge"
+                       decoration-success="subscription_status == 'running'"
+                       decoration-info="subscription_status == 'draft'"
+                       decoration-danger="subscription_status == 'cancel'"
+                       decoration-warning="subscription_status == 'paid'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM -->
+    <record id="view_amarna_subscription_form" model="ir.ui.view">
+    <field name="name">amarna.subscription.form</field>
+    <field name="model">amarna.subscription</field>
+    <field name="arch" type="xml">
+
+        <form string="Abonnement">
+
+
+            <header>
+                <button name="action_send"
+                        string="Envoyer"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'draft'"/>
+                
+
+                <button name="action_print_subscription"
+                        string="Imprimer"
+                        type="object"
+                        class="btn-secondary"/>
+
+
+                <button name="action_confirm"
+                        string="Confirmer"
+                        type="object"
+                        class="btn-secondary"/>
+
+
+                <button name="action_preview_subscription"
+                        string="Aperçu"
+                        type="object"
+                        class="btn-secondary"/>
+
+                <button name="action_create_invoice"
+                        string="Créer Facture"
+                        type="object"
+                        class="btn-secondary"/>
+
+                <field name="state"
+                       widget="statusbar"
+                       statusbar_visible="draft,sent,sale"/>
+
+            </header>
+
+            <sheet>
+
+
+                <div class="oe_button_box" name="button_box">
+
+                    <button class="oe_stat_button"
+                            type="object"
+                            name="action_view_invoice"
+                            icon="fa-file-text-o">
+
+                        <field name="invoice_count"
+                               widget="statinfo"
+                               string="Factures"/>
+
+                    </button>
+
+                </div>
+
+                <div class="oe_title">
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                </div>
+
+                <group col="2">
+
+                    <group>
+
+                        <field name="partner_id" widget="many2one_avatar"/>
+
+                    </group>
+
+                    <group>
+
+
+                        <field name="expiration_date"/>
+                        <field name="recurring_plan_id"/>
+                        <field name="payment_term_id"/>
+                        <field name="delivery_date"/>
+
+                    </group>
+
+                </group>
+
+                <notebook>
+
+                    <page string="Lignes de commande">
+
+
+                        <field name="line_ids"
+                               widget="section_and_note_one2many">
+                            <tree editable="bottom">
+
+                                <control>
+                                    <create string="Ajouter un produit"/>
+                                    <create string="Ajouter une section"
+                                            context="{'default_display_type':'line_section'}"/>
+                                    <create string="Ajouter une note"
+                                            context="{'default_display_type':'line_note'}"/>
+                                </control>
+
+                                <field name="sequence" widget="handle"/>
+                                <field name="display_type" column_invisible="1"/>
+                                <field name="product_id"/>
+                                <field name="name"/>
+                                <field name="product_uom_qty"/>
+                                <field name="product_uom_id"/>
+                                <field name="price_unit"/>
+                                <field name="tax_ids" widget="many2many_tags"/>
+                                <field name="discount"/>
+                                <field name="price_subtotal" readonly="1"/>
+                            </tree>
+                        </field>
+
+
+                    </page>
+
+                    <page string="Autres informations">
+
+                        <group col="2">
+                            <group string="Ventes">
+                                <field name="sale_person_id"/>
+                                <field name="client_reference"/>
+                            </group>
+                            <group string="Facturation">
+                                <field name="payment_term_id"/>
+                            </group>
+                            <group string="Suivi">
+                                <field name="campaign"/>
+                                <field name="medium"/>
+                                <field name="source"/>
+                            </group>
+                            <group string="Abonnement">
+                                <field name="activity_id"/>
+                                <field name="plan_id"/>
+                                <field name="start_date"/>
+                                <field name="remaining_sessions"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Notes">
+
+                        <field name="note"/>
+
+                    </page>
+
+                </notebook>
+
+                <group class="oe_subtotal_footer oe_right">
+
+                    <button string="Remise"
+                            type="object"
+                            name="action_discount"
+                            class="btn-secondary"/>
+
+                    <br/>
+
+                    <field name="amount_untaxed"
+                           readonly="1"/>
+
+                    <field name="amount_total"
+                           readonly="1"/>
+
+                </group>
+
+            </sheet>
+
+
+<!--            </sheet>-->
+
+
+
+            <chatter/>
+
+        </form>
+
+    </field>
+</record>
+
+    <!-- ACTION -->
+    <record id="action_amarna_subscription" model="ir.actions.act_window">
+        <field name="name">Client Subscriptions</field>
+        <field name="res_model">amarna.subscription</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MENU -->
+    <menuitem id="menu_amarna_subscription"
+              name="Client Subscriptions"
+              parent="menu_amarna_subscription_root"
+              action="action_amarna_subscription"
+              sequence="4"/>
+
+</odoo>

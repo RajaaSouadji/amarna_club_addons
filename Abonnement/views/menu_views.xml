@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ROOT -->
+    <menuitem id="menu_amarna_root"
+              name="Amarna"
+              sequence="1"/>
+
+    <!-- ABONNEMENTS -->
+    <menuitem id="menu_amarna_subscription_root"
+              name="Abonnements"
+              parent="menu_amarna_root"
+              sequence="1"/>
+
+    <!-- PRODUITS -->
+    <menuitem id="menu_amarna_product_root"
+              name="Produits"
+              parent="menu_amarna_root"
+              sequence="2"/>
+
+    <!-- ANALYSE -->
+    <menuitem id="menu_amarna_analysis_root"
+              name="Analyse"
+              parent="menu_amarna_root"
+              sequence="3"/>
+
+    <!-- CONFIGURATION -->
+    <menuitem id="menu_amarna_configuration_root"
+              name="Configuration"
+              parent="menu_amarna_root"
+              sequence="4"/>
+
+</odoo>

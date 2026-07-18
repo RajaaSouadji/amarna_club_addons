@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_amarna_club" model="ir.module.category">
+        <field name="name">Amarna Club</field>
+        <field name="description">Gestion opérationnelle du club Amarna</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <record id="group_club_user" model="res.groups">
+        <field name="name">Utilisateur</field>
+        <field name="category_id" ref="module_category_amarna_club"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_club_manager" model="res.groups">
+        <field name="name">Responsable</field>
+        <field name="category_id" ref="module_category_amarna_club"/>
+        <field name="implied_ids" eval="[(4, ref('group_club_user'))]"/>
+    </record>
+
+    <record id="group_club_api" model="res.groups">
+        <field name="name">API Mobile</field>
+        <field name="category_id" ref="module_category_amarna_club"/>
+        <field name="comment">Compte technique de l'application tablette
+            Amarna Club.</field>
+        <field name="implied_ids" eval="[(4, ref('group_club_user'))]"/>
+    </record>
+
+</odoo>

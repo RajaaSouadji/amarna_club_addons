@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_club_inventory_tree" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.item.tree</field>
+        <field name="model">amarna.club.inventory.item</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" decoration-danger="is_low">
+                <field name="name"/>
+                <field name="activity_id"/>
+                <field name="mobile_activity_code" optional="hide"/>
+                <field name="code" optional="hide"/>
+                <field name="qty"/>
+                <field name="low_threshold"/>
+                <field name="unit"/>
+                <field name="is_low"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_club_inventory_form" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.item.form</field>
+        <field name="model">amarna.club.inventory.item</field>
+        <field name="arch" type="xml">
+            <form string="Consommable">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom du consommable"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="mobile_activity_code"/>
+                            <field name="activity_id"/>
+                            <field name="code"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="qty"/>
+                            <field name="low_threshold"/>
+                            <field name="unit"/>
+                            <field name="is_low"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_inventory_search" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.item.search</field>
+        <field name="model">amarna.club.inventory.item</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="activity_id"/>
+                <filter string="Stock bas" name="filter_low"
+                        domain="[('is_low', '=', True)]"/>
+                <group expand="1" string="Regrouper par">
+                    <filter string="Activité" name="group_activity"
+                            context="{'group_by': 'activity_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_inventory" model="ir.actions.act_window">
+        <field name="name">Consommables</field>
+        <field name="res_model">amarna.club.inventory.item</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_activity': 1}</field>
+    </record>
+
+    <record id="action_club_inventory_low" model="ir.actions.act_window">
+        <field name="name">Alertes stock bas</field>
+        <field name="res_model">amarna.club.inventory.item</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_low', '=', True)]</field>
+    </record>
+
+    <!-- Root app: Inventaire Club -->
+    <menuitem id="menu_club_inventory_root"
+              name="Inventaire Club"
+              sequence="24"
+              groups="amarna_club_base.group_club_user"/>
+
+    <menuitem id="menu_club_inventory"
+              name="Consommables"
+              parent="menu_club_inventory_root"
+              action="action_club_inventory"
+              sequence="10"/>
+
+    <menuitem id="menu_club_inventory_low"
+              name="Alertes stock bas"
+              parent="menu_club_inventory_root"
+              action="action_club_inventory_low"
+              sequence="20"/>
+
+</odoo>
