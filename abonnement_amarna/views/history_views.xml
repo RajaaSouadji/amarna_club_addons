@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><odoo>
+ <record id="view_amarna_history_tree" model="ir.ui.view"><field name="name">amarna.subscription.history.tree</field><field name="model">amarna.subscription.history</field><field name="arch" type="xml"><tree><field name="partner_id"/><field name="subscription_id"/><field name="plan_id"/><field name="start_date"/><field name="expiration_date"/><field name="amount"/><field name="reason"/></tree></field></record>
+ <record id="view_amarna_history_form" model="ir.ui.view"><field name="name">amarna.subscription.history.form</field><field name="model">amarna.subscription.history</field><field name="arch" type="xml"><form><sheet><group><field name="partner_id"/><field name="subscription_id"/><field name="plan_id"/><field name="start_date"/><field name="expiration_date"/><field name="amount"/><field name="reason"/></group><field name="note"/></sheet></form></field></record>
+ <record id="action_amarna_history" model="ir.actions.act_window"><field name="name">Historique des abonnements</field><field name="res_model">amarna.subscription.history</field><field name="view_mode">tree,form</field></record>
+ <menuitem id="menu_amarna_history" name="Historique" parent="menu_amarna_subscription_root" action="action_amarna_history" sequence="4"/>
+</odoo>

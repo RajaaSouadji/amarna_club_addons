@@ -11,13 +11,13 @@
 
                 <field name="name"/>
 
-                <field name="activity_id"/>
+                <field name="activity_id" string="Activité concernée"/>
 
-                <field name="subscription_type_id"/>
+                <field name="subscription_type_id" string="Type abonnement"/>
 
-                <field name="duration_days"/>
+                <field name="duration_days" string="Durée (jours)"/>
 
-                <field name="session_count"/>
+                <field name="session_count" string="Séances incluses"/>
 
                 <field name="list_price"/>
 
@@ -35,7 +35,7 @@
 
         <field name="arch" type="xml">
 
-            <form string="Subscription Plan">
+            <form string="Formule abonnement">
 
                 <sheet>
 
@@ -63,7 +63,7 @@
 
                             <field name="subscription_count"
                                    widget="statinfo"
-                                   string="Subscriptions"/>
+                                   string="Abonnements"/>
 
                         </button>
 
@@ -96,14 +96,14 @@
                     <group>
 
                         <group string="General">
-                            <field name="activity_id"/>
-                            <field name="subscription_type_id"/>
-                            <field name="duration_days"/>
-                            <field name="session_count"/>
+                            <field name="activity_id" string="Activité concernée"/>
+                            <field name="subscription_type_id" string="Type abonnement"/>
+                            <field name="duration_days" string="Durée (jours)"/>
+                            <field name="session_count" string="Séances incluses"/>
                         </group>
 
                         <group string="Product">
-                            <field name="product_id"/>
+                            <field name="product_id" string="Produit de facturation"/>
                             <field name="list_price"
                                    readonly="1"/>
                             <field name="active"/>
@@ -151,11 +151,11 @@
 
                 <field name="name"/>
 
-                <field name="activity_id"/>
+                <field name="activity_id" string="Activité concernée"/>
 
-                <field name="subscription_type_id"/>
+                <field name="subscription_type_id" string="Type abonnement"/>
 
-                <field name="product_id"/>
+                <field name="product_id" string="Produit de facturation"/>
 
                 <filter string="Active"
                         name="active"
@@ -168,7 +168,7 @@
 
     <!-- ACTION -->
     <record id="action_amarna_subscription_plan" model="ir.actions.act_window">
-        <field name="name">Subscription Plans</field>
+        <field name="name">Formules abonnement</field>
         <field name="res_model">amarna.subscription.plan</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -181,3 +181,5 @@
               sequence="2"/>
 
 </odoo>
+
+

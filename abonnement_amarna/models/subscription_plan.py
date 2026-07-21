@@ -24,21 +24,21 @@ class AmarnaSubscriptionPlan(models.Model):
 
     activity_id = fields.Many2one(
         "amarna.activity",
-        string="Activity",
+        string="Activité concernée",
         required=True,
         tracking=True,
     )
 
     subscription_type_id = fields.Many2one(
         "amarna.subscription.type",
-        string="Subscription Type",
+        string="Type abonnement",
         required=True,
     )
 
     product_id = fields.Many2one(
         "product.product",
-        string="Product",
-        required=True,
+        string="Produit de facturation",
+        required=False,
         tracking=True,
     )
 
@@ -69,13 +69,13 @@ class AmarnaSubscriptionPlan(models.Model):
     # ==========================================================
 
     session_count = fields.Integer(
-        string="Sessions",
+        string="Séances incluses",
         default=0,
         required=True,
     )
 
     duration_days = fields.Integer(
-        string="Duration (Days)",
+        string="Durée (jours)",
         required=True,
     )
 
@@ -114,6 +114,8 @@ class AmarnaSubscriptionPlan(models.Model):
 
     def action_view_product(self):
         self.ensure_one()
+        if not self.product_id:
+            return True
 
         return {
             "type": "ir.actions.act_window",
@@ -138,3 +140,7 @@ class AmarnaSubscriptionPlan(models.Model):
             },
             "target": "current",
         }
+
+
+
+

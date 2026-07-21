@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Amarna Club - Suite complète',
+    'name': 'Amarna Club - Suite complÃ¨te',
     'version': '17.0.1.0.0',
     'category': 'Services/Club',
     'summary': "Installe toute la suite Amarna Club en un clic "
@@ -11,10 +11,12 @@
         'amarna_club_base',
         'amarna_club_assets',
         'amarna_club_interventions',
-        'amarna_club_reservations',
+        'abonnement_amarna',
         'amarna_club_inventory',
         'amarna_club_ecurie',
         'amarna_club_pool',
     ],
     'installable': True,
 }
+
+

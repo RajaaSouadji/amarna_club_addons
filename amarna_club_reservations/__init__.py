@@ -1,2 +1,1 @@
-# -*- coding: utf-8 -*-
-from . import models
+# Compatibility module for the merged subscription addon.

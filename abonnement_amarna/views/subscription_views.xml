@@ -19,7 +19,7 @@
                 <field name="sale_person_id"/>
                 <field name="activity_ids"
                        widget="mail_activity"/>
-                <field name="recurring_amount"/>
+                
                 <field name="recurring_plan_id"/>
                 <field name="subscription_status"
                        widget="badge"
@@ -54,6 +54,8 @@
                         class="btn-secondary"/>
 
 
+                <button name="action_renew" string="Renouveler" type="object" class="oe_highlight" invisible="state != 'sale'"/>
+
                 <button name="action_confirm"
                         string="Confirmer"
                         type="object"
@@ -61,12 +63,12 @@
 
 
                 <button name="action_preview_subscription"
-                        string="Aperçu"
+                        string="AperÃ§u"
                         type="object"
                         class="btn-secondary"/>
 
                 <button name="action_create_invoice"
-                        string="Créer Facture"
+                        string="CrÃ©er Facture"
                         type="object"
                         class="btn-secondary"/>
 
@@ -105,6 +107,9 @@
                     <group>
 
                         <field name="partner_id" widget="many2one_avatar"/>
+                        <field name="rfid_card_id"/>
+                        <field name="payment_total" readonly="1"/>
+                        <field name="payment_balance" readonly="1"/>
 
                     </group>
 
@@ -163,11 +168,6 @@
                             <group string="Facturation">
                                 <field name="payment_term_id"/>
                             </group>
-                            <group string="Suivi">
-                                <field name="campaign"/>
-                                <field name="medium"/>
-                                <field name="source"/>
-                            </group>
                             <group string="Abonnement">
                                 <field name="activity_id"/>
                                 <field name="plan_id"/>
@@ -177,6 +177,8 @@
                             </group>
                         </group>
                     </page>
+                    <page string="Paiements"><field name="payment_ids"><tree editable="bottom"><field name="name"/><field name="payment_date"/><field name="amount"/><field name="method"/><field name="state"/></tree></field></page>
+                    <page string="Historique"><field name="history_ids"><tree><field name="plan_id"/><field name="start_date"/><field name="expiration_date"/><field name="amount"/><field name="reason"/></tree></field></page>
                     <page string="Notes">
 
                         <field name="note"/>
@@ -218,7 +220,7 @@
 
     <!-- ACTION -->
     <record id="action_amarna_subscription" model="ir.actions.act_window">
-        <field name="name">Client Subscriptions</field>
+        <field name="name">Abonnements clients</field>
         <field name="res_model">amarna.subscription</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -228,6 +230,10 @@
               name="Client Subscriptions"
               parent="menu_amarna_subscription_root"
               action="action_amarna_subscription"
-              sequence="4"/>
+              sequence="1"/>
 
 </odoo>
+
+
+
+

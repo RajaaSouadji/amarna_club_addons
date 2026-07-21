@@ -1,2 +1,1 @@
-# -*- coding: utf-8 -*-
-from . import club_reservation
+# Compatibility module: reservation is now provided by abonnement_amarna.

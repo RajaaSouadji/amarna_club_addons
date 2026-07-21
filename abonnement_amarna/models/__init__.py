@@ -10,3 +10,15 @@ from . import amarna_duration_unit
 from . import recurring_plan
 from . import recurring_plan_line
 from . import amarna_subscription_line
+from . import rfid_access
+from . import rfid_card
+
+from . import subscription_payment
+from . import subscription_history
+from . import reservation
+
+
+
+
+
+
