@@ -23,7 +23,7 @@ class AmarnaSubscriptionPlan(models.Model):
     )
 
     activity_id = fields.Many2one(
-        "amarna.activity",
+        "amarna.club.activity",
         string="Activité concernée",
         required=True,
         tracking=True,

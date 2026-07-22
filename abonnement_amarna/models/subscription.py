@@ -15,7 +15,7 @@ class AmarnaSubscription(models.Model):
     partner_id = fields.Many2one('res.partner', string='Membre / client', required=True, tracking=True)
     plan_id = fields.Many2one('amarna.subscription.plan', string='Formule d’abonnement', tracking=True)
     recurring_plan_id = fields.Many2one('amarna.recurring.plan', string='Plan récurrent', tracking=True)
-    activity_id = fields.Many2one('amarna.activity', string='Activité')
+    activity_id = fields.Many2one('amarna.club.activity', string='Activité')
     start_date = fields.Date(string='Date de début', default=fields.Date.today, required=True)
     expiration_date = fields.Date(string='Date de fin', tracking=True)
     order_date = fields.Datetime(string='Date de commande', default=fields.Datetime.now)

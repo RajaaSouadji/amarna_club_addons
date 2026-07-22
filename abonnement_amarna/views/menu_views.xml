@@ -30,4 +30,17 @@
               parent="menu_amarna_root"
               sequence="4"/>
 
+    <menuitem id="menu_amarna_club_activity"
+              name="Activités"
+              parent="menu_amarna_configuration_root"
+              action="amarna_club_base.action_club_activities"
+              sequence="1"/>
+
+    <menuitem id="menu_amarna_activity" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_subscription_type" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_duration_unit" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_recurring_plan" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_history" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_rfid_access" groups="base.group_no_one"/>
+
 </odoo>

@@ -10,4 +10,28 @@
         <field name="implementation">standard</field>
     </record>
 
+    <record id="seq_amarna_rfid_card" model="ir.sequence">
+        <field name="name">RFID Card Sequence</field>
+        <field name="code">amarna.rfid.card</field>
+        <field name="prefix">RFID</field>
+        <field name="padding">5</field>
+    </record>
+    <record id="seq_amarna_reservation" model="ir.sequence">
+        <field name="name">Reservation Sequence</field>
+        <field name="code">amarna.club.reservation</field>
+        <field name="prefix">R</field>
+        <field name="padding">5</field>
+    </record>
+    <record id="seq_amarna_payment" model="ir.sequence">
+        <field name="name">Payment Sequence</field>
+        <field name="code">amarna.subscription.payment</field>
+        <field name="prefix">P</field>
+        <field name="padding">5</field>
+    </record>
+    <record id="seq_amarna_checkin" model="ir.sequence">
+        <field name="name">RFID Check-in Sequence</field>
+        <field name="code">amarna.checkin</field>
+        <field name="prefix">C</field>
+        <field name="padding">5</field>
+    </record>
 </odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_amarna_checkin_tree" model="ir.ui.view">
+        <field name="name">amarna.checkin.tree</field>
+        <field name="model">amarna.checkin</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="card_id"/>
+                <field name="subscription_id"/>
+                <field name="checkin_date"/>
+                <field name="checkin_time"/>
+                <field name="sessions_before"/>
+                <field name="sessions_after"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_amarna_checkin_form" model="ir.ui.view">
+        <field name="name">amarna.checkin.form</field>
+        <field name="model">amarna.checkin</field>
+        <field name="arch" type="xml">
+            <form string="Contrôle d'accès RFID">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="card_id"/>
+                        <field name="subscription_id"/>
+                        <field name="checkin_datetime"/>
+                        <field name="sessions_before"/>
+                        <field name="sessions_after"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_amarna_checkins" model="ir.actions.act_window">
+        <field name="name">Contrôles d'accès</field>
+        <field name="res_model">amarna.checkin</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="menu_amarna_checkins"
+              name="Contrôles d'accès"
+              parent="menu_amarna_subscription_root"
+              action="action_amarna_checkins"
+              sequence="6"/>
+</odoo>

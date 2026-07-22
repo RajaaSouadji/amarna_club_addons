@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_amarna_scan_wizard_form" model="ir.ui.view">
+        <field name="name">amarna.scan.wizard.form</field>
+        <field name="model">amarna.scan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Scanner une carte RFID">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Contrôle d'accès — Scan carte RFID</h1>
+                        <p class="text-muted">Saisissez l'UID de la carte puis cliquez sur Scanner.</p>
+                    </div>
+                    <group>
+                        <group string="Lecture de la carte">
+                            <field name="rfid_uid" autofocus="1"/>
+                        </group>
+                        <group string="Résultat">
+                            <field name="result_state" widget="badge"/>
+                            <field name="result_message" nolabel="1"/>
+                        </group>
+                    </group>
+                    <group string="Informations du membre" invisible="not card_id">
+                        <field name="card_id" readonly="1"/>
+                        <field name="partner_id" readonly="1"/>
+                        <field name="subscription_id" readonly="1"/>
+                        <field name="expiration_date" readonly="1"/>
+                        <field name="remaining_sessions" readonly="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_scan" string="Scanner" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_amarna_scan_wizard" model="ir.actions.act_window">
+        <field name="name">Scanner une carte RFID</field>
+        <field name="res_model">amarna.scan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_amarna_scan_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_amarna_scan" groups="base.group_no_one"/>
+</odoo>

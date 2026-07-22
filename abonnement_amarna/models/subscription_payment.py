@@ -25,6 +25,13 @@ class AmarnaSubscriptionPayment(models.Model):
     reference = fields.Char(string='Référence externe')
     note = fields.Text(string='Notes')
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', 'Nouveau') in ('New', 'Nouveau'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('amarna.subscription.payment') or 'Nouveau'
+        return super().create(vals_list)
+
     @api.depends('subscription_id.partner_id', 'reservation_id.partner_id')
     def _compute_partner(self):
         for payment in self:

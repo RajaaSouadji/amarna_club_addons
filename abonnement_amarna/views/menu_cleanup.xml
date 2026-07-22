@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_amarna_activity" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_subscription_type" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_duration_unit" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_recurring_plan" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_history" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_rfid_access" groups="base.group_no_one"/>
+    <menuitem id="menu_amarna_scan" groups="base.group_no_one"/>
+</odoo>

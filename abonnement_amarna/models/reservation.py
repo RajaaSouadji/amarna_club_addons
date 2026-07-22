@@ -9,7 +9,7 @@ class AmarnaClubReservation(models.Model):
     _description = 'Réservation ponctuelle du club'
     _order = 'start_at desc'
 
-    name = fields.Char(string='Référence / titre', required=True)
+    name = fields.Char(string='Référence / titre', required=True, default='Nouveau', copy=False)
     mobile_activity_code = fields.Char(string='Code activité mobile')
     activity_id = fields.Many2one('amarna.club.activity', string='Activité', compute='_compute_activity_id', store=True, readonly=False)
     client_name = fields.Char(string='Nom du client')
@@ -64,6 +64,8 @@ class AmarnaClubReservation(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
+            if vals.get('name', 'Nouveau') in ('New', 'Nouveau'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('amarna.club.reservation') or 'Nouveau'
             if vals.get('reservation_date') and vals.get('start_hour') is not None and not vals.get('start_at'):
                 vals['start_at'] = self._slot_to_datetime(fields.Date.to_date(vals['reservation_date']), vals['start_hour'])
             if vals.get('reservation_date') and vals.get('end_hour') is not None and not vals.get('end_at'):
