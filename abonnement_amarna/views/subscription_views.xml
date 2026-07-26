@@ -117,6 +117,7 @@
 
 
                         <field name="expiration_date"/>
+                        <field name="auto_renew"/>
                         <field name="recurring_plan_id"/>
                         <field name="payment_term_id"/>
                         <field name="delivery_date"/>
@@ -178,6 +179,7 @@
                         </group>
                     </page>
                     <page string="Paiements"><field name="payment_ids"><tree editable="bottom"><field name="name"/><field name="payment_date"/><field name="amount"/><field name="method"/><field name="state"/></tree></field></page>
+                    <page string="Historique"><field name="history_ids"><tree><field name="plan_id"/><field name="start_date"/><field name="expiration_date"/><field name="amount"/><field name="reason"/></tree></field></page>
                     <page string="Notes">
 
                         <field name="note"/>

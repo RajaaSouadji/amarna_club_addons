@@ -16,6 +16,7 @@ class AmarnaSubscription(models.Model):
     plan_id = fields.Many2one('amarna.subscription.plan', string='Formule d’abonnement', tracking=True)
     recurring_plan_id = fields.Many2one('amarna.recurring.plan', string='Plan récurrent', tracking=True)
     activity_id = fields.Many2one('amarna.club.activity', string='Activité')
+    auto_renew = fields.Boolean(string='Renouvellement automatique', default=False, tracking=True)
     start_date = fields.Date(string='Date de début', default=fields.Date.today, required=True)
     expiration_date = fields.Date(string='Date de fin', tracking=True)
     order_date = fields.Datetime(string='Date de commande', default=fields.Datetime.now)
@@ -120,9 +121,48 @@ class AmarnaSubscription(models.Model):
     @api.model
     def cron_close_expired(self):
         expired = self.search([('expiration_date', '<', fields.Date.today()), ('active', '=', True)])
-        expired.write({'active': False})
+        for sub in expired:
+            sub.write({'active': False})
+            sub.message_post(
+                body="<b>[ALERTE Expiration]</b> La date d'échéance (%s) est atteinte. L'abonnement et les accès RFID ont été désactivés." % sub.expiration_date,
+                subtype_xmlid="mail.mt_comment"
+            )
+            if sub.sale_person_id:
+                try:
+                    activity_type = self.env.ref('mail.mail_activity_data_todo', raise_if_not_found=False)
+                    model_id = self.env['ir.model']._get_id('amarna.subscription')
+                    if activity_type and model_id:
+                        self.env['mail.activity'].create({
+                            'activity_type_id': activity_type.id,
+                            'summary': "Relancer client : Abonnement %s expiré" % sub.name,
+                            'note': "L'abonnement %s de %s a expiré. Veuillez contacter le membre pour son renouvellement." % (sub.name, sub.partner_id.name if sub.partner_id else ''),
+                            'res_model_id': model_id,
+                            'res_id': sub.id,
+                            'user_id': sub.sale_person_id.id,
+                        })
+                except Exception:
+                    pass
         expired._sync_rfid_access()
         self.env['amarna.rfid.access'].cron_sync_access()
+        return True
+
+    @api.model
+    def cron_auto_renew(self):
+        today = fields.Date.today()
+        to_renew = self.search([
+            ('auto_renew', '=', True),
+            ('active', '=', True),
+            ('expiration_date', '<=', today),
+            ('state', '=', 'sale'),
+        ])
+        for sub in to_renew:
+            sub.action_renew()
+            if not sub.invoice_id or sub.invoice_id.state == 'cancel':
+                sub.action_create_invoice()
+            sub.message_post(
+                body="<b>[AUTO-RENEW]</b> L'abonnement a été automatiquement renouvelé et une facture a été générée.",
+                subtype_xmlid="mail.mt_comment"
+            )
         return True
 
     def _create_history(self, reason='initial'):

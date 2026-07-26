@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- ===================================================== -->
+    <!-- VUE DU WIZARD DE SCAN RFID -->
+    <!-- ===================================================== -->
+
     <record id="view_amarna_scan_wizard_form" model="ir.ui.view">
         <field name="name">amarna.scan.wizard.form</field>
         <field name="model">amarna.scan.wizard</field>
@@ -7,33 +12,68 @@
             <form string="Scanner une carte RFID">
                 <sheet>
                     <div class="oe_title">
-                        <h1>Contrôle d'accès — Scan carte RFID</h1>
-                        <p class="text-muted">Saisissez l'UID de la carte puis cliquez sur Scanner.</p>
+                        <h1>Contrôle d'accès — Simulation Scan RFID</h1>
+                        <p class="text-muted">
+                            Sélectionnez la carte RFID du membre à scanner dans la liste ci-dessous, puis cliquez sur le bouton "Scanner".
+                        </p>
                     </div>
+
                     <group>
-                        <group string="Lecture de la carte">
-                            <field name="rfid_uid" autofocus="1"/>
+                        <group string="Sélection de la carte" invisible="result_state == 'success'">
+                            <field name="card_id" options="{'no_create': True, 'no_open': True}"/>
+                            <button name="action_scan"
+                                    string="Scanner"
+                                    type="object"
+                                    class="btn-primary mt-2"
+                                    invisible="not card_id"/>
                         </group>
-                        <group string="Résultat">
-                            <field name="result_state" widget="badge"/>
-                            <field name="result_message" nolabel="1"/>
+
+                        <group string="Résultat du scan">
+                            <field name="result_state"
+                                   widget="badge"
+                                   decoration-success="result_state in ('ok', 'success')"
+                                   decoration-danger="result_state == 'denied'"/>
+                            <field name="result_message" nolabel="1" colspan="2" class="text-wrap font-weight-bold" style="white-space: pre-line; font-size: 1.1em;"/>
                         </group>
                     </group>
-                    <group string="Informations du membre" invisible="not card_id">
-                        <field name="card_id" readonly="1"/>
-                        <field name="partner_id" readonly="1"/>
-                        <field name="subscription_id" readonly="1"/>
-                        <field name="expiration_date" readonly="1"/>
-                        <field name="remaining_sessions" readonly="1"/>
+
+                    <!-- Informations détaillées affichées uniquement si le scan est valide (ok ou success) -->
+                    <group string="Informations d'accès" invisible="result_state not in ('ok', 'success')">
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="rfid_uid" readonly="1"/>
+                            <field name="activity_id" readonly="1"/>
+                            <field name="subscription_type_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="start_date" readonly="1"/>
+                            <field name="expiration_date" readonly="1"/>
+                            <field name="remaining_sessions" readonly="1"/>
+                            <field name="card_state" readonly="1"/>
+                            <field name="subscription_status" readonly="1"/>
+                        </group>
                     </group>
+
                 </sheet>
+
                 <footer>
-                    <button name="action_scan" string="Scanner" type="object" class="btn-primary"/>
-                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    <!-- Bouton de confirmation -->
+                    <button name="action_do_checkin"
+                            string="Valider le scan"
+                            type="object"
+                            class="btn-success"
+                            invisible="result_state != 'ok'"/>
+
+                    <button string="Fermer" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
+
+    <!-- ===================================================== -->
+    <!-- ACTION POUR OUVRIR LE WIZARD -->
+    <!-- ===================================================== -->
+
     <record id="action_amarna_scan_wizard" model="ir.actions.act_window">
         <field name="name">Scanner une carte RFID</field>
         <field name="res_model">amarna.scan.wizard</field>
@@ -41,5 +81,15 @@
         <field name="view_id" ref="view_amarna_scan_wizard_form"/>
         <field name="target">new</field>
     </record>
-    <menuitem id="menu_amarna_scan" groups="base.group_no_one"/>
+
+    <!-- ===================================================== -->
+    <!-- MENU RACCOURCI DANS ABONNEMENTS & ACCÈS -->
+    <!-- ===================================================== -->
+
+    <menuitem id="menu_amarna_scan"
+              name="Scanner une carte"
+              parent="menu_amarna_subscription_root"
+              action="action_amarna_scan_wizard"
+              sequence="7"/>
+
 </odoo>

@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_amarna_activity,amarna.activity,model_amarna_activity,,1,1,1,1
+access_amarna_club_activity,amarna.club.activity,model_amarna_club_activity,,1,1,1,1
 access_amarna_subscription_plan,amarna.subscription.plan,model_amarna_subscription_plan,,1,1,1,1
 access_amarna_subscription_type,amarna.subscription.type,model_amarna_subscription_type,,1,1,1,1
 access_amarna_subscription,amarna.subscription,model_amarna_subscription,,1,1,1,1
@@ -13,4 +13,4 @@ access_amarna_subscription_history,amarna.subscription.history,model_amarna_subs
 access_amarna_club_reservation,amarna.club.reservation,model_amarna_club_reservation,,1,1,1,1
 access_amarna_rfid_access,amarna.rfid.access,model_amarna_rfid_access,,1,1,1,1
 access_amarna_scan_wizard,amarna.scan.wizard,model_amarna_scan_wizard,,1,1,1,0
-access_amarna_checkin,amarna.checkin,model_amarna_checkin,,1,0,1,0
+access_amarna_checkin,amarna.checkin,model_amarna_checkin,,1,1,1,1

@@ -8,7 +8,7 @@ class AmarnaRfidCard(models.Model):
     _description = 'Carte RFID membre'
     _order = 'name'
 
-    name = fields.Char(string='Identifiant RFID', required=True, default='Nouveau', index=True)
+    name = fields.Char(string='Identifiant RFID', required=True, index=True)
     partner_id = fields.Many2one('res.partner', string='Membre', ondelete='set null', index=True)
     active = fields.Boolean(string='Carte active', default=False)
     state = fields.Selection([
@@ -22,25 +22,6 @@ class AmarnaRfidCard(models.Model):
     _sql_constraints = [
         ('rfid_name_unique', 'unique(name)', 'L’identifiant RFID doit être unique.'),
     ]
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if vals.get('name', 'Nouveau') in ('New', 'Nouveau'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('amarna.rfid.card') or 'Nouveau'
-        return super().create(vals_list)
-
-    def action_open_scan(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Scanner une carte RFID',
-            'res_model': 'amarna.scan.wizard',
-            'view_mode': 'form',
-            'view_id': self.env.ref('abonnement_amarna.view_amarna_scan_wizard_form').id,
-            'target': 'new',
-            'context': {},
-        }
 
     @api.constrains('partner_id')
     def _check_one_card_per_member(self):
@@ -57,6 +38,18 @@ class AmarnaRfidCard(models.Model):
                 card.with_context(skip_rfid_sync=True).write({'active': True, 'state': 'active'})
             elif not valid_access and card.state == 'active':
                 card.with_context(skip_rfid_sync=True).write({'active': False, 'state': 'inactive'})
+
+    def action_open_scan(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Scanner une carte RFID',
+            'res_model': 'amarna.scan.wizard',
+            'view_mode': 'form',
+            'view_id': self.env.ref('abonnement_amarna.view_amarna_scan_wizard_form').id,
+            'target': 'new',
+            'context': {},
+        }
 
     def action_activate(self):
         self.write({'state': 'active', 'active': True})

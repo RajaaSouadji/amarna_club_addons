@@ -9,7 +9,7 @@ class AmarnaClubReservation(models.Model):
     _description = 'Réservation ponctuelle du club'
     _order = 'start_at desc'
 
-    name = fields.Char(string='Référence / titre', required=True, default='Nouveau', copy=False)
+    name = fields.Char(string='Référence / titre', required=True)
     mobile_activity_code = fields.Char(string='Code activité mobile')
     activity_id = fields.Many2one('amarna.club.activity', string='Activité', compute='_compute_activity_id', store=True, readonly=False)
     client_name = fields.Char(string='Nom du client')
@@ -64,8 +64,6 @@ class AmarnaClubReservation(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get('name', 'Nouveau') in ('New', 'Nouveau'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('amarna.club.reservation') or 'Nouveau'
             if vals.get('reservation_date') and vals.get('start_hour') is not None and not vals.get('start_at'):
                 vals['start_at'] = self._slot_to_datetime(fields.Date.to_date(vals['reservation_date']), vals['start_hour'])
             if vals.get('reservation_date') and vals.get('end_hour') is not None and not vals.get('end_at'):
@@ -129,6 +127,37 @@ class AmarnaClubReservation(models.Model):
                 Access.create(dict(values, reservation_id=reservation.id, name='Réservation %s' % reservation.name))
             card._sync_access_state()
 
+    def _process_check_in(self):
+        self.ensure_one()
+        if self.subscription_id:
+            sub = self.subscription_id
+            if not sub.active or sub.subscription_status in ('closed', 'cancel'):
+                raise ValidationError("L'abonnement %s du membre n'est pas actif ou est clos." % sub.name)
+            if sub.expiration_date and sub.expiration_date < fields.Date.today():
+                raise ValidationError("L'abonnement %s du membre est expiré depuis le %s." % (sub.name, sub.expiration_date))
+            if sub.plan_id and sub.plan_id.session_count > 0:
+                needed = max(self.people_count, 1)
+                if sub.remaining_sessions < needed:
+                    raise ValidationError("Solde de séances insuffisant sur l'abonnement %s (%s restante(s), %s requise(s))." % (sub.name, sub.remaining_sessions, needed))
+                sub.remaining_sessions -= needed
+                sub.message_post(
+                    body="<b>[CHECK-IN] Séance décomptée :</b> Check-in effectué pour la réservation <b>%s</b>. Séances restantes : <b>%s</b>." % (self.name, sub.remaining_sessions),
+                    subtype_xmlid="mail.mt_note"
+                )
+                if sub.remaining_sessions == 0:
+                    sub.message_post(
+                        body="<b>[ALERTE]</b> Le forfait de séances de cet abonnement est désormais totalement épuisé !",
+                        subtype_xmlid="mail.mt_comment"
+                    )
+                    if sub.partner_id:
+                        sub.partner_id.message_post(
+                            body="<b>[ALERTE]</b> L'abonnement <b>%s</b> de %s n'a plus de séances disponibles." % (sub.name, sub.partner_id.name),
+                            subtype_xmlid="mail.mt_comment"
+                        )
+        if self.activity_id:
+            occupancy = self.activity_id.current_occupancy + max(self.people_count, 1)
+            self.activity_id.current_occupancy = min(occupancy, self.activity_id.max_capacity) if self.activity_id.max_capacity else occupancy
+
     def write(self, vals):
         vals = dict(vals)
         slot_fields = {'reservation_date', 'start_hour', 'end_hour'}
@@ -139,20 +168,25 @@ class AmarnaClubReservation(models.Model):
             if reservation_date and start_hour is not None and end_hour is not None:
                 vals['start_at'] = self._slot_to_datetime(reservation_date, start_hour)
                 vals['end_at'] = self._slot_to_datetime(reservation_date, end_hour)
+        
+        old_statuses = {rec.id: rec.status_normalized for rec in self}
         result = super().write(vals)
         if set(vals) & {'rfid_card_id', 'partner_id', 'start_at', 'end_at', 'amount_total', 'payment_required', 'status', 'reservation_date', 'start_hour', 'end_hour'}:
             self._sync_rfid_access()
+        if 'status' in vals or 'status_normalized' in vals:
+            for rec in self:
+                if old_statuses.get(rec.id) != 'checked_in' and rec.status_normalized == 'checked_in':
+                    rec._process_check_in()
         return result
+
     def action_confirm(self):
         self.write({'status': 'Confirme'})
         self._sync_rfid_access()
 
     def action_check_in(self):
-        self.write({'status': 'checkedin'})
         for rec in self:
-            if rec.activity_id:
-                occupancy = rec.activity_id.current_occupancy + max(rec.people_count, 1)
-                rec.activity_id.current_occupancy = min(occupancy, rec.activity_id.max_capacity) if rec.activity_id.max_capacity else occupancy
+            rec._process_check_in()
+        self.write({'status': 'checkedin'})
 
     def action_cancel(self):
         self.write({'status': 'Annule'})

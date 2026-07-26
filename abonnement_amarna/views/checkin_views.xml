@@ -1,48 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- Vue liste (tree) pour amarna.checkin -->
     <record id="view_amarna_checkin_tree" model="ir.ui.view">
         <field name="name">amarna.checkin.tree</field>
         <field name="model">amarna.checkin</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
+            <tree create="false" edit="false" delete="true">
+                <field name="checkin_datetime"/>
                 <field name="partner_id"/>
-                <field name="card_id"/>
-                <field name="subscription_id"/>
-                <field name="checkin_date"/>
-                <field name="checkin_time"/>
+                <field name="rfid_card_id"/>
+                <field name="activity_id"/>
                 <field name="sessions_before"/>
                 <field name="sessions_after"/>
+                <field name="subscription_id"/>
             </tree>
         </field>
     </record>
+
+    <!-- Vue formulaire (form) pour amarna.checkin -->
     <record id="view_amarna_checkin_form" model="ir.ui.view">
         <field name="name">amarna.checkin.form</field>
         <field name="model">amarna.checkin</field>
         <field name="arch" type="xml">
-            <form string="Contrôle d'accès RFID">
+            <form create="false" edit="false" delete="true">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="partner_id"/>
-                        <field name="card_id"/>
-                        <field name="subscription_id"/>
-                        <field name="checkin_datetime"/>
-                        <field name="sessions_before"/>
-                        <field name="sessions_after"/>
+                        <group string="Informations Passage">
+                            <field name="checkin_datetime" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="rfid_card_id" readonly="1"/>
+                            <field name="activity_id" readonly="1"/>
+                        </group>
+                        <group string="Détails séances &amp; Abonnement">
+                            <field name="sessions_before" readonly="1"/>
+                            <field name="sessions_after" readonly="1"/>
+                            <field name="subscription_id" readonly="1"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
-    <record id="action_amarna_checkins" model="ir.actions.act_window">
-        <field name="name">Contrôles d'accès</field>
+
+    <!-- Action pour amarna.checkin -->
+    <record id="action_amarna_checkin" model="ir.actions.act_window">
+        <field name="name">Historique des Check-ins (Scans)</field>
         <field name="res_model">amarna.checkin</field>
         <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucun check-in enregistré pour le moment.
+            </p>
+            <p>
+                Les check-ins sont créés automatiquement lorsque les membres scannent leur carte RFID valide.
+            </p>
+        </field>
     </record>
-    <menuitem id="menu_amarna_checkins"
-              name="Contrôles d'accès"
+
+    <!-- Menu sous "Abonnements & accès" -->
+    <menuitem id="menu_amarna_checkin"
+              name="Historique des scans"
               parent="menu_amarna_subscription_root"
-              action="action_amarna_checkins"
+              action="action_amarna_checkin"
               sequence="6"/>
+
 </odoo>
