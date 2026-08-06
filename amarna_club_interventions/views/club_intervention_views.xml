@@ -166,7 +166,7 @@
     <menuitem id="menu_club_interventions_root"
               name="Interventions Club"
               sequence="22"
-              groups="amarna_club_base.group_club_user"/>
+              groups="abonnement_amarna.group_club_user"/>
 
     <menuitem id="menu_club_interventions"
               name="Toutes les interventions"

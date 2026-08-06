@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <function model="amarna.club.activity" name="_prepare_default_activity_xmlids"/>
+
     <data noupdate="1">
 
         <record id="activity_pool" model="amarna.club.activity">

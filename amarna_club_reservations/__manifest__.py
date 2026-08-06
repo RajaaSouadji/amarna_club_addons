@@ -6,7 +6,7 @@
     'summary': 'RÃƒÂ©servations des activitÃƒÂ©s du club avec check-in tablette',
     'author': 'Amarna',
     'license': 'LGPL-3',
-    'depends': ['amarna_club_base', 'abonnement_amarna'],
+    'depends': ['abonnement_amarna'],
     'data': [],
     'application': True,
     'installable': True,

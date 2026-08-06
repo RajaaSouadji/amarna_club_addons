@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from . import activity
 from . import subscription_plan
+from . import activity
 from . import subscription_type
 from . import subscription
 from . import card
@@ -12,14 +12,8 @@ from . import recurring_plan_line
 from . import amarna_subscription_line
 from . import rfid_access
 from . import rfid_card
-
 from . import subscription_payment
 from . import subscription_history
 from . import reservation
 from . import scan_wizard
-
-
-
-
-
-
+from . import users

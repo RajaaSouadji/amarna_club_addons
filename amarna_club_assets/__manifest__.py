@@ -6,7 +6,7 @@
     'summary': 'Équipements et infrastructures du club (armurerie incluse)',
     'author': 'Amarna',
     'license': 'LGPL-3',
-    'depends': ['amarna_club_base'],
+    'depends': ['abonnement_amarna'],
     'data': [
         'security/ir.model.access.csv',
         'data/asset_data.xml',
