@@ -121,6 +121,7 @@
 
     <!-- Root app: Réservations Club -->
     <menuitem id="menu_club_reservations_root"
+              parent="amarna_club_base.menu_club_root"
               name="Réservations Club"
               sequence="23"
               groups="amarna_club_base.group_club_user"/>

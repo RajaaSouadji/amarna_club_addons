@@ -102,6 +102,7 @@
 
     <!-- Root app: Équipements Club -->
     <menuitem id="menu_club_assets_root"
+              parent="amarna_club_base.menu_club_root"
               name="Équipements Club"
               sequence="21"
               groups="amarna_club_base.group_club_user"/>

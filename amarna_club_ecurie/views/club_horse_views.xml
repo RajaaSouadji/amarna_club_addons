@@ -94,6 +94,7 @@
 
     <!-- Root app: Écurie -->
     <menuitem id="menu_club_ecurie_root"
+              parent="amarna_club_base.menu_club_root"
               name="Écurie"
               sequence="25"
               groups="amarna_club_base.group_club_user"/>
