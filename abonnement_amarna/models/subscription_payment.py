@@ -10,6 +10,20 @@ class AmarnaSubscriptionPayment(models.Model):
 
     name = fields.Char(string='Référence', required=True, default='Nouveau', copy=False)
     subscription_id = fields.Many2one('amarna.subscription', string='Abonnement', ondelete='cascade')
+    invoice_id = fields.Many2one(
+        'account.move',
+        string='Facture',
+        related='subscription_id.invoice_id',
+        store=True,
+        readonly=True,
+    )
+    source = fields.Selection([
+        ('manual', 'Saisie manuelle'),
+        ('invoice', 'Paiement de facture'),
+    ], string='Origine', default='manual', required=True, readonly=True)
+    account_payment_id = fields.Many2one(
+        'account.payment', string='Paiement comptable', readonly=True, ondelete='set null'
+    )
     reservation_id = fields.Many2one('amarna.club.reservation', string='Réservation', ondelete='cascade')
     partner_id = fields.Many2one('res.partner', string='Client', compute='_compute_partner', store=True)
     payment_date = fields.Date(string='Date de paiement', default=fields.Date.today, required=True)

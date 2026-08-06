@@ -8,12 +8,9 @@ class AmarnaRfidCard(models.Model):
     _description = 'Carte RFID membre'
     _order = 'name'
 
-    name = fields.Char(string='Identifiant RFID', required=True, index=True)
+    name = fields.Char(string='Identifiant RFID', required=True, index=True ,default="/",copy=False,readonly=True)
     partner_id = fields.Many2one('res.partner', string='Membre', ondelete='set null', index=True)
-    active = fields.Boolean(string='Carte active', default=False)
-    state = fields.Selection([
-        ('active', 'Active'), ('inactive', 'Inactive'), ('lost', 'Perdue'), ('blocked', 'Bloquée'),
-    ], string='État', default='inactive', required=True)
+    state = fields.Selection([('inactive', 'Inactive'),('active', 'Active'),  ('lost', 'Perdue'), ('blocked', 'Bloquée'),], string='État', default='inactive', required=True)
     assigned_date = fields.Date(string='Date d’attribution', default=fields.Date.today)
     access_ids = fields.One2many('amarna.rfid.access', 'card_id', string='Autorisations d’accès', readonly=True)
     note = fields.Text(string='Notes')
@@ -22,6 +19,13 @@ class AmarnaRfidCard(models.Model):
     _sql_constraints = [
         ('rfid_name_unique', 'unique(name)', 'L’identifiant RFID doit être unique.'),
     ]
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('name') or vals.get('name') in ('New', 'Nouveau'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('amarna.rfid.card') or 'RFID00001'
+        return super().create(vals_list)
 
     @api.constrains('partner_id')
     def _check_one_card_per_member(self):
@@ -35,9 +39,9 @@ class AmarnaRfidCard(models.Model):
         for card in self:
             valid_access = card.access_ids.filtered(lambda access: access.active and access.state in ('scheduled', 'active') and access.start_datetime <= now <= access.end_datetime)
             if valid_access and card.state not in ('blocked', 'lost'):
-                card.with_context(skip_rfid_sync=True).write({'active': True, 'state': 'active'})
+                card.with_context(skip_rfid_sync=True).write({'state': 'active'})
             elif not valid_access and card.state == 'active':
-                card.with_context(skip_rfid_sync=True).write({'active': False, 'state': 'inactive'})
+                card.with_context(skip_rfid_sync=True).write({'state': 'inactive'})
 
     def action_open_scan(self):
         self.ensure_one()
@@ -52,15 +56,15 @@ class AmarnaRfidCard(models.Model):
         }
 
     def action_activate(self):
-        self.write({'state': 'active', 'active': True})
+        self.write({'state': 'active'})
 
     def action_deactivate(self):
-        self.write({'state': 'inactive', 'active': False})
+        self.write({'state': 'inactive'})
 
     def action_block(self):
-        self.write({'state': 'blocked', 'active': False})
+        self.write({'state': 'blocked'})
 
     def action_unassign(self):
-        self.write({'partner_id': False, 'state': 'inactive', 'active': False})
+        self.write({'partner_id': False, 'state': 'inactive'})
 
 

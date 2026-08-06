@@ -11,10 +11,10 @@
         <field name="arch" type="xml">
             <form string="Scanner une carte RFID">
                 <sheet>
-                    <div class="oe_title">
-                        <h1>Contrôle d'accès — Simulation Scan RFID</h1>
+                    <div class="oe_title mb-3">
+                        <h2>🔍 Contrôle d'accès — Scan RFID</h2>
                         <p class="text-muted">
-                            Sélectionnez la carte RFID du membre à scanner dans la liste ci-dessous, puis cliquez sur le bouton "Scanner".
+                            Sélectionnez la carte RFID du membre à scanner puis cliquez sur <strong>Scanner</strong>.
                         </p>
                     </div>
 
@@ -22,13 +22,14 @@
                         <group string="Sélection de la carte" invisible="result_state == 'success'">
                             <field name="card_id" options="{'no_create': True, 'no_open': True}"/>
                             <button name="action_scan"
-                                    string="Scanner"
+                                    string="Scanner la carte"
                                     type="object"
                                     class="btn-primary mt-2"
+                                    icon="fa-qrcode"
                                     invisible="not card_id"/>
                         </group>
 
-                        <group string="Résultat du scan">
+                        <group string="Résultat de la vérification">
                             <field name="result_state"
                                    widget="badge"
                                    decoration-success="result_state in ('ok', 'success')"
@@ -37,31 +38,80 @@
                         </group>
                     </group>
 
-                    <!-- Informations détaillées affichées uniquement si le scan est valide (ok ou success) -->
-                    <group string="Informations d'accès" invisible="result_state not in ('ok', 'success')">
-                        <group>
-                            <field name="partner_id" readonly="1"/>
-                            <field name="rfid_uid" readonly="1"/>
-                            <field name="activity_id" readonly="1"/>
-                            <field name="subscription_type_id" readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="start_date" readonly="1"/>
-                            <field name="expiration_date" readonly="1"/>
-                            <field name="remaining_sessions" readonly="1"/>
-                            <field name="card_state" readonly="1"/>
-                            <field name="subscription_status" readonly="1"/>
-                        </group>
-                    </group>
+                    <!-- Informations détaillées du membre affichées après scan (ok ou success) -->
+                    <div invisible="result_state not in ('ok', 'success')" class="border rounded p-3 bg-light mt-3">
+                        <div class="d-flex align-items-center mb-3">
+                            <field name="partner_image" widget="image" class="oe_avatar me-3" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid #007bff;"/>
+                            <div>
+                                <h3 class="m-0"><field name="partner_id" readonly="1" class="oe_inline"/></h3>
+                                <div class="text-muted">
+                                    <span invisible="not partner_phone">📞 <field name="partner_phone" readonly="1"/></span>
+                                    <span class="ms-3" invisible="not partner_email">✉️ <field name="partner_email" readonly="1"/></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <notebook>
+                            <page string="Abonnement &amp; Séances" name="sub_info">
+                                <group col="2">
+                                    <group string="Formule &amp; Validité">
+                                        <field name="subscription_id" domain="[('id', 'in', subscription_ids)]"/>
+                                        <field name="subscription_ids" nolabel="1" colspan="2">
+                                            <tree create="0" delete="0">
+                                                <field name="activity_id"/>
+                                                <field name="plan_id"/>
+                                                <field name="start_date"/>
+                                                <field name="expiration_date"/>
+                                                <field name="remaining_sessions"/>
+                                                <field name="subscription_status" widget="badge"/>
+                                            </tree>
+                                        </field>
+                                        <field name="plan_id" readonly="1"/>
+                                        <field name="activity_id" readonly="1"/>
+                                        <field name="subscription_type_id" readonly="1"/>
+                                        <field name="subscription_status" widget="badge" decoration-success="subscription_status == 'running'" decoration-warning="subscription_status == 'paid'" decoration-danger="subscription_status in ('closed', 'cancel')" readonly="1"/>
+                                    </group>
+                                    <group string="Séances &amp; Dates">
+                                        <field name="start_date" readonly="1"/>
+                                        <field name="expiration_date" readonly="1"/>
+                                        <field name="remaining_sessions" class="fw-bold fs-5 text-primary" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Statut Financier" name="payment_info">
+                                <group col="2">
+                                    <group string="Paiements">
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="payment_valid" widget="boolean_toggle" readonly="1"/>
+                                        <field name="payment_total" widget="monetary" readonly="1"/>
+                                        <field name="payment_balance" widget="monetary" class="fw-bold" decoration-danger="payment_balance &gt; 0" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Badge RFID &amp; Historique" name="rfid_info">
+                                <group col="2">
+                                    <group string="Carte RFID">
+                                        <field name="rfid_uid" readonly="1"/>
+                                        <field name="card_state" widget="badge" decoration-success="card_state == 'active'" decoration-danger="card_state in ('blocked', 'lost')" readonly="1"/>
+                                    </group>
+                                    <group string="Historique">
+                                        <field name="last_checkin_datetime" string="Dernier passage" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </div>
 
                 </sheet>
 
                 <footer>
-                    <!-- Bouton de confirmation -->
                     <button name="action_do_checkin"
-                            string="Valider le scan"
+                            string="Valider le passage (Décrémenter séance)"
                             type="object"
                             class="btn-success"
+                            icon="fa-check"
                             invisible="result_state != 'ok'"/>
 
                     <button string="Fermer" class="btn-secondary" special="cancel"/>

@@ -30,6 +30,11 @@ class AmarnaSubscriptionLine(models.Model):
     def _onchange_product(self):
         if self.product_id:
             self.name = self.product_id.display_name
-            self.price_unit = self.product_id.lst_price
+            plan = self.subscription_id.plan_id
+            self.price_unit = (
+                plan.list_price
+                if plan and plan.product_id == self.product_id
+                else self.product_id.lst_price
+            )
             self.product_uom_id = self.product_id.uom_id
             self.tax_ids = self.product_id.taxes_id

@@ -23,18 +23,33 @@ class AmarnaScanWizard(models.TransientModel):
 
     # Informations du membre et de l'abonnement (affichées après le scan)
     partner_id = fields.Many2one('res.partner', string='Nom du client', readonly=True)
+    partner_image = fields.Binary(related='partner_id.image_1920', string='Photo du membre')
+    partner_phone = fields.Char(related='partner_id.phone', string='Téléphone')
+    partner_email = fields.Char(related='partner_id.email', string='Email')
+
+    subscription_ids = fields.Many2many(
+        'amarna.subscription', string='Inscriptions de la carte', readonly=True,
+    )
+    subscription_id = fields.Many2one('amarna.subscription', string='Abonnement sélectionné')
+    plan_id = fields.Many2one('amarna.subscription.plan', string='Formule', readonly=True)
     rfid_uid = fields.Char(string='Carte RFID', readonly=True)
     activity_id = fields.Many2one('amarna.club.activity', string='Activité', readonly=True)
     subscription_type_id = fields.Many2one('amarna.subscription.type', string="Type d'abonnement", readonly=True)
     start_date = fields.Date(string='Date de début', readonly=True)
     expiration_date = fields.Date(string='Date de fin', readonly=True)
-    remaining_sessions = fields.Integer(string='Nombre de séances restantes', readonly=True)
+    remaining_sessions = fields.Integer(string='Séances restantes', readonly=True)
     card_state = fields.Selection([
         ('active', 'Active'), ('inactive', 'Inactive'), ('lost', 'Perdue'), ('blocked', 'Bloquée'),
-    ], string='Statut de la carte', readonly=True)
+    ], string='Statut carte', readonly=True)
     subscription_status = fields.Selection([
         ('draft', 'Brouillon'), ('running', 'En cours'), ('paid', 'Payé'), ('closed', 'Clos'), ('cancel', 'Annulé'),
-    ], string="Statut de l'abonnement", readonly=True)
+    ], string="Statut abonnement", readonly=True)
+
+    currency_id = fields.Many2one('res.currency', string='Devise', readonly=True)
+    payment_total = fields.Monetary(string='Total payé', currency_field='currency_id', readonly=True)
+    payment_balance = fields.Monetary(string='Solde restant', currency_field='currency_id', readonly=True)
+    payment_valid = fields.Boolean(string='Paiement à jour', readonly=True)
+    last_checkin_datetime = fields.Datetime(string='Dernier passage', readonly=True)
 
     result_state = fields.Selection([
         ('pending', 'En attente de scan'),
@@ -46,6 +61,9 @@ class AmarnaScanWizard(models.TransientModel):
     result_message = fields.Text(string='Message', readonly=True)
 
     def action_scan(self):
+        requested_subscription = self.subscription_id or self.env['amarna.subscription'].browse(
+            self.env.context.get('default_subscription_id')
+        )
         """Simule le scan de la carte sélectionnée."""
         self.ensure_one()
         if not self.card_id:
@@ -53,6 +71,9 @@ class AmarnaScanWizard(models.TransientModel):
 
         # Réinitialisation des champs d'information
         self.partner_id = False
+        self.subscription_ids = [(5, 0, 0)]
+        self.subscription_id = False
+        self.plan_id = False
         self.rfid_uid = False
         self.activity_id = False
         self.subscription_type_id = False
@@ -61,10 +82,15 @@ class AmarnaScanWizard(models.TransientModel):
         self.remaining_sessions = 0
         self.card_state = False
         self.subscription_status = False
+        self.currency_id = False
+        self.payment_total = 0.0
+        self.payment_balance = 0.0
+        self.payment_valid = False
+        self.last_checkin_datetime = False
         self.result_message = False
 
         # 1. Vérifier si la carte est active
-        if not self.card_id.active or self.card_id.state != 'active':
+        if self.card_id.state != 'active':
             self.result_state = 'denied'
             self.result_message = "❌ Cette carte RFID est désactivée."
             return {
@@ -76,12 +102,12 @@ class AmarnaScanWizard(models.TransientModel):
             }
 
         # 2. Rechercher l'abonnement actif lié à cette carte
-        sub = self.env['amarna.subscription'].search([
+        subscriptions = self.env['amarna.subscription'].search([
             ('rfid_card_id', '=', self.card_id.id),
             ('active', '=', True),
-        ], limit=1)
+        ], order='activity_id, start_date desc')
 
-        if not sub:
+        if not subscriptions:
             self.result_state = 'denied'
             self.result_message = "❌ Aucun abonnement actif trouvé pour cette carte."
             return {
@@ -92,11 +118,24 @@ class AmarnaScanWizard(models.TransientModel):
                 'target': 'new',
             }
 
-        # 3. Vérifier les conditions de l'abonnement
-        # Abonnement inactif (si state n'est pas 'sale' ou si active est faux)
+        # Afficher toutes les inscriptions de cette carte et sélectionner
+        # automatiquement la première formule actuellement utilisable.
+        self.subscription_ids = [(6, 0, subscriptions.ids)]
+        valid_subscriptions = subscriptions.filtered(
+            lambda item: item.state == 'sale'
+            and (not item.expiration_date or item.expiration_date >= fields.Date.today())
+            and item.remaining_sessions > 0
+        )
+        if requested_subscription and requested_subscription.id in subscriptions.ids:
+            sub = requested_subscription
+        else:
+            sub = valid_subscriptions[:1] or subscriptions[:1]
+        self.subscription_id = sub.id
+
+        # 3. Vérifier les conditions de l'abonnement sélectionné
         if not sub.active or sub.state != 'sale':
             self.result_state = 'denied'
-            self.result_message = "Abonnement inactif."
+            self.result_message = "❌ Abonnement non confirmé (brouillon ou annulé)."
             return {
                 'type': 'ir.actions.act_window',
                 'res_model': 'amarna.scan.wizard',
@@ -105,10 +144,9 @@ class AmarnaScanWizard(models.TransientModel):
                 'target': 'new',
             }
 
-        # Abonnement expiré
         if sub.expiration_date and sub.expiration_date < fields.Date.today():
             self.result_state = 'denied'
-            self.result_message = "Abonnement expiré."
+            self.result_message = "❌ Abonnement expiré (Échéance : %s)." % sub.expiration_date
             return {
                 'type': 'ir.actions.act_window',
                 'res_model': 'amarna.scan.wizard',
@@ -117,10 +155,9 @@ class AmarnaScanWizard(models.TransientModel):
                 'target': 'new',
             }
 
-        # Aucune séance restante
         if sub.remaining_sessions <= 0:
             self.result_state = 'denied'
-            self.result_message = "Aucune séance restante."
+            self.result_message = "❌ Solde épuisé (0 séance restante)."
             return {
                 'type': 'ir.actions.act_window',
                 'res_model': 'amarna.scan.wizard',
@@ -129,8 +166,15 @@ class AmarnaScanWizard(models.TransientModel):
                 'target': 'new',
             }
 
-        # 4. Si toutes les conditions sont valides, remplir les infos du membre
+        # 4. Rechercher le dernier passage (check-in) pour ce client
+        last_checkin = self.env['amarna.checkin'].search([
+            ('partner_id', '=', sub.partner_id.id),
+        ], order='checkin_datetime desc', limit=1)
+
+        # 5. Remplir les informations complètes du membre
         self.partner_id = sub.partner_id.id
+        self.subscription_id = sub.id
+        self.plan_id = sub.plan_id.id if sub.plan_id else False
         self.rfid_uid = self.card_id.name
         self.activity_id = sub.activity_id.id if sub.activity_id else False
         self.subscription_type_id = sub.plan_id.subscription_type_id.id if sub.plan_id and sub.plan_id.subscription_type_id else False
@@ -139,8 +183,14 @@ class AmarnaScanWizard(models.TransientModel):
         self.remaining_sessions = sub.remaining_sessions
         self.card_state = self.card_id.state
         self.subscription_status = sub.subscription_status
+        self.currency_id = sub.currency_id.id if sub.currency_id else False
+        self.payment_total = sub.payment_total
+        self.payment_balance = sub.payment_balance
+        self.payment_valid = sub.payment_valid
+        self.last_checkin_datetime = last_checkin.checkin_datetime if last_checkin else False
+
         self.result_state = 'ok'
-        self.result_message = "Carte et abonnement valides. Prêt à valider le scan."
+        self.result_message = "✅ Carte et abonnement valides. Prêt à valider le scan."
 
         return {
             'type': 'ir.actions.act_window',
@@ -157,12 +207,10 @@ class AmarnaScanWizard(models.TransientModel):
             raise UserError("Veuillez sélectionner une carte RFID.")
 
         # On récupère l'abonnement
-        sub = self.env['amarna.subscription'].search([
-            ('rfid_card_id', '=', self.card_id.id),
-            ('active', '=', True),
-        ], limit=1)
+        sub = self.subscription_id
 
-        if not sub or not sub.active or sub.state != 'sale' or sub.remaining_sessions <= 0:
+        if (not sub or sub.rfid_card_id != self.card_id or not sub.active
+                or sub.state != 'sale' or sub.remaining_sessions <= 0):
             raise UserError("Une erreur est survenue : l'abonnement n'est plus valide pour le check-in.")
 
         # Sauvegarde des séances avant

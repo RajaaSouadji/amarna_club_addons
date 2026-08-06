@@ -6,27 +6,25 @@
         <field name="name">amarna.subscription.tree</field>
         <field name="model">amarna.subscription</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-muted="state == 'cancel'" decoration-danger="subscription_status == 'closed'">
                 <field name="name"/>
+                <field name="partner_id" widget="many2one_avatar"/>
                 <field name="activity_id"/>
                 <field name="plan_id"/>
                 <field name="start_date"/>
                 <field name="expiration_date"/>
-                <field name="remaining_sessions"/>
-                <field name="state"/>
-
-                <field name="next_invoice_date"/>
-                <field name="sale_person_id"/>
-                <field name="activity_ids"
-                       widget="mail_activity"/>
-                
-                <field name="recurring_plan_id"/>
+                <field name="remaining_sessions" class="fw-bold"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="amount_total" widget="monetary"/>
+                <field name="payment_total" widget="monetary"/>
+                <field name="payment_balance" widget="monetary" decoration-danger="payment_balance &gt; 0"/>
+                <field name="payment_valid" widget="boolean_toggle"/>
                 <field name="subscription_status"
                        widget="badge"
-                       decoration-success="subscription_status == 'running'"
+                       decoration-success="subscription_status in ('running', 'paid')"
                        decoration-info="subscription_status == 'draft'"
-                       decoration-danger="subscription_status == 'cancel'"
-                       decoration-warning="subscription_status == 'paid'"/>
+                       decoration-danger="subscription_status in ('closed', 'cancel')"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'sale'"/>
             </tree>
         </field>
     </record>
@@ -39,108 +37,125 @@
 
         <form string="Abonnement">
 
-
             <header>
                 <button name="action_send"
                         string="Envoyer"
                         type="object"
                         class="btn-primary"
                         invisible="state != 'draft'"/>
-                
+
+                <button name="action_confirm"
+                        string="Confirmer l'abonnement"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'draft'"/>
+
+                <button name="action_renew"
+                        string="Renouveler"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="state != 'sale'"/>
+
+                <button name="action_create_invoice"
+                        string="Créer Facture"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="invoice_id or state != 'sale'"/>
 
                 <button name="action_print_subscription"
                         string="Imprimer"
                         type="object"
                         class="btn-secondary"/>
 
-
-                <button name="action_renew" string="Renouveler" type="object" class="oe_highlight" invisible="state != 'sale'"/>
-
-                <button name="action_confirm"
-                        string="Confirmer"
-                        type="object"
-                        class="btn-secondary"/>
-
-
                 <button name="action_preview_subscription"
-                        string="AperÃ§u"
+                        string="Aperçu"
                         type="object"
                         class="btn-secondary"/>
 
-                <button name="action_create_invoice"
-                        string="CrÃ©er Facture"
+                <button name="action_cancel"
+                        string="Annuler"
                         type="object"
-                        class="btn-secondary"/>
+                        class="btn-secondary"
+                        invisible="state == 'cancel'"/>
 
                 <field name="state"
                        widget="statusbar"
                        statusbar_visible="draft,sent,sale"/>
-
             </header>
 
             <sheet>
 
-
                 <div class="oe_button_box" name="button_box">
-
                     <button class="oe_stat_button"
                             type="object"
                             name="action_view_invoice"
-                            icon="fa-file-text-o">
-
+                            icon="fa-file-text-o"
+                            invisible="not invoice_id">
                         <field name="invoice_count"
                                widget="statinfo"
                                string="Factures"/>
-
                     </button>
 
+                    <button class="oe_stat_button"
+                            type="object"
+                            name="action_view_checkins"
+                            icon="fa-qrcode">
+                        <field name="checkin_count"
+                               widget="statinfo"
+                               string="Passages RFID"/>
+                    </button>
                 </div>
 
+                <widget name="web_ribbon" title="Payé &amp; Valide" bg_color="bg-success" invisible="not payment_valid or state != 'sale'"/>
+                <widget name="web_ribbon" title="Solde Dû" bg_color="bg-danger" invisible="payment_valid or state != 'sale'"/>
+
                 <div class="oe_title">
+                    <label for="name" string="Référence abonnement"/>
                     <h1>
-                        <field name="name"/>
+                        <field name="name" readonly="1"/>
                     </h1>
                 </div>
 
                 <group col="2">
-
-                    <group>
-
+                    <group string="Client &amp; Formule">
                         <field name="partner_id" widget="many2one_avatar"/>
+                        <field name="plan_id"/>
+                        <field name="activity_id"/>
                         <field name="rfid_card_id"/>
-                        <field name="payment_total" readonly="1"/>
-                        <field name="payment_balance" readonly="1"/>
-
+                        <field name="remaining_sessions" class="fw-bold fs-5 text-primary"/>
                     </group>
 
-                    <group>
-
-
+                    <group string="Dates &amp; Périodicité">
+                        <field name="start_date"/>
                         <field name="expiration_date"/>
                         <field name="auto_renew"/>
-                        <field name="recurring_plan_id"/>
+<!--                        <field name="recurring_plan_id"/>-->
                         <field name="payment_term_id"/>
-                        <field name="delivery_date"/>
-
                     </group>
+                </group>
 
+                <group col="2" string="Synthèse Financière">
+                    <group>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="amount_total" widget="monetary" readonly="1"/>
+                        <field name="payment_total" widget="monetary" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="payment_balance" widget="monetary" class="fw-bold" decoration-danger="payment_balance &gt; 0" readonly="1"/>
+                        <field name="payment_valid" widget="boolean_toggle" readonly="1"/>
+                        <field name="subscription_status" widget="badge" decoration-success="subscription_status in ('running', 'paid')" decoration-warning="subscription_status == 'draft'" decoration-danger="subscription_status in ('closed', 'cancel')"/>
+                    </group>
                 </group>
 
                 <notebook>
 
                     <page string="Lignes de commande">
-
-
-                        <field name="line_ids"
-                               widget="section_and_note_one2many">
+                        <field name="line_ids" widget="section_and_note_one2many">
                             <tree editable="bottom">
-
                                 <control>
                                     <create string="Ajouter un produit"/>
-                                    <create string="Ajouter une section"
-                                            context="{'default_display_type':'line_section'}"/>
-                                    <create string="Ajouter une note"
-                                            context="{'default_display_type':'line_note'}"/>
+                                    <create string="Ajouter une section" context="{'default_display_type':'line_section'}"/>
+                                    <create string="Ajouter une note" context="{'default_display_type':'line_note'}"/>
                                 </control>
 
                                 <field name="sequence" widget="handle"/>
@@ -156,61 +171,70 @@
                             </tree>
                         </field>
 
-
-                    </page>
-
-                    <page string="Autres informations">
-
-                        <group col="2">
-                            <group string="Ventes">
-                                <field name="sale_person_id"/>
-                                <field name="client_reference"/>
-                            </group>
-                            <group string="Facturation">
-                                <field name="payment_term_id"/>
-                            </group>
-                            <group string="Abonnement">
-                                <field name="activity_id"/>
-                                <field name="plan_id"/>
-                                <field name="start_date"/>
-                                <field name="remaining_sessions"/>
-                                <field name="active"/>
-                            </group>
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="amount_untaxed" readonly="1"/>
+                            <field name="amount_total" readonly="1" class="oe_subtotal_footer_separator"/>
                         </group>
                     </page>
-                    <page string="Paiements"><field name="payment_ids"><tree editable="bottom"><field name="name"/><field name="payment_date"/><field name="amount"/><field name="method"/><field name="state"/></tree></field></page>
-                    <page string="Historique"><field name="history_ids"><tree><field name="plan_id"/><field name="start_date"/><field name="expiration_date"/><field name="amount"/><field name="reason"/></tree></field></page>
-                    <page string="Notes">
 
-                        <field name="note"/>
+                    <page string="Paiements enregistrés">
+                        <field name="payment_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="payment_date"/>
+                                <field name="amount" widget="monetary"/>
+                                <field name="method"/>
+                                <field name="reference"/>
+                                <field name="state" widget="badge" decoration-success="state == 'confirmed'" decoration-info="state == 'draft'"/>
+                            </tree>
+                        </field>
+                    </page>
 
+                    <page string="Historique des passages (Scans)">
+                        <field name="checkin_ids" readonly="1">
+                            <tree>
+                                <field name="checkin_datetime"/>
+                                <field name="rfid_card_id"/>
+                                <field name="activity_id"/>
+                                <field name="sessions_before"/>
+                                <field name="sessions_after"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <page string="Historique des renouvellements">
+                        <field name="history_ids" readonly="1">
+                            <tree>
+                                <field name="plan_id"/>
+                                <field name="start_date"/>
+                                <field name="expiration_date"/>
+                                <field name="amount" widget="monetary"/>
+                                <field name="reason"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <page string="Autres informations &amp; Notes">
+                        <group col="2">
+                            <group string="Ventes &amp; Facturation">
+                                <field name="sale_person_id"/>
+                                <field name="client_reference"/>
+                                <field name="delivery_date"/>
+                                <field name="invoice_id" readonly="1"/>
+                            </group>
+                            <group string="Paramètres">
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="Notes internes">
+                            <field name="note" placeholder="Notes ou instructions particulières pour cet abonnement..."/>
+                        </group>
                     </page>
 
                 </notebook>
 
-                <group class="oe_subtotal_footer oe_right">
-
-                    <button string="Remise"
-                            type="object"
-                            name="action_discount"
-                            class="btn-secondary"/>
-
-                    <br/>
-
-                    <field name="amount_untaxed"
-                           readonly="1"/>
-
-                    <field name="amount_total"
-                           readonly="1"/>
-
-                </group>
-
             </sheet>
-
-
-<!--            </sheet>-->
-
-
 
             <chatter/>
 
@@ -228,7 +252,7 @@
 
     <!-- MENU -->
     <menuitem id="menu_amarna_subscription"
-              name="Client Subscriptions"
+              name="Abonnements clients"
               parent="menu_amarna_subscription_root"
               action="action_amarna_subscription"
               sequence="1"/>

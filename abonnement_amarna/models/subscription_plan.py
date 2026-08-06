@@ -52,9 +52,10 @@ class AmarnaSubscriptionPlan(models.Model):
     )
 
     list_price = fields.Float(
-        related="product_id.list_price",
-        string="Sales Price",
-        readonly=True,
+        string="Prix du plan",
+        help="Prix appliqué à chaque abonnement utilisant ce plan. "
+             "Il est indépendant du prix de vente du produit.",
+        tracking=True,
     )
 
     currency_id = fields.Many2one(
@@ -75,8 +76,10 @@ class AmarnaSubscriptionPlan(models.Model):
     )
 
     duration_days = fields.Integer(
-        string="Durée (jours)",
-        required=True,
+        related='subscription_type_id.duration_days',
+        string='Durée (jours)',
+        readonly=True,
+        store=True,
     )
 
     product_template_id = fields.Many2one(

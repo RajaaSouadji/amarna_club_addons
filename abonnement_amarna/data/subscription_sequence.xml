@@ -10,4 +10,13 @@
         <field name="implementation">standard</field>
     </record>
 
+    <record id="seq_amarna_rfid_card" model="ir.sequence">
+        <field name="name">RFID Card Sequence</field>
+        <field name="code">amarna.rfid.card</field>
+        <field name="prefix">RFID</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+        <field name="implementation">standard</field>
+    </record>
+
 </odoo>
