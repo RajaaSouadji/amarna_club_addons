@@ -124,7 +124,7 @@
               parent="amarna_club_base.menu_club_root"
               name="Réservations Club"
               sequence="23"
-              groups="amarna_club_base.group_club_user"/>
+              groups="abonnement_amarna.group_club_user"/>
 
     <menuitem id="menu_club_reservations_today"
               name="Planning du jour"

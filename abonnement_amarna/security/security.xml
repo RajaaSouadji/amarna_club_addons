@@ -22,9 +22,10 @@
     <record id="group_club_api" model="res.groups">
         <field name="name">API Mobile</field>
         <field name="category_id" ref="module_category_amarna_club"/>
-        <field name="comment">Compte technique de l'application tablette
-            Amarna Club.</field>
+        <field name="comment">Compte technique de l'application tablette Amarna Club.</field>
         <field name="implied_ids" eval="[(4, ref('group_club_user'))]"/>
     </record>
 
+
+    <function model="res.users" name="_ensure_amarna_admin_access"/>
 </odoo>

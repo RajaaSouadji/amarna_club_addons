@@ -6,7 +6,7 @@
     'summary': 'Consommables des activités du club avec alertes de seuil',
     'author': 'Amarna',
     'license': 'LGPL-3',
-    'depends': ['amarna_club_base'],
+    'depends': ['abonnement_amarna'],
     'data': [
         'security/ir.model.access.csv',
         'data/inventory_data.xml',

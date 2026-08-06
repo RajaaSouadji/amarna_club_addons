@@ -6,9 +6,11 @@
     'summary': 'Gestion unifiée des abonnements, réservations, paiements et accès RFID',
     'author': 'Amarna',
     'license': 'LGPL-3',
-    'depends': ['base', 'account', 'mail', 'product', 'amarna_club_base'],
+    'depends': ['base', 'account', 'mail', 'product'],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
+        'data/activity_data.xml',
         'data/subscription_sequence.xml',
         'data/rfid_cron.xml',
         'views/menu_views.xml',
@@ -28,12 +30,7 @@
         # 'views/report_views.xml',
         'views/scan_wizard_views.xml',
         'views/checkin_views.xml',
-
     ],
     'application': True,
     'installable': True,
 }
-
-
-
-

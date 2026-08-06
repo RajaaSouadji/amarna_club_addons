@@ -1,24 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- INHERIT CLUB ACTIVITY FORM FOR SUBSCRIPTION PLANS SMART BUTTON -->
-    <record id="view_club_activity_form_inherit_subscription" model="ir.ui.view">
-        <field name="name">amarna.club.activity.form.inherit.subscription</field>
+    <record id="view_club_activity_tree" model="ir.ui.view">
+        <field name="name">amarna.club.activity.tree</field>
         <field name="model">amarna.club.activity</field>
-        <field name="inherit_id" ref="amarna_club_base.view_club_activity_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//sheet" position="before">
-                <div class="oe_button_box" name="button_box">
-                    <button name="action_view_subscription_plans"
-                            type="object"
-                            class="oe_stat_button"
-                            icon="fa-tags">
-                        <field name="subscription_plan_count"
-                               widget="statinfo"
-                               string="Plans"/>
-                    </button>
-                </div>
-            </xpath>
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="mobile_status" widget="badge"/>
+                <field name="closure_start"/>
+                <field name="closure_end"/>
+                <field name="current_occupancy"/>
+                <field name="max_capacity"/>
+                <field name="occupancy_pct" widget="progressbar"/>
+                <field name="assigned_staff" optional="show"/>
+                <field name="subscription_plan_count" string="Plans"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_club_activity_form" model="ir.ui.view">
+        <field name="name">amarna.club.activity.form</field>
+        <field name="model">amarna.club.activity</field>
+        <field name="arch" type="xml">
+            <form string="Activité">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_subscription_plans"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-tags">
+                            <field name="subscription_plan_count"
+                                   widget="statinfo"
+                                   string="Plans"/>
+                        </button>
+                    </div>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'prevent_display': true}"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom de l'activité"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identification">
+                            <field name="code"/>
+                            <field name="icon_key"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Opérations">
+                            <field name="mobile_status"/>
+                            <field name="closure_start"/>
+                            <field name="closure_end"/>
+                            <field name="current_occupancy"/>
+                            <field name="max_capacity"/>
+                            <field name="occupancy_pct" widget="progressbar"/>
+                            <field name="assigned_staff"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description de l'activité..."/>
+                        </page>
+                        <page string="Notes internes" name="notes">
+                            <field name="note" placeholder="Notes internes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_activity_search" model="ir.ui.view">
+        <field name="name">amarna.club.activity.search</field>
+        <field name="model">amarna.club.activity</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Ouvertes" name="filter_open" domain="[('mobile_status', '=', 'open')]"/>
+                <filter string="Fermées / Maintenance" name="filter_closed" domain="[('mobile_status', 'in', ('closed', 'maintenance'))]"/>
+            </search>
         </field>
     </record>
 

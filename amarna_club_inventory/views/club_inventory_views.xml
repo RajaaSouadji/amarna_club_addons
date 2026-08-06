@@ -82,7 +82,7 @@
               parent="amarna_club_base.menu_club_root"
               name="Inventaire Club"
               sequence="24"
-              groups="amarna_club_base.group_club_user"/>
+              groups="abonnement_amarna.group_club_user"/>
 
     <menuitem id="menu_club_inventory"
               name="Consommables"

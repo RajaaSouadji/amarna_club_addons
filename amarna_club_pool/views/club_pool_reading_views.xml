@@ -80,7 +80,7 @@
               parent="amarna_club_base.menu_club_root"
               name="Piscine Club"
               sequence="26"
-              groups="amarna_club_base.group_club_user"/>
+              groups="abonnement_amarna.group_club_user"/>
 
     <menuitem id="menu_club_pool_readings"
               name="Relevés qualité de l'eau"
