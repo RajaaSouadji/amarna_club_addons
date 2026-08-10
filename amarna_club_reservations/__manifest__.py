@@ -7,7 +7,9 @@
     'author': 'Amarna',
     'license': 'LGPL-3',
     'depends': ['abonnement_amarna'],
-    'data': [],
+    'data': [
+        'views/club_reservation_views.xml',
+    ],
     'application': True,
     'installable': True,
 }
