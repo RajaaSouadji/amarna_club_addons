@@ -10,8 +10,9 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="mobile_status" widget="badge"/>
-                <field name="closure_start"/>
-                <field name="closure_end"/>
+                <field name="closure_start" optional="show"/>
+                <field name="closure_end" optional="show"/>
+                <field name="closure_duration_hours" optional="hide"/>
                 <field name="current_occupancy"/>
                 <field name="max_capacity"/>
                 <field name="occupancy_pct" widget="progressbar"/>
@@ -50,8 +51,13 @@
                         </group>
                         <group string="Opérations">
                             <field name="mobile_status"/>
-                            <field name="closure_start"/>
-                            <field name="closure_end"/>
+                            <label for="closure_start" string="Période de fermeture (optionnelle)"/>
+                            <div class="o_row">
+                                <field name="closure_start" placeholder="Début"/>
+                                <span class="mx-2">→</span>
+                                <field name="closure_end" placeholder="Réouverture prévue"/>
+                            </div>
+                            <field name="closure_duration_hours" readonly="1"/>
                             <field name="current_occupancy"/>
                             <field name="max_capacity"/>
                             <field name="occupancy_pct" widget="progressbar"/>

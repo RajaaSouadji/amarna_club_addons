@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AmarnaClubInventoryItem(models.Model):
@@ -56,6 +57,16 @@ class AmarnaClubInventoryItem(models.Model):
                 )
             elif not rec.activity_id:
                 rec.activity_id = False
+
+    @api.constrains('qty', 'low_threshold')
+    def _check_quantities(self):
+        for rec in self:
+            if rec.qty < 0:
+                raise ValidationError(
+                    'Le stock de « %s » ne peut pas être négatif.' % rec.name)
+            if rec.low_threshold < 0:
+                raise ValidationError(
+                    'Le seuil bas de « %s » ne peut pas être négatif.' % rec.name)
 
     @api.depends('qty', 'low_threshold')
     def _compute_is_low(self):

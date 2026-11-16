@@ -57,6 +57,7 @@
                             <field name="priority"/>
                             <field name="mobile_activity_code"/>
                             <field name="activity_id"/>
+                            <field name="mobile_asset_code"/>
                             <field name="asset_id"/>
                         </group>
                         <group string="Planification">

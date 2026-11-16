@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Amarna Club - Abonnements, Réservations & RFID',
-    'version': '17.0.2.0',
+    'version': '17.0.2.1',
     'category': 'Services',
     'summary': 'Gestion unifiée des abonnements, réservations, paiements et accès RFID',
     'author': 'Amarna',

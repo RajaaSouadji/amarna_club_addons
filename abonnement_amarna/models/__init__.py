@@ -17,4 +17,3 @@ from . import account_move
 from . import subscription_history
 from . import reservation
 from . import scan_wizard
-from . import users

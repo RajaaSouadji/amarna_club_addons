@@ -1,16 +1,31 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_amarna_club_activity,amarna.club.activity,model_amarna_club_activity,,1,1,1,1
-access_amarna_subscription_plan,amarna.subscription.plan,model_amarna_subscription_plan,,1,1,1,1
-access_amarna_subscription_type,amarna.subscription.type,model_amarna_subscription_type,,1,1,1,1
-access_amarna_subscription,amarna.subscription,model_amarna_subscription,,1,1,1,1
-access_amarna_duration_unit_user,amarna.duration.unit.user,model_amarna_duration_unit,base.group_user,1,1,1,1
-access_amarna_recurring_plan_line,amarna.recurring.plan.line,model_amarna_recurring_plan_line,,1,1,1,1
-access_amarna_recurring_plan,amarna.recurring.plan,model_amarna_recurring_plan,,1,1,1,1
-access_amarna_subscription_line_user,access_amarna_subscription_line_user,model_amarna_subscription_line,base.group_user,1,1,1,1
-access_amarna_rfid_card,amarna.rfid.card,model_amarna_rfid_card,,1,1,1,1
-access_amarna_subscription_payment,amarna.subscription.payment,model_amarna_subscription_payment,,1,1,1,1
-access_amarna_subscription_history,amarna.subscription.history,model_amarna_subscription_history,,1,1,1,0
-access_amarna_club_reservation,amarna.club.reservation,model_amarna_club_reservation,,1,1,1,1
-access_amarna_rfid_access,amarna.rfid.access,model_amarna_rfid_access,,1,1,1,1
-access_amarna_scan_wizard,amarna.scan.wizard,model_amarna_scan_wizard,,1,1,1,0
-access_amarna_checkin,amarna.checkin,model_amarna_checkin,,1,1,1,1
+access_amarna_club_activity_internal,amarna.club.activity internal read,model_amarna_club_activity,base.group_user,1,0,0,0
+access_amarna_club_activity,amarna.club.activity club user,model_amarna_club_activity,abonnement_amarna.group_club_user,1,1,1,0
+access_amarna_club_activity_manager,amarna.club.activity club manager,model_amarna_club_activity,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_subscription_plan,amarna.subscription.plan internal user,model_amarna_subscription_plan,base.group_user,1,1,1,0
+access_amarna_subscription_plan_manager,amarna.subscription.plan manager,model_amarna_subscription_plan,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_subscription_type,amarna.subscription.type internal user,model_amarna_subscription_type,base.group_user,1,1,1,0
+access_amarna_subscription_type_manager,amarna.subscription.type manager,model_amarna_subscription_type,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_subscription,amarna.subscription internal user,model_amarna_subscription,base.group_user,1,1,1,0
+access_amarna_subscription_manager,amarna.subscription manager,model_amarna_subscription,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_duration_unit_user,amarna.duration.unit internal user,model_amarna_duration_unit,base.group_user,1,1,1,0
+access_amarna_duration_unit_manager,amarna.duration.unit manager,model_amarna_duration_unit,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_recurring_plan_line,amarna.recurring.plan.line internal user,model_amarna_recurring_plan_line,base.group_user,1,1,1,0
+access_amarna_recurring_plan_line_manager,amarna.recurring.plan.line manager,model_amarna_recurring_plan_line,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_recurring_plan,amarna.recurring.plan internal user,model_amarna_recurring_plan,base.group_user,1,1,1,0
+access_amarna_recurring_plan_manager,amarna.recurring.plan manager,model_amarna_recurring_plan,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_subscription_line_user,amarna.subscription.line internal user,model_amarna_subscription_line,base.group_user,1,1,1,0
+access_amarna_subscription_line_manager,amarna.subscription.line manager,model_amarna_subscription_line,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_rfid_card,amarna.rfid.card internal user,model_amarna_rfid_card,base.group_user,1,1,1,0
+access_amarna_rfid_card_manager,amarna.rfid.card manager,model_amarna_rfid_card,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_subscription_payment,amarna.subscription.payment internal user,model_amarna_subscription_payment,base.group_user,1,1,1,0
+access_amarna_subscription_payment_manager,amarna.subscription.payment manager,model_amarna_subscription_payment,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_subscription_history,amarna.subscription.history internal user,model_amarna_subscription_history,base.group_user,1,1,1,0
+access_amarna_club_reservation,amarna.club.reservation internal user,model_amarna_club_reservation,base.group_user,1,1,1,0
+access_amarna_club_reservation_club_user,amarna.club.reservation club user,model_amarna_club_reservation,abonnement_amarna.group_club_user,1,1,1,0
+access_amarna_club_reservation_manager,amarna.club.reservation manager,model_amarna_club_reservation,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_rfid_access,amarna.rfid.access internal user,model_amarna_rfid_access,base.group_user,1,1,1,0
+access_amarna_rfid_access_manager,amarna.rfid.access manager,model_amarna_rfid_access,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_scan_wizard,amarna.scan.wizard internal user,model_amarna_scan_wizard,base.group_user,1,1,1,0
+access_amarna_checkin,amarna.checkin internal user,model_amarna_checkin,base.group_user,1,1,1,0
+access_amarna_checkin_manager,amarna.checkin manager,model_amarna_checkin,abonnement_amarna.group_club_manager,1,1,1,1

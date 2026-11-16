@@ -32,7 +32,7 @@ class AmarnaScanWizard(models.TransientModel):
     )
     subscription_id = fields.Many2one('amarna.subscription', string='Abonnement sélectionné')
     plan_id = fields.Many2one('amarna.subscription.plan', string='Formule', readonly=True)
-    rfid_uid = fields.Char(string='Carte RFID', readonly=True)
+    rfid_uid = fields.Char(string='UID RFID lu', readonly=True)
     activity_id = fields.Many2one('amarna.club.activity', string='Activité', readonly=True)
     subscription_type_id = fields.Many2one('amarna.subscription.type', string="Type d'abonnement", readonly=True)
     start_date = fields.Date(string='Date de début', readonly=True)

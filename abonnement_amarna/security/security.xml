@@ -7,25 +7,28 @@
         <field name="sequence">25</field>
     </record>
 
+    <!-- Tablet and back-office staff. Implies internal-user rights. -->
     <record id="group_club_user" model="res.groups">
         <field name="name">Utilisateur</field>
         <field name="category_id" ref="module_category_amarna_club"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
+    <!-- Managers may delete records; the tablet never needs this right. -->
     <record id="group_club_manager" model="res.groups">
         <field name="name">Responsable</field>
         <field name="category_id" ref="module_category_amarna_club"/>
         <field name="implied_ids" eval="[(4, ref('group_club_user'))]"/>
     </record>
 
-    <record id="group_club_api" model="res.groups">
-        <field name="name">API Mobile</field>
-        <field name="category_id" ref="module_category_amarna_club"/>
-        <field name="comment">Compte technique de l'application tablette Amarna Club.</field>
-        <field name="implied_ids" eval="[(4, ref('group_club_user'))]"/>
-    </record>
-
-
-    <function model="res.users" name="_ensure_amarna_admin_access"/>
+    <!--
+        One-time grant so the back-office administrator keeps seeing the club
+        menus after installation. Lives in a noupdate block: it is applied at
+        install only, never reset on later module upgrades.
+    -->
+    <data noupdate="1">
+        <record id="base.user_admin" model="res.users">
+            <field name="groups_id" eval="[(4, ref('abonnement_amarna.group_club_manager'))]"/>
+        </record>
+    </data>
 </odoo>

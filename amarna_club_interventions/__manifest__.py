@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Amarna Club - Interventions',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.1.0',
     'category': 'Services/Club',
     'summary': 'Incidents et maintenance du club (flux unifié tablette)',
     'author': 'Amarna',

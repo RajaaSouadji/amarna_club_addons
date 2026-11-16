@@ -2,6 +2,7 @@
 from datetime import timedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AmarnaClubHorse(models.Model):
@@ -73,6 +74,13 @@ class AmarnaClubHorse(models.Model):
     )
 
     active = fields.Boolean(default=True)
+
+    @api.constrains('fatigue')
+    def _check_fatigue(self):
+        for rec in self:
+            if not 0.0 <= rec.fatigue <= 1.0:
+                raise ValidationError(
+                    'La fatigue de « %s » doit être comprise entre 0 et 1.' % rec.name)
 
     @api.depends('fatigue')
     def _compute_fatigue_pct(self):

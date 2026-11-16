@@ -2,6 +2,12 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
+# Statuses that accept reservations. "warning" (Attention) means the activity
+# runs but needs a look (e.g. a horse is injured): bookings stay allowed.
+BOOKABLE_STATUSES = ('open', 'warning')
+# Statuses that start an automatic closure period when they are set.
+AUTO_CLOSURE_STATUSES = ('closed', 'maintenance')
+
 
 class AmarnaClubActivity(models.Model):
     _name = 'amarna.club.activity'
@@ -19,6 +25,11 @@ class AmarnaClubActivity(models.Model):
     ], string='Statut opérationnel', default='open')
     closure_start = fields.Datetime(string='Fermeture du')
     closure_end = fields.Datetime(string='Fermeture au')
+    closure_duration_hours = fields.Float(
+        string='Durée de fermeture (h)',
+        compute='_compute_closure_duration',
+        help='Durée calculée à partir des dates de fermeture optionnelles.',
+    )
     current_occupancy = fields.Integer(string='Occupation actuelle')
     max_capacity = fields.Integer(string='Capacité maximale')
     assigned_staff = fields.Char(string='Personnel en service')
@@ -79,13 +90,102 @@ class AmarnaClubActivity(models.Model):
                     'res_id': activity.id,
                     'noupdate': True,
                 })
+
     @api.constrains('closure_start', 'closure_end')
     def _check_closure_period(self):
         for activity in self:
-            if activity.closure_start and activity.closure_end and activity.closure_end <= activity.closure_start:
+            if (activity.closure_start and activity.closure_end
+                    and activity.closure_end <= activity.closure_start):
                 raise ValidationError(
                     'La fin de fermeture doit être postérieure au début de fermeture.'
                 )
+
+    @api.depends('closure_start', 'closure_end')
+    def _compute_closure_duration(self):
+        for activity in self:
+            if activity.closure_start and activity.closure_end:
+                delta = activity.closure_end - activity.closure_start
+                activity.closure_duration_hours = delta.total_seconds() / 3600.0
+            else:
+                activity.closure_duration_hours = 0.0
+
+    @api.onchange('mobile_status')
+    def _onchange_mobile_status(self):
+        """Start a closure period when an activity is taken offline.
+
+        The end stays optional: empty means an indefinite closure, a value is
+        the planned reopening. Reopening closes the running period.
+        """
+        now = fields.Datetime.now()
+        for activity in self:
+            origin = activity._origin
+            if not origin or not origin.id:
+                continue
+            for field_name, value in origin._closure_change_vals(activity.mobile_status, now).items():
+                activity[field_name] = value
+
+    def _closure_change_vals(self, status, now):
+        """Closure dates to write when one activity changes to ``status``.
+
+        Only real status transitions touch the closure window:
+        - entering a closed/maintenance state opens a new window from now;
+        - leaving it ends the running window (or drops it when it lasted
+          less than a second, which would otherwise break the end > start rule).
+        """
+        self.ensure_one()
+        if status == self.mobile_status:
+            return {}
+        running = bool(
+            self.closure_start and self.closure_start <= now
+            and (not self.closure_end or self.closure_end > now)
+        )
+        if status in AUTO_CLOSURE_STATUSES:
+            if running:
+                return {}
+            return {'closure_start': now, 'closure_end': False}
+        if status in BOOKABLE_STATUSES and self.mobile_status in AUTO_CLOSURE_STATUSES and running:
+            if self.closure_start < now:
+                return {'closure_end': now}
+            return {'closure_start': False, 'closure_end': False}
+        return {}
+
+    def write(self, vals):
+        """Keep the closure window in sync with status changes.
+
+        JSON-RPC writes (tablet, API) do not run form onchanges, so the
+        window is maintained here. Explicit closure dates are never overridden.
+        """
+        vals = dict(vals)
+        status = vals.get('mobile_status')
+        if status and 'closure_start' not in vals and 'closure_end' not in vals:
+            if len(self) > 1:
+                result = True
+                for rec in self:
+                    result = rec.write(dict(vals)) and result
+                return result
+            if self:
+                vals.update(self._closure_change_vals(status, fields.Datetime.now()))
+        return super().write(vals)
+
+    def is_available_at(self, start_at, end_at):
+        """Return whether the activity can host the complete time slot.
+
+        Datetimes are naive UTC, as stored by Odoo. Intervals are half-open:
+        a booking that ends exactly when a closure starts is valid.
+        """
+        self.ensure_one()
+        start_at = fields.Datetime.to_datetime(start_at)
+        end_at = fields.Datetime.to_datetime(end_at)
+        if not start_at or not end_at or start_at >= end_at:
+            return False
+        if self.mobile_status not in BOOKABLE_STATUSES:
+            return False
+        if self.closure_start:
+            if not self.closure_end:
+                return end_at <= self.closure_start
+            if start_at < self.closure_end and end_at > self.closure_start:
+                return False
+        return True
 
     @api.depends('current_occupancy', 'max_capacity')
     def _compute_occupancy_pct(self):
@@ -102,12 +202,12 @@ class AmarnaClubActivity(models.Model):
 
     @api.model
     def _find_by_mobile_code(self, code):
+        """Resolve the activity code sent by the tablet (code or name)."""
         if not code:
             return self.browse()
         return self.search(
-            ['|', ('code', '=ilike', code), ('name', '=ilike', code)],
-            limit=1,
-        )
+            [('code', '=', code)], limit=1
+        ) or self.search([('name', '=ilike', code)], limit=1)
 
     def action_view_subscription_plans(self):
         self.ensure_one()
