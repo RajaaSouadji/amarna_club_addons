@@ -88,9 +88,8 @@
                 <div class="oe_button_box" name="button_box">
                     <button class="oe_stat_button"
                             type="object"
-                            name="action_view_invoice"
-                            icon="fa-file-text-o"
-                            invisible="not invoice_id">
+                            name="action_smart_invoice"
+                            icon="fa-file-text-o">
                         <field name="invoice_count"
                                widget="statinfo"
                                string="Factures"/>

@@ -350,6 +350,19 @@ class AmarnaSubscription(models.Model):
         self.ensure_one()
         return {'type': 'ir.actions.act_window', 'name': 'Facture', 'res_model': 'account.move', 'view_mode': 'form', 'res_id': self.invoice_id.id} if self.invoice_id else True
 
+    def action_smart_invoice(self):
+        """Ouvre la facture existante ou en crée une nouvelle."""
+        self.ensure_one()
+        if self.invoice_id:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Facture',
+                'res_model': 'account.move',
+                'view_mode': 'form',
+                'res_id': self.invoice_id.id,
+            }
+        return self.action_create_invoice()
+
     def action_print_subscription(self):
         return True
 
@@ -358,8 +371,3 @@ class AmarnaSubscription(models.Model):
 
     def action_discount(self):
         return True
-
-
-
-
-

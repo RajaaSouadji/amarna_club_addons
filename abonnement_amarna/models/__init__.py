@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from . import subscription_plan
 from . import activity
+from . import subscription_plan
 from . import subscription_type
 from . import subscription
 from . import card
