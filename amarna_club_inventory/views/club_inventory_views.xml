@@ -79,7 +79,6 @@
 
     <!-- Root app: Inventaire Club -->
     <menuitem id="menu_club_inventory_root"
-              parent="amarna_club_base.menu_club_root"
               name="Inventaire Club"
               sequence="24"
               groups="abonnement_amarna.group_club_user"/>
