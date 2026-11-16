@@ -1,149 +1,84 @@
+# -*- coding: utf-8 -*-
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AmarnaSubscriptionPlan(models.Model):
-    _name = "amarna.subscription.plan"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Subscription Plan"
-    _order = "name"
+    """Formule commerciale : une activité, une durée, un prix, un nombre de séances.
 
-    # ==========================================================
-    # GENERAL
-    # ==========================================================
+    ``session_count = 0`` means an unlimited formula (no session counter).
+    """
+    _name = 'amarna.subscription.plan'
+    _inherit = ['mail.thread']
+    _description = 'Formule d’abonnement'
+    _order = 'activity_id, name'
 
-    name = fields.Char(
-        string="Plan",
-        required=True,
-        tracking=True,
-    )
-
-    active = fields.Boolean(
-        default=True,
-        tracking=True,
-    )
-
+    name = fields.Char(string='Formule', required=True, tracking=True)
+    active = fields.Boolean(default=True)
     activity_id = fields.Many2one(
-        "amarna.club.activity",
-        string="Activité concernée",
-        required=True,
-        tracking=True,
-    )
-
+        'amarna.club.activity', string='Activité', required=True, tracking=True)
     subscription_type_id = fields.Many2one(
-        "amarna.subscription.type",
-        string="Type abonnement",
-        required=True,
-    )
-
-    product_id = fields.Many2one(
-        "product.product",
-        string="Produit de facturation",
-        required=False,
-        tracking=True,
-    )
-
-    # ==========================================================
-    # PRODUCT INFORMATION
-    # ==========================================================
-
-    image_1920 = fields.Image(
-        related="product_id.image_1920",
-        readonly=True,
-    )
-
+        'amarna.subscription.type', string='Durée', required=True, tracking=True)
+    duration_summary = fields.Char(
+        related='subscription_type_id.duration_summary', string='Durée affichée')
     list_price = fields.Float(
-        string="Prix du plan",
-        help="Prix appliqué à chaque abonnement utilisant ce plan. "
-             "Il est indépendant du prix de vente du produit.",
-        tracking=True,
-    )
-
-    currency_id = fields.Many2one(
-        related="product_id.currency_id",
-        readonly=True,
-        store=True,
-
-    )
-
-    # ==========================================================
-    # SUBSCRIPTION
-    # ==========================================================
-
+        string='Prix HT', required=True, default=0.0, tracking=True,
+        help="Prix hors taxes facturé à chaque période de l'abonnement.")
     session_count = fields.Integer(
-        string="Séances incluses",
-        default=0,
-        required=True,
-    )
+        string='Séances incluses', default=0, required=True, tracking=True,
+        help="Nombre de passages inclus. 0 = formule illimitée.")
+    product_id = fields.Many2one(
+        'product.product', string='Produit de facturation',
+        help="Laisser vide : un produit de service est créé automatiquement.")
+    description = fields.Html(string='Description')
+    subscription_count = fields.Integer(compute='_compute_subscription_count')
 
-    duration_days = fields.Integer(
-        related='subscription_type_id.duration_days',
-        string='Durée (jours)',
-        readonly=True,
-        store=True,
-    )
+    _sql_constraints = [
+        ('session_count_positive', 'CHECK(session_count >= 0)',
+         'Le nombre de séances ne peut pas être négatif.'),
+        ('list_price_positive', 'CHECK(list_price >= 0)',
+         'Le prix ne peut pas être négatif.'),
+    ]
 
-    product_template_id = fields.Many2one(
-        related="product_id.product_tmpl_id",
-        readonly=True,
-    )
-
-    # ==========================================================
-    # DESCRIPTION
-    # ==========================================================
-
-    description = fields.Html(
-        string="Description"
-    )
-
-    note = fields.Html(
-        string="Internal Notes"
-    )
-    # ==========================================================
-    # SMART BUTTONS
-    # ==========================================================
-
-    subscription_count = fields.Integer(
-        compute="_compute_subscription_count"
-    )
-
-    @api.depends()
-    def _compute_subscription_count(self):
+    @api.constrains('list_price')
+    def _check_list_price(self):
         for plan in self:
-            plan.subscription_count = self.env[
-                "amarna.subscription"
-            ].search_count([
-                ("plan_id", "=", plan.id)
-            ])
+            if plan.list_price < 0:
+                raise ValidationError('Le prix de la formule ne peut pas être négatif.')
 
-    def action_view_product(self):
+    def _compute_subscription_count(self):
+        counts = self.env['amarna.subscription'].read_group(
+            [('plan_id', 'in', self.ids)], ['plan_id'], ['plan_id'])
+        mapped = {c['plan_id'][0]: c['plan_id_count'] for c in counts}
+        for plan in self:
+            plan.subscription_count = mapped.get(plan.id, 0)
+
+    def _get_billing_product(self):
         self.ensure_one()
-        if not self.product_id:
-            return True
+        if self.product_id:
+            return self.product_id
+        return self.env['product.product']._amarna_service(
+            'AMARNA-PLAN-%s' % self.id, 'Abonnement – %s' % self.name)
 
+    def _billing_line_vals(self):
+        """Values of the subscription line created from this plan."""
+        self.ensure_one()
+        product = self._get_billing_product()
         return {
-            "type": "ir.actions.act_window",
-            "name": "Product",
-            "res_model": "product.product",
-            "res_id": self.product_id.id,
-            "view_mode": "form",
-            "target": "current",
+            'product_id': product.id,
+            'name': self.name,
+            'product_uom_qty': 1.0,
+            'price_unit': self.list_price,
+            'tax_ids': [(6, 0, product.taxes_id.ids)],
         }
 
     def action_view_subscriptions(self):
         self.ensure_one()
-
         return {
-            "type": "ir.actions.act_window",
-            "name": "Subscriptions",
-            "res_model": "amarna.subscription",
-            "view_mode": "tree,form",
-            "domain": [("plan_id", "=", self.id)],
-            "context": {
-                "default_plan_id": self.id,
-            },
-            "target": "current",
+            'type': 'ir.actions.act_window',
+            'name': 'Abonnements',
+            'res_model': 'amarna.subscription',
+            'view_mode': 'tree,form',
+            'domain': [('plan_id', '=', self.id)],
+            'context': {'default_plan_id': self.id},
         }
-
-
-
-

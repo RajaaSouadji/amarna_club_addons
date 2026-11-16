@@ -69,7 +69,7 @@
                                         <field name="plan_id" readonly="1"/>
                                         <field name="activity_id" readonly="1"/>
                                         <field name="subscription_type_id" readonly="1"/>
-                                        <field name="subscription_status" widget="badge" decoration-success="subscription_status == 'running'" decoration-warning="subscription_status == 'paid'" decoration-danger="subscription_status in ('closed', 'cancel')" readonly="1"/>
+                                        <field name="subscription_status" widget="badge" decoration-success="subscription_status == 'active'" decoration-warning="subscription_status == 'unpaid'" decoration-danger="subscription_status in ('expired', 'cancelled')" readonly="1"/>
                                     </group>
                                     <group string="Séances &amp; Dates">
                                         <field name="start_date" readonly="1"/>

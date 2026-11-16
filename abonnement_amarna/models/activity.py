@@ -33,6 +33,13 @@ class AmarnaClubActivity(models.Model):
     current_occupancy = fields.Integer(string='Occupation actuelle')
     max_capacity = fields.Integer(string='Capacité maximale')
     assigned_staff = fields.Char(string='Personnel en service')
+    unit_price = fields.Float(
+        string='Tarif par personne (HT)', default=0.0,
+        help="Tarif d'une réservation par personne, hors taxes. 0 = gratuit.")
+    billing_product_id = fields.Many2one(
+        'product.product', string='Produit de facturation', copy=False,
+        help="Produit de service utilisé pour facturer les réservations. "
+             "Créé automatiquement si vide.")
     occupancy_pct = fields.Float(
         string="Taux d'occupation (%)",
         compute='_compute_occupancy_pct',
@@ -90,6 +97,14 @@ class AmarnaClubActivity(models.Model):
                     'res_id': activity.id,
                     'noupdate': True,
                 })
+
+    def _get_billing_product(self):
+        """Service product that carries this activity's reservation revenue."""
+        self.ensure_one()
+        if not self.billing_product_id:
+            self.billing_product_id = self.env['product.product']._amarna_service(
+                'AMARNA-ACT-%s' % self.code, 'Réservation – %s' % self.name)
+        return self.billing_product_id
 
     @api.constrains('closure_start', 'closure_end')
     def _check_closure_period(self):

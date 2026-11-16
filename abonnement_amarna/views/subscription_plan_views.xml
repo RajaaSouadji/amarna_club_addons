@@ -1,183 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- TREE -->
     <record id="view_amarna_subscription_plan_tree" model="ir.ui.view">
         <field name="name">amarna.subscription.plan.tree</field>
         <field name="model">amarna.subscription.plan</field>
         <field name="arch" type="xml">
-
             <tree>
-
                 <field name="name"/>
-
-                <field name="activity_id" string="Activité concernée"/>
-
-                <field name="subscription_type_id" string="Type abonnement"/>
-
-
-                <field name="session_count" string="Séances incluses"/>
-
+                <field name="activity_id"/>
+                <field name="subscription_type_id"/>
+                <field name="session_count" string="Séances (0 = illimité)"/>
                 <field name="list_price"/>
-
-                <field name="active"/>
-
+                <field name="subscription_count" string="Abonnements"/>
             </tree>
-
         </field>
     </record>
 
-    <!-- FORM -->
     <record id="view_amarna_subscription_plan_form" model="ir.ui.view">
         <field name="name">amarna.subscription.plan.form</field>
         <field name="model">amarna.subscription.plan</field>
-
         <field name="arch" type="xml">
-
-            <form string="Formule abonnement">
-
+            <form string="Formule">
                 <sheet>
-
-                    <!-- Smart Buttons -->
-
                     <div class="oe_button_box" name="button_box">
-
-                        <button name="action_view_product"
-                                type="object"
-                                class="oe_stat_button"
-                                icon="fa-cube">
-
-                            <div class="o_stat_info">
-                                <span class="o_stat_text">
-                                    Product
-                                </span>
-                            </div>
-
+                        <button name="action_view_subscriptions" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="subscription_count" widget="statinfo" string="Abonnements"/>
                         </button>
-
-                        <button name="action_view_subscriptions"
-                                type="object"
-                                class="oe_stat_button"
-                                icon="fa-users">
-
-                            <field name="subscription_count"
-                                   widget="statinfo"
-                                   string="Abonnements"/>
-
-                        </button>
-
                     </div>
-
-                    <!-- Image -->
-
-                    <field name="image_1920"
-                           widget="image"
-                           class="oe_avatar"
-                           nolabel="1"/>
-
-                    <!-- Title -->
-
                     <div class="oe_title">
-
-                        <label for="name"/>
-
-                        <h1>
-
-                            <field name="name"
-                                   placeholder="New Subscription Plan"/>
-
-                        </h1>
-
+                        <h1><field name="name" placeholder="Ex. Forfait 10 séances"/></h1>
                     </div>
-
-                    <!-- Main Information -->
-
                     <group>
-
-                        <group string="General">
-                            <field name="activity_id" string="Activité concernée"/>
-                            <field name="subscription_type_id" string="Type abonnement"/>
-                            <field name="session_count" string="Séances incluses"/>
+                        <group string="Offre">
+                            <field name="activity_id"/>
+                            <field name="subscription_type_id"/>
+                            <field name="duration_summary" readonly="1"/>
+                            <field name="session_count"/>
                         </group>
-
-                        <group string="Product">
-                            <field name="product_id" string="Produit de facturation"/>
-                            <field name="list_price"
-                                   string="Prix du plan"/>
+                        <group string="Tarif">
+                            <field name="list_price"/>
+                            <field name="product_id" placeholder="Automatique : produit Abonnement"/>
                             <field name="active"/>
                         </group>
-
                     </group>
-
-                    <!-- Notebook -->
-
-                    <notebook>
-
-                        <page string="Description">
-
-                            <field name="description"
-                                   nolabel="1"/>
-
-                        </page>
-
-<!--                        <page string="Internal Notes">-->
-
-<!--                            <field name="note"-->
-<!--                                   nolabel="1"/>-->
-
-<!--                        </page>-->
-
-                    </notebook>
-
+                    <field name="description" placeholder="Description pour le membre..."/>
                 </sheet>
-
-                <chatter/>
-
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
-
         </field>
     </record>
-
 
     <record id="view_amarna_subscription_plan_search" model="ir.ui.view">
         <field name="name">amarna.subscription.plan.search</field>
         <field name="model">amarna.subscription.plan</field>
-
         <field name="arch" type="xml">
-
             <search>
-
                 <field name="name"/>
-
-                <field name="activity_id" string="Activité concernée"/>
-
-                <field name="subscription_type_id" string="Type abonnement"/>
-
-                <field name="product_id" string="Produit de facturation"/>
-
-                <filter string="Active"
-                        name="active"
-                        domain="[('active','=',True)]"/>
-
+                <field name="activity_id"/>
+                <filter string="Archivées" name="filter_archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Activité" name="group_activity" context="{'group_by': 'activity_id'}"/>
+                </group>
             </search>
-
         </field>
     </record>
 
-    <!-- ACTION -->
     <record id="action_amarna_subscription_plan" model="ir.actions.act_window">
-        <field name="name">Formules abonnement</field>
+        <field name="name">Formules d'abonnement</field>
         <field name="res_model">amarna.subscription.plan</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_amarna_subscription_plan_search"/>
     </record>
 
-    <!-- MENU -->
-    <menuitem id="menu_amarna_subscription_plan"
-              name="Plans d'abonnement"
-              parent="menu_amarna_product_root"
-              action="action_amarna_subscription_plan"
-              sequence="2"/>
+    <menuitem id="menu_amarna_subscription_plan" name="Formules d'abonnement"
+              parent="menu_amarna_product_root" action="action_amarna_subscription_plan" sequence="1"/>
 
 </odoo>
-
-

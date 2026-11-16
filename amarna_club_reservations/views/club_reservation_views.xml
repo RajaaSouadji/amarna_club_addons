@@ -5,19 +5,21 @@
         <field name="name">amarna.club.reservation.tree</field>
         <field name="model">amarna.club.reservation</field>
         <field name="arch" type="xml">
-            <tree decoration-muted="status_normalized == 'cancelled'">
-                <field name="name"/>
-                <field name="start_at"/>
-                <field name="end_at"/>
+            <tree decoration-success="status == 'checkedin'" decoration-muted="status == 'cancelled'"
+                  decoration-danger="billing_state in ('unpaid', 'partial', 'to_invoice') and status != 'cancelled'">
+                <field name="start_at" string="Début (UTC)"/>
+                <field name="reservation_date"/>
+                <field name="start_hour" widget="float_time"/>
+                <field name="end_hour" widget="float_time"/>
                 <field name="activity_id"/>
-                <field name="client_name"/>
+                <field name="partner_id"/>
+                <field name="client_name" optional="show"/>
                 <field name="people_count"/>
-                <field name="status_normalized"
-                       widget="badge"
-                       decoration-success="status_normalized == 'checked_in'"
-                       decoration-info="status_normalized == 'confirmed'"
-                       decoration-warning="status_normalized == 'pending'"
-                       decoration-danger="status_normalized == 'cancelled'"/>
+                <field name="subscription_id" optional="hide"/>
+                <field name="amount_total" sum="Total TTC"/>
+                <field name="billing_state" widget="badge"/>
+                <field name="status" widget="badge"/>
+                <field name="currency_id" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -28,35 +30,83 @@
         <field name="arch" type="xml">
             <form string="Réservation">
                 <header>
-                    <button name="action_check_in" string="Check-in"
-                            type="object" class="oe_highlight"
-                            invisible="status_normalized in ('checked_in', 'cancelled')"/>
-                    <button name="action_cancel" string="Annuler"
-                            type="object"
-                            invisible="status_normalized == 'cancelled'"/>
-                    <field name="status_normalized" widget="statusbar"
-                           statusbar_visible="pending,confirmed,checked_in"/>
+                    <button name="action_check_in" string="Arrivée (check-in)" type="object"
+                            class="btn-primary"
+                            invisible="status not in ('pending', 'confirmed')"/>
+                    <button name="action_confirm" string="Confirmer" type="object"
+                            invisible="status != 'pending'"/>
+                    <button name="action_create_invoice" string="Facturer" type="object"
+                            invisible="status == 'cancelled' or billing_state != 'to_invoice'"/>
+                    <button name="action_register_payment" string="Encaisser" type="object"
+                            class="btn-primary"
+                            invisible="billing_state not in ('unpaid', 'partial')"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            invisible="status in ('cancelled', 'checkedin')"
+                            confirm="Annuler cette réservation ?"/>
+                    <field name="status" widget="statusbar" statusbar_visible="pending,confirmed,checkedin"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Factures"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
-                        <h1><field name="name" placeholder="Activité - Client"/></h1>
+                        <h1><field name="name"/></h1>
                     </div>
                     <group>
-                        <group string="Réservation">
-                            <field name="mobile_activity_code"/>
-                            <field name="activity_id"/>
-                            <field name="client_name"/>
+                        <group string="Client">
                             <field name="partner_id"/>
+                            <field name="client_name"/>
+                            <field name="subscription_id"/>
+                            <field name="rfid_card_id"/>
                             <field name="people_count"/>
+                            <field name="notes"/>
                         </group>
                         <group string="Créneau">
-                            <field name="start_at"/>
-                            <field name="end_at"/>
-                            <field name="status"/>
+                            <field name="activity_id"/>
+                            <field name="mobile_activity_code" groups="base.group_no_one"/>
+                            <field name="reservation_date"/>
+                            <field name="start_hour" widget="float_time"/>
+                            <field name="end_hour" widget="float_time"/>
+                            <field name="start_at" readonly="1"/>
+                            <field name="end_at" readonly="1"/>
                         </group>
                     </group>
-                    <field name="notes" placeholder="Notes..."/>
+                    <group string="Facturation">
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="billing_period_start" invisible="1"/>
+                            <field name="payment_required"/>
+                            <field name="amount_untaxed"/>
+                            <field name="amount_total"/>
+                        </group>
+                        <group>
+                            <field name="amount_invoiced"/>
+                            <field name="amount_paid"/>
+                            <field name="amount_due" class="fw-bold"/>
+                            <field name="billing_state" widget="badge"/>
+                            <field name="payment_valid" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Factures" name="invoices">
+                            <field name="invoice_ids" nolabel="1" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="invoice_date"/>
+                                    <field name="amount_total" sum="Total"/>
+                                    <field name="amount_residual" sum="Reste"/>
+                                    <field name="payment_state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -65,11 +115,10 @@
         <field name="name">amarna.club.reservation.calendar</field>
         <field name="model">amarna.club.reservation</field>
         <field name="arch" type="xml">
-            <calendar date_start="start_at" date_stop="end_at"
-                      color="activity_id" mode="day">
-                <field name="client_name"/>
+            <calendar date_start="start_at" date_stop="end_at" color="activity_id" mode="day">
+                <field name="name"/>
+                <field name="partner_id"/>
                 <field name="activity_id"/>
-                <field name="people_count"/>
             </calendar>
         </field>
     </record>
@@ -80,61 +129,52 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
+                <field name="partner_id"/>
                 <field name="client_name"/>
                 <field name="activity_id"/>
-                <filter string="Aujourd'hui" name="filter_today"
-                        domain="[('start_at', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')),
-                                 ('start_at', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter string="Aujourd'hui" name="today"
+                        domain="[('reservation_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="À venir" name="upcoming"
+                        domain="[('reservation_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('status', '!=', 'cancelled')]"/>
                 <separator/>
-                <filter string="Arrivés" name="filter_checked_in"
-                        domain="[('status_normalized', '=', 'checked_in')]"/>
-                <filter string="Confirmés" name="filter_confirmed"
-                        domain="[('status_normalized', '=', 'confirmed')]"/>
-                <filter string="En attente" name="filter_pending"
-                        domain="[('status_normalized', '=', 'pending')]"/>
-                <group expand="1" string="Regrouper par">
-                    <filter string="Activité" name="group_activity"
-                            context="{'group_by': 'activity_id'}"/>
-                    <filter string="Statut" name="group_status"
-                            context="{'group_by': 'status_normalized'}"/>
+                <filter string="En attente" name="pending" domain="[('status', '=', 'pending')]"/>
+                <filter string="Arrivées" name="checkedin" domain="[('status', '=', 'checkedin')]"/>
+                <filter string="À encaisser" name="unpaid"
+                        domain="[('billing_state', 'in', ('to_invoice', 'unpaid', 'partial')), ('status', '!=', 'cancelled')]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Activité" name="group_activity" context="{'group_by': 'activity_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'reservation_date:day'}"/>
+                    <filter string="Statut" name="group_status" context="{'group_by': 'status'}"/>
                 </group>
             </search>
         </field>
     </record>
 
     <record id="action_club_reservations" model="ir.actions.act_window">
-        <field name="name">Réservations</field>
+        <field name="name">Réservations du jour</field>
         <field name="res_model">amarna.club.reservation</field>
-        <field name="view_mode">calendar,tree,form</field>
-        <field name="context">{'search_default_filter_today': 1}</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="search_view_id" ref="view_club_reservation_search"/>
+        <field name="context">{'search_default_today': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Aucune réservation</p>
-            <p>Les réservations créées depuis la tablette apparaissent ici.</p>
+            <p>Créez une réservation pour une activité, puis facturez-la et enregistrez l'arrivée.</p>
         </field>
     </record>
 
     <record id="action_club_reservations_all" model="ir.actions.act_window">
         <field name="name">Toutes les réservations</field>
         <field name="res_model">amarna.club.reservation</field>
-        <field name="view_mode">tree,calendar,form</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="search_view_id" ref="view_club_reservation_search"/>
+        <field name="context">{}</field>
     </record>
 
-    <!-- Root app: Réservations Club -->
-    <menuitem id="menu_club_reservations_root"
-              name="Réservations Club"
-              sequence="23"
-              groups="abonnement_amarna.group_club_user"/>
-
-    <menuitem id="menu_club_reservations_today"
-              name="Planning du jour"
-              parent="menu_club_reservations_root"
-              action="action_club_reservations"
-              sequence="10"/>
-
-    <menuitem id="menu_club_reservations_all"
-              name="Historique"
-              parent="menu_club_reservations_root"
-              action="action_club_reservations_all"
-              sequence="20"/>
+    <menuitem id="menu_club_reservations_root" name="Réservations"
+              parent="abonnement_amarna.menu_amarna_root" sequence="0"/>
+    <menuitem id="menu_club_reservations_today" name="Aujourd'hui"
+              parent="menu_club_reservations_root" action="action_club_reservations" sequence="1"/>
+    <menuitem id="menu_club_reservations_all" name="Toutes les réservations"
+              parent="menu_club_reservations_root" action="action_club_reservations_all" sequence="2"/>
 
 </odoo>

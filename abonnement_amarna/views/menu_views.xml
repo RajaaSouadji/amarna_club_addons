@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ROOT -->
-    <menuitem id="menu_amarna_root"
-              name="Amarna Club"
-              sequence="1"/>
+    <!-- Racine : tout le module Amarna Club -->
+    <menuitem id="menu_amarna_root" name="Amarna Club" sequence="1"/>
 
-    <!-- ABONNEMENTS -->
-    <menuitem id="menu_amarna_subscription_root"
-              name="Abonnements &amp; accès"
-              parent="menu_amarna_root"
-              sequence="1"/>
+    <!-- Membres et abonnements (accueil quotidien) -->
+    <menuitem id="menu_amarna_subscription_root" name="Membres &amp; abonnements"
+              parent="menu_amarna_root" sequence="1"/>
 
-    <!-- PRODUITS -->
-    <menuitem id="menu_amarna_product_root"
-              name="Catalogue &amp; tarifs"
-              parent="menu_amarna_root"
-              sequence="2"/>
+    <!-- Facturation centralisée : toutes les factures du club -->
+    <menuitem id="menu_amarna_billing_root" name="Facturation"
+              parent="menu_amarna_root" sequence="2"/>
 
-    <!-- ANALYSE -->
-    <menuitem id="menu_amarna_analysis_root"
-              name="Rapports"
-              parent="menu_amarna_root"
-              sequence="3"/>
+    <!-- Catalogue : formules et durées -->
+    <menuitem id="menu_amarna_product_root" name="Catalogue &amp; tarifs"
+              parent="menu_amarna_root" sequence="3"/>
 
-    <!-- CONFIGURATION -->
-    <menuitem id="menu_amarna_configuration_root"
-              name="Configuration du club"
-              parent="menu_amarna_root"
-              sequence="4"/>
+    <!-- Configuration du club -->
+    <menuitem id="menu_amarna_configuration_root" name="Configuration du club"
+              parent="menu_amarna_root" sequence="4"/>
 
 </odoo>

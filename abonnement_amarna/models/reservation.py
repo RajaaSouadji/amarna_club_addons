@@ -6,9 +6,8 @@ import pytz
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
-# Canonical values written by the tablet and by the Odoo buttons. The status
-# is a free Char on purpose (existing rows hold French labels as well); the
-# normalized selection below maps both to one of five states.
+# Canonical status tokens. The tablet sends the same tokens (see
+# OdooReservationService.statusToken in the Flutter app).
 STATUS_PENDING = 'pending'
 STATUS_CONFIRMED = 'confirmed'
 STATUS_CHECKED_IN = 'checkedin'
@@ -19,39 +18,64 @@ DATETIME_FIELDS = {'start_at', 'end_at'}
 
 
 class AmarnaClubReservation(models.Model):
-    _name = 'amarna.club.reservation'
-    _description = 'Réservation ponctuelle du club'
-    _order = 'start_at desc'
+    """Réservation ponctuelle d'une activité (créneau, personnes, tarif).
 
-    name = fields.Char(string='Référence / titre', required=True)
-    mobile_activity_code = fields.Char(string='Code activité mobile')
-    activity_id = fields.Many2one('amarna.club.activity', string='Activité', compute='_compute_activity_id', store=True, readonly=False)
+    A reservation can be paid at the desk (invoice + payment through Odoo
+    accounting) or covered by a subscription (then it costs nothing and checks
+    in against the subscription's sessions).
+    """
+    _name = 'amarna.club.reservation'
+    _inherit = ['mail.thread', 'amarna.billing.mixin']
+    _description = 'Réservation du club'
+    _order = 'start_at desc'
+    _billing_link_field = 'amarna_reservation_id'
+
+    name = fields.Char(string='Référence', required=True, copy=False)
+    mobile_activity_code = fields.Char(string='Code activité mobile', index=True)
+    activity_id = fields.Many2one(
+        'amarna.club.activity', string='Activité', compute='_compute_activity_id',
+        store=True, readonly=False, index=True)
     client_name = fields.Char(string='Nom du client')
-    partner_id = fields.Many2one('res.partner', string='Membre / client')
-    subscription_id = fields.Many2one('amarna.subscription', string='Abonnement utilisé')
+    partner_id = fields.Many2one('res.partner', string='Membre / client', index=True)
+    subscription_id = fields.Many2one(
+        'amarna.subscription', string='Abonnement utilisé',
+        domain="[('partner_id', '=', partner_id), ('state', '=', 'confirmed')]")
     rfid_card_id = fields.Many2one('amarna.rfid.card', string='Carte RFID', ondelete='set null')
-    reservation_date = fields.Date(string='Date de réservation (locale)', default=fields.Date.context_today)
-    start_hour = fields.Float(string='Heure de début (locale)', help='Heure au format décimal, par exemple 14.5 = 14h30.', default=9.0)
-    end_hour = fields.Float(string='Heure de fin (locale)', help='Heure au format décimal, par exemple 16.0 = 16h00.', default=10.0)
+    reservation_date = fields.Date(string='Date (locale)', default=fields.Date.context_today, required=True)
+    billing_period_start = fields.Date(related='reservation_date', store=True, readonly=True, string='Date facturée')
+    start_hour = fields.Float(
+        string='Heure de début (locale)', default=9.0,
+        help='Heure décimale : 14.5 = 14h30.')
+    end_hour = fields.Float(
+        string='Heure de fin (locale)', default=10.0,
+        help='Heure décimale : 16.0 = 16h00.')
     people_count = fields.Integer(string='Nombre de personnes', default=1)
     # start_at / end_at are naive UTC, as every Odoo Datetime field.
-    start_at = fields.Datetime(string='Début (UTC)', required=True)
+    start_at = fields.Datetime(string='Début (UTC)', required=True, index=True)
     end_at = fields.Datetime(string='Fin (UTC)', required=True)
-    amount_total = fields.Monetary(string='Montant de la réservation', currency_field='currency_id', default=0.0)
-    currency_id = fields.Many2one('res.currency', related='company_id.currency_id', readonly=True)
-    payment_ids = fields.One2many('amarna.subscription.payment', 'reservation_id', string='Paiements')
-    payment_total = fields.Monetary(string='Total payé', currency_field='currency_id', compute='_compute_payment', store=True)
-    payment_valid = fields.Boolean(string='Paiement valide', compute='_compute_payment', store=True)
-    payment_required = fields.Boolean(string='Paiement requis pour l’accès', default=True)
-    status = fields.Char(string='Statut (valeur brute)', default=STATUS_PENDING)
-    status_normalized = fields.Selection([
-        ('pending', 'En attente'), ('confirmed', 'Confirmée'), ('checked_in', 'Arrivée'),
-        ('cancelled', 'Annulée'), ('unknown', 'Inconnue'),
-    ], compute='_compute_status_normalized', store=True, string='Statut')
-    notes = fields.Text(string='Notes')
-    company_id = fields.Many2one('res.company', default=lambda self: self.env.company, required=True)
 
-    # ------------------------------------------------------------ Computes
+    status = fields.Selection([
+        (STATUS_PENDING, 'En attente'),
+        (STATUS_CONFIRMED, 'Confirmée'),
+        (STATUS_CHECKED_IN, 'Arrivée'),
+        (STATUS_CANCELLED, 'Annulée'),
+    ], string='Statut', default=STATUS_PENDING, required=True, tracking=True)
+
+    amount_untaxed = fields.Monetary(
+        string='Montant HT', currency_field='currency_id', store=True, readonly=False,
+        compute='_compute_amount_untaxed',
+        help="Par défaut : tarif de l'activité × nombre de personnes. Zéro si "
+             "la réservation est couverte par un abonnement.")
+    amount_total = fields.Monetary(
+        string='Montant TTC', currency_field='currency_id', store=True,
+        compute='_compute_amount_total')
+    invoice_ids = fields.One2many('account.move', 'amarna_reservation_id', string='Factures', readonly=True)
+    invoice_count = fields.Integer(compute='_compute_invoice_count')
+
+    notes = fields.Text(string='Notes')
+    active = fields.Boolean(default=True)
+
+    # ------------------------------------------------------------ Compute
 
     @api.depends('mobile_activity_code')
     def _compute_activity_id(self):
@@ -62,28 +86,43 @@ class AmarnaClubReservation(models.Model):
             elif not rec.activity_id:
                 rec.activity_id = False
 
-    @api.depends('status')
-    def _compute_status_normalized(self):
+    @api.depends('activity_id.unit_price', 'people_count', 'subscription_id')
+    def _compute_amount_untaxed(self):
         for rec in self:
-            value = (rec.status or '').lower()
-            if not value:
-                rec.status_normalized = False
-            elif 'check' in value or 'arriv' in value:
-                rec.status_normalized = 'checked_in'
-            elif 'confirm' in value:
-                rec.status_normalized = 'confirmed'
-            elif 'attente' in value or 'pending' in value:
-                rec.status_normalized = 'pending'
-            elif 'cancel' in value or 'annul' in value:
-                rec.status_normalized = 'cancelled'
+            if rec.subscription_id:
+                rec.amount_untaxed = 0.0
             else:
-                rec.status_normalized = 'unknown'
+                rec.amount_untaxed = (rec.activity_id.unit_price or 0.0) * max(rec.people_count, 1)
 
-    @api.depends('payment_ids.amount', 'payment_ids.state', 'amount_total', 'payment_required')
-    def _compute_payment(self):
+    @api.depends('amount_untaxed', 'activity_id')
+    def _compute_amount_total(self):
         for rec in self:
-            rec.payment_total = sum(rec.payment_ids.filtered(lambda p: p.state == 'confirmed').mapped('amount'))
-            rec.payment_valid = not rec.payment_required or rec.amount_total <= 0 or rec.payment_total >= rec.amount_total
+            rec.amount_total = rec._billing_amounts()[1]
+
+    def _compute_invoice_count(self):
+        for rec in self:
+            rec.invoice_count = len(rec.invoice_ids)
+
+    def _billing_ensure_partner(self):
+        # Walk-in clients often have no contact yet: create one from the name.
+        if not self.partner_id:
+            self.partner_id = self.env['res.partner'].create({
+                'name': self.client_name or self.name,
+            })
+
+    def _billing_lines_vals(self):
+        self.ensure_one()
+        if not self.activity_id or self.amount_untaxed <= 0:
+            return []
+        product = self.activity_id._get_billing_product()
+        return [{
+            'product': product,
+            'name': '%s – %s' % (self.activity_id.name, self.name),
+            'quantity': 1.0,
+            'price_unit': self.amount_untaxed,
+            'discount': 0.0,
+            'tax_ids': product.taxes_id,
+        }]
 
     # ------------------------------------------------------- Time handling
 
@@ -124,7 +163,7 @@ class AmarnaClubReservation(models.Model):
                 except ValidationError:
                     pass
 
-    # ----------------------------------------------------------- CRUD
+    # --------------------------------------------------------------- CRUD
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -141,6 +180,12 @@ class AmarnaClubReservation(models.Model):
                 vals['start_at'], vals['end_at'] = self._slot_datetimes(
                     day, vals.get('start_hour', 9.0), vals.get('end_hour', 10.0))
                 vals.setdefault('reservation_date', day)
+            if not vals.get('name'):
+                activity = self.env['amarna.club.activity'].browse(vals.get('activity_id'))
+                vals['name'] = ' - '.join(filter(None, [
+                    activity.name if activity else vals.get('mobile_activity_code'),
+                    vals.get('client_name'),
+                ])) or 'Réservation'
         return super().create(vals_list)
 
     def write(self, vals):
@@ -149,7 +194,6 @@ class AmarnaClubReservation(models.Model):
         changes_datetime = bool(set(vals) & DATETIME_FIELDS)
 
         if len(self) > 1 and (changes_slot or changes_datetime):
-            # Each record has its own slot: write them one by one.
             for rec in self:
                 rec.write(dict(vals))
             return True
@@ -158,10 +202,7 @@ class AmarnaClubReservation(models.Model):
             if changes_slot and not changes_datetime:
                 day = fields.Date.to_date(vals.get('reservation_date', self.reservation_date))
                 vals['start_at'], vals['end_at'] = self._slot_datetimes(
-                    day,
-                    vals.get('start_hour', self.start_hour),
-                    vals.get('end_hour', self.end_hour),
-                )
+                    day, vals.get('start_hour', self.start_hour), vals.get('end_hour', self.end_hour))
             elif changes_datetime:
                 start = fields.Datetime.to_datetime(vals.get('start_at', self.start_at))
                 end = fields.Datetime.to_datetime(vals.get('end_at', self.end_at))
@@ -169,27 +210,27 @@ class AmarnaClubReservation(models.Model):
                 _day, end_hour = self._utc_to_local(end)
                 vals.update(reservation_date=day, start_hour=start_hour, end_hour=end_hour)
 
-        old_statuses = {rec.id: rec.status_normalized for rec in self}
+        old_statuses = {rec.id: rec.status for rec in self}
         result = super().write(vals)
 
-        if set(vals) & {'rfid_card_id', 'partner_id', 'start_at', 'end_at', 'amount_total',
-                        'payment_required', 'status'}:
+        if set(vals) & {'rfid_card_id', 'partner_id', 'start_at', 'end_at', 'amount_untaxed',
+                        'payment_required', 'status', 'subscription_id', 'reservation_date'}:
             self._sync_rfid_access()
 
         # Check-in is processed once, on the transition into "checked in",
         # whichever way the status was changed (button, tablet, API).
         for rec in self:
-            if old_statuses.get(rec.id) != 'checked_in' and rec.status_normalized == 'checked_in':
+            if old_statuses.get(rec.id) != STATUS_CHECKED_IN and rec.status == STATUS_CHECKED_IN:
                 rec._process_check_in()
         return result
 
     # ------------------------------------------------------- Constraints
 
-    @api.constrains('activity_id', 'start_at', 'end_at')
+    @api.constrains('activity_id', 'start_at', 'end_at', 'status')
     def _check_activity_availability(self):
         """Reject slots outside the activity's open/closure window."""
         for rec in self:
-            if rec.status_normalized == 'cancelled':
+            if rec.status == STATUS_CANCELLED:
                 continue
             if not rec.activity_id:
                 raise ValidationError('Sélectionnez une activité valide pour la réservation.')
@@ -225,6 +266,12 @@ class AmarnaClubReservation(models.Model):
             if rec.rfid_card_id and rec.partner_id and rec.rfid_card_id.partner_id != rec.partner_id:
                 raise ValidationError('La carte RFID doit être attribuée au même membre que la réservation.')
 
+    @api.constrains('people_count')
+    def _check_people_count(self):
+        for rec in self:
+            if rec.people_count < 1:
+                raise ValidationError('Une réservation doit compter au moins une personne.')
+
     # ---------------------------------------------------------- Onchanges
 
     @api.onchange('partner_id')
@@ -244,31 +291,46 @@ class AmarnaClubReservation(models.Model):
     def _sync_rfid_access(self):
         Access = self.env['amarna.rfid.access']
         for reservation in self:
-            paid = reservation.payment_valid
-            card = reservation.rfid_card_id
             existing = Access.search([('reservation_id', '=', reservation.id)])
-            if not paid or not card or reservation.status_normalized == 'cancelled':
-                existing.filtered(lambda a: a.state not in ('expired', 'cancelled')).write({'state': 'cancelled', 'active': False})
+            card = reservation.rfid_card_id
+            granted = (
+                reservation.payment_valid and card
+                and reservation.status != STATUS_CANCELLED
+            )
+            if not granted:
+                existing.filtered(lambda a: a.state not in ('expired', 'cancelled')).write(
+                    {'state': 'cancelled', 'active': False})
                 if card:
                     card._sync_access_state()
                 continue
-            values = {'card_id': card.id, 'start_datetime': reservation.start_at, 'end_datetime': reservation.end_at,
-                      'source': 'reservation', 'state': 'scheduled', 'active': True}
+            values = {'card_id': card.id, 'start_datetime': reservation.start_at,
+                      'end_datetime': reservation.end_at, 'source': 'reservation',
+                      'state': 'scheduled', 'active': True}
             if existing:
                 existing[0].write(values)
             else:
-                Access.create(dict(values, reservation_id=reservation.id, name='Réservation %s' % reservation.name))
+                Access.create(dict(values, reservation_id=reservation.id,
+                                   name='Réservation %s' % reservation.name))
             card._sync_access_state()
 
     def _process_check_in(self):
         self.ensure_one()
+        today = fields.Date.context_today(self)
+        if not self.payment_valid:
+            raise ValidationError(
+                "Arrivée refusée : la réservation n'est pas payée (reste à payer : %s %s)." % (
+                    self.amount_total - self.amount_paid, self.currency_id.symbol or ''))
+
         if self.subscription_id:
             sub = self.subscription_id
-            if not sub.active or sub.subscription_status in ('closed', 'cancel'):
-                raise ValidationError("L'abonnement %s du membre n'est pas actif ou est clos." % sub.name)
-            if sub.expiration_date and sub.expiration_date < fields.Date.context_today(self):
-                raise ValidationError("L'abonnement %s du membre est expiré depuis le %s." % (sub.name, sub.expiration_date))
-            if sub.plan_id and sub.plan_id.session_count > 0:
+            if sub.state != 'confirmed' or not sub.active:
+                raise ValidationError("L'abonnement %s du membre n'est pas actif." % sub.name)
+            if sub.expiration_date and sub.expiration_date < today:
+                raise ValidationError("L'abonnement %s du membre est expiré depuis le %s." % (
+                    sub.name, sub.expiration_date))
+            if not sub.payment_valid:
+                raise ValidationError("L'abonnement %s n'est pas payé pour la période en cours." % sub.name)
+            if not sub.is_unlimited:
                 needed = max(self.people_count, 1)
                 if sub.remaining_sessions < needed:
                     raise ValidationError(
@@ -276,19 +338,14 @@ class AmarnaClubReservation(models.Model):
                             sub.name, sub.remaining_sessions, needed))
                 sub.remaining_sessions -= needed
                 sub.message_post(
-                    body="<b>[CHECK-IN] Séance décomptée :</b> Check-in effectué pour la réservation <b>%s</b>. Séances restantes : <b>%s</b>." % (self.name, sub.remaining_sessions),
-                    subtype_xmlid="mail.mt_note"
-                )
+                    body="<b>Check-in :</b> %s séance(s) décomptée(s) pour la réservation <b>%s</b>. "
+                         "Séances restantes : <b>%s</b>." % (needed, self.name, sub.remaining_sessions),
+                    subtype_xmlid='mail.mt_note')
                 if sub.remaining_sessions == 0:
                     sub.message_post(
-                        body="<b>[ALERTE]</b> Le forfait de séances de cet abonnement est désormais totalement épuisé !",
-                        subtype_xmlid="mail.mt_comment"
-                    )
-                    if sub.partner_id:
-                        sub.partner_id.message_post(
-                            body="<b>[ALERTE]</b> L'abonnement <b>%s</b> de %s n'a plus de séances disponibles." % (sub.name, sub.partner_id.name),
-                            subtype_xmlid="mail.mt_comment"
-                        )
+                        body="<b>Alerte :</b> le forfait de séances de cet abonnement est épuisé.",
+                        subtype_xmlid='mail.mt_comment')
+
         if self.activity_id:
             occupancy = self.activity_id.current_occupancy + max(self.people_count, 1)
             capacity = self.activity_id.max_capacity

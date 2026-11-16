@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Amarna Club - Abonnements, Réservations & RFID',
-    'version': '17.0.2.1',
+    'name': 'Amarna Club - Abonnements, facturation & accès RFID',
+    'version': '17.0.3.0.0',
     'category': 'Services',
-    'summary': 'Gestion unifiée des abonnements, réservations, paiements et accès RFID',
+    'summary': 'Socle du club : formules, facturation centralisée, encaissements et accès RFID',
+    'description': """
+Socle partagé par tout le club.
+
+* Abonnements (formules, durées calendaires, séances, renouvellement).
+* Facturation unique : chaque montant dû ou payé provient d'une facture
+  comptable Odoo ; les réservations utilisent le même mécanisme.
+* Accès RFID déduit de l'état de paiement de la période en cours.
+    """,
     'author': 'Amarna',
     'license': 'LGPL-3',
     'depends': ['base', 'account', 'mail', 'product'],
@@ -15,19 +23,12 @@
         'data/rfid_cron.xml',
         'views/menu_views.xml',
         'views/activity_views.xml',
-        'views/subscription_plan_views.xml',
         'views/subscription_type_views.xml',
+        'views/subscription_plan_views.xml',
         'views/subscription_views.xml',
-        # 'views/amarna_duration_unit.xml',
-        # 'views/recurring_plan_views.xml',
-        'views/recurring_plan_line_views.xml',
-        'views/amarna_subscription_line_views.xml',
+        'views/billing_views.xml',
         'views/rfid_views.xml',
         'views/rfid_access_views.xml',
-        'views/payment_views.xml',
-        # 'views/history_views.xml',
-        'views/reservation_views.xml',
-        # 'views/report_views.xml',
         'views/scan_wizard_views.xml',
         'views/checkin_views.xml',
     ],
