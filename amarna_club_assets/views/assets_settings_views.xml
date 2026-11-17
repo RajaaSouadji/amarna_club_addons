@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_amarna_assets" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.amarna_club_assets</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="63"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Armurerie" string="Armurerie" name="amarna_club_assets">
+                    <block title="Entretien des armes" name="amarna_armory_block">
+                        <setting id="amarna_weapon_cleaning"
+                                 string="Nettoyage des armes"
+                                 help="Une arme non nettoyée depuis plus de ce délai est signalée à nettoyer.">
+                            <field name="amarna_weapon_cleaning_days" class="oe_inline"/> jours
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

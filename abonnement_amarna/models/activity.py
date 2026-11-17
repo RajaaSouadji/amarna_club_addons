@@ -33,9 +33,27 @@ class AmarnaClubActivity(models.Model):
     current_occupancy = fields.Integer(string='Occupation actuelle')
     max_capacity = fields.Integer(string='Capacité maximale')
     assigned_staff = fields.Char(string='Personnel en service')
+    mobile_screen = fields.Selection([
+        ('pool', "Qualité de l'eau"),
+        ('horses', 'Écurie'),
+        ('armory', 'Armurerie'),
+        ('padel', 'Terrains'),
+        ('paintball', 'Terrain et sessions'),
+        ('gym', 'Machines'),
+    ], string='Écran dédié sur la tablette',
+        help="Écran de suivi propre à l'activité, ouvert depuis sa fiche sur la "
+             "tablette. Vide : aucun raccourci.")
+    mobile_screen_label = fields.Char(
+        string='Libellé du raccourci',
+        help="Texte du raccourci vers l'écran dédié. Vide : le nom de l'activité.")
     unit_price = fields.Float(
         string='Tarif par personne (HT)', default=0.0,
         help="Tarif d'une réservation par personne, hors taxes. 0 = gratuit.")
+    tax_ids = fields.Many2many(
+        'account.tax', 'amarna_activity_tax_rel', 'activity_id', 'tax_id',
+        string='Taxes (TVA)', domain="[('type_tax_use', 'in', ('sale', 'all'))]",
+        default=lambda self: self.env.company.amarna_default_tax_id.ids,
+        help="TVA appliquée aux réservations de cette activité.")
     billing_product_id = fields.Many2one(
         'product.product', string='Produit de facturation', copy=False,
         help="Produit de service utilisé pour facturer les réservations. "

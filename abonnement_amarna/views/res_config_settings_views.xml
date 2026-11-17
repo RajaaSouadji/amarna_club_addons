@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_amarna_core" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.abonnement_amarna</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="60"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Club Amarna" string="Club Amarna" name="abonnement_amarna">
+
+                    <block title="Facturation" name="amarna_billing_block">
+                        <setting id="amarna_default_tax"
+                                 string="TVA par défaut"
+                                 help="Appliquée aux nouvelles activités et formules. Chaque activité et formule peut avoir sa propre TVA.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_default_tax_id" string="Taxe" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_default_tax_id"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Horaires et réservations" name="amarna_schedule_block">
+                        <setting id="amarna_opening_hours"
+                                 string="Horaires du club"
+                                 help="Heures décimales : 9.5 = 9h30. Utilisées pour la grille des créneaux.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_opening_hour" string="Ouverture" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_opening_hour" widget="float_time"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_closing_hour" string="Fermeture" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_closing_hour" widget="float_time"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="amarna_booking_rules"
+                                 string="Règles de réservation"
+                                 help="Jusqu'où on peut réserver à l'avance, et le nombre de personnes proposé.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_booking_horizon_days" string="Horizon" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_booking_horizon_days" class="oe_inline"/> jours à l'avance
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_default_people_count" string="Personnes" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_default_people_count" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="amarna_default_slot"
+                                 string="Créneau proposé par défaut"
+                                 help="Heures proposées quand on crée une réservation.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_default_start_hour" string="Début" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_default_start_hour" widget="float_time"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_default_end_hour" string="Fin" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_default_end_hour" widget="float_time"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Abonnements et interventions" name="amarna_delays_block">
+                        <setting id="amarna_expiry_warning"
+                                 string="Alerte de fin d'abonnement"
+                                 help="Nombre de jours avant la fin à partir duquel un abonnement est signalé.">
+                            <field name="amarna_expiry_warning_days" class="oe_inline"/> jours
+                        </setting>
+                        <setting id="amarna_ticket_due"
+                                 string="Délai d'intervention"
+                                 help="Échéance proposée automatiquement pour une nouvelle intervention.">
+                            <field name="amarna_ticket_due_days" class="oe_inline"/> jours
+                        </setting>
+                    </block>
+
+                    <block title="Rapports" name="amarna_reports_block">
+                        <setting id="amarna_report_periods"
+                                 string="Périodes des rapports"
+                                 help="Durées proposées dans les rapports de la tablette, en jours, séparées par des virgules.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_report_period_days" string="Périodes" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_report_period_days"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_report_default_days" string="Par défaut" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_report_default_days" class="oe_inline"/> jours
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Assistance" name="amarna_support_block">
+                        <setting id="amarna_support_contact"
+                                 string="Contact affiché sur la tablette"
+                                 help="Affiché dans l'aide de la tablette.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_support_phone" string="Téléphone" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_support_phone"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_support_email" string="E-mail" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_support_email"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_support_hours" string="Horaires" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_support_hours"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

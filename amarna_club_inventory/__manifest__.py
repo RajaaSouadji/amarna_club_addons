@@ -9,9 +9,9 @@
     'depends': ['abonnement_amarna'],
     'data': [
         'security/ir.model.access.csv',
-        'data/inventory_data.xml',
         'views/club_inventory_views.xml',
     ],
+    'demo': ['demo/inventory_demo.xml'],
     'application': True,
     'installable': True,
 }

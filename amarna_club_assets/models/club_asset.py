@@ -68,8 +68,16 @@ class AmarnaClubAsset(models.Model):
 
     is_weapon = fields.Boolean(
         string='Arme',
-        compute='_compute_is_weapon',
-        store=True,
+        help="Cochez pour les armes : elles apparaissent dans l'armurerie de "
+             "la tablette et suivent l'intervalle de nettoyage du club.",
+    )
+
+    in_use_since = fields.Datetime(
+        string='En utilisation depuis',
+        readonly=True,
+        copy=False,
+        help="Renseigné automatiquement quand l'équipement passe en "
+             "« En utilisation » (ex. un terrain de padel).",
     )
 
     active = fields.Boolean(default=True)
@@ -85,7 +93,24 @@ class AmarnaClubAsset(models.Model):
             elif not rec.activity_id:
                 rec.activity_id = False
 
-    @api.depends('category')
-    def _compute_is_weapon(self):
-        for rec in self:
-            rec.is_weapon = 'arme' in (rec.category or '').lower()
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('status') == 'inUse' and 'in_use_since' not in vals:
+                vals['in_use_since'] = fields.Datetime.now()
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if 'status' in vals and 'in_use_since' not in vals:
+            if vals['status'] == 'inUse':
+                # Only items that were not already in use start a new session.
+                starting = self.filtered(lambda asset: asset.status != 'inUse')
+                others = self - starting
+                if others:
+                    super(AmarnaClubAsset, others).write(vals)
+                if starting:
+                    super(AmarnaClubAsset, starting).write(
+                        dict(vals, in_use_since=fields.Datetime.now()))
+                return True
+            vals = dict(vals, in_use_since=False)
+        return super().write(vals)

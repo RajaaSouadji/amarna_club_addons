@@ -42,6 +42,53 @@ in against its sessions. A reservation cannot be checked in while unpaid.
 The **Facturation** menu lists every Amarna invoice, with an "À encaisser"
 filter.
 
+## Configuration: nothing is hard-coded
+
+Every business rule is a setting the club admin can change in Odoo, under
+**Configuration > Club Amarna** (and the Piscine, Écurie and Armurerie blocks
+of the same page). The tablet reads them after sign-in through
+`res.company.amarna_app_config()`; it keeps no copy of its own.
+
+| Setting | Where | Used by |
+|---|---|---|
+| Default VAT, opening hours, default slot, booking horizon, default people count | Club Amarna | reservations, billing |
+| Expiry warning, ticket due delay | Club Amarna | subscriptions, interventions |
+| Support phone, e-mail, hours | Club Amarna | tablet help screen |
+| Pool temperature, chlorine, pH, turbidity ranges and score weights | Piscine | pool readings |
+| Fatigue alert and rested level, farrier and deworming intervals | Écurie | horses |
+| Weapon cleaning interval | Armurerie | weapons |
+| Report periods and the default period | Club Amarna | tablet reports |
+| Staff, their Odoo account and their activities | Configuration > Personnel du club | interventions, tablet profile |
+| Each activity's price and VAT, each plan's price and VAT | Activities, Plans | billing |
+| Which dedicated screen an activity opens, and its shortcut label | Activity > Application tablette | tablet activity page |
+| Pre-session control points (nets, inflatables...) | Configuration > Points de contrôle | paintball field |
+| Gym machines, padel courts, weapons, pool equipment | Équipements Club (tagged with the activity code) | gym, padel, armory screens |
+
+Gym machines and padel courts are equipment records: a machine is out of order
+when its status is `broken` and cleaned today when its last maintenance date is
+today; a court is busy when `inUse`, and Odoo stamps `in_use_since` itself.
+Weapons carry an explicit `is_weapon` flag; nothing is guessed from a category
+name. The paintball player count is the activity's occupancy, and a capacity of
+0 means no limit, in Odoo and on the tablet.
+
+Taxes live on the activity and on the plan (defaulting from the club VAT), not
+on the auto-created products, so a change applies to the next invoice.
+
+When a module adds a rule, it extends `res.company` with its own fields, a
+settings block, and an override of `_amarna_app_config()` that adds a key.
+
+## Sample data
+
+The modules install **no** sample records except the structure of the six
+activities (name, code, icon, dedicated screen). Sample occupancy, capacity,
+staff names, equipment, horses, stock and pool readings are in each module's
+`demo/` folder and load only on a database created with demo data. A real club
+database starts empty and the admin fills it in.
+
+What stays in the app is presentation only: colours, status and priority
+wording (they mirror fixed Odoo selection keys), and the route of each
+dedicated screen.
+
 ## Conventions
 
 - Selection keys equal the Dart enum names in the app (`checkedin`,

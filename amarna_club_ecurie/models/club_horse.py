@@ -63,14 +63,14 @@ class AmarnaClubHorse(models.Model):
         string='Ferrage à prévoir',
         compute='_compute_care_due',
         search='_search_farrier_due',
-        help='Ferrage recommandé toutes les ~6 semaines (42 jours).',
+        help="Ferrage recommandé selon l'intervalle défini dans la configuration de l'écurie.",
     )
 
     deworming_due = fields.Boolean(
         string='Vermifuge à prévoir',
         compute='_compute_care_due',
         search='_search_deworming_due',
-        help='Vermifuge recommandé tous les ~3 mois (90 jours).',
+        help="Vermifuge recommandé selon l'intervalle défini dans la configuration de l'écurie.",
     )
 
     active = fields.Boolean(default=True)
@@ -95,21 +95,24 @@ class AmarnaClubHorse(models.Model):
         return ['|', (field_name, '=', False), (field_name, '>=', cutoff)]
 
     def _search_farrier_due(self, operator, value):
-        return self._search_care_due('last_farrier', 42, operator, value)
+        days = self.env.company.amarna_farrier_interval_days
+        return self._search_care_due('last_farrier', days, operator, value)
 
     def _search_deworming_due(self, operator, value):
-        return self._search_care_due('last_deworming', 90, operator, value)
+        days = self.env.company.amarna_deworming_interval_days
+        return self._search_care_due('last_deworming', days, operator, value)
 
     @api.depends('last_farrier', 'last_deworming')
     def _compute_care_due(self):
-        # Same thresholds as the app (horses_provider.dart).
+        # Intervals come from the club settings; the app reads the same values.
+        company = self.env.company
         today = fields.Date.context_today(self)
         for rec in self:
             rec.farrier_due = bool(
                 rec.last_farrier
-                and today - rec.last_farrier > timedelta(days=42)
+                and today - rec.last_farrier > timedelta(days=company.amarna_farrier_interval_days)
             )
             rec.deworming_due = bool(
                 rec.last_deworming
-                and today - rec.last_deworming > timedelta(days=90)
+                and today - rec.last_deworming > timedelta(days=company.amarna_deworming_interval_days)
             )

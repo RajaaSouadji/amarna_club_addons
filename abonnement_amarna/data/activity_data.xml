@@ -2,16 +2,17 @@
 <odoo>
     <function model="amarna.club.activity" name="_prepare_default_activity_xmlids"/>
 
+    <!-- Structure only: name, code, icon and dedicated tablet screen. Capacity,
+         occupancy, staff and prices are set by the club in Odoo; sample values
+         are in demo/activity_demo.xml. -->
     <data noupdate="1">
 
         <record id="activity_pool" model="amarna.club.activity">
             <field name="name">Piscine</field>
             <field name="code">pool</field>
             <field name="icon_key">pool</field>
-            <field name="mobile_status">open</field>
-            <field name="current_occupancy">45</field>
-            <field name="max_capacity">60</field>
-            <field name="assigned_staff">Jean (Maitre-Nageur)</field>
+            <field name="mobile_screen">pool</field>
+            <field name="mobile_screen_label">Relevés de qualité de l'eau</field>
             <field name="sequence">10</field>
         </record>
 
@@ -19,10 +20,8 @@
             <field name="name">Équitation</field>
             <field name="code">horses</field>
             <field name="icon_key">horses</field>
-            <field name="mobile_status">warning</field>
-            <field name="current_occupancy">12</field>
-            <field name="max_capacity">20</field>
-            <field name="assigned_staff">Marie (Responsable Écurie)</field>
+            <field name="mobile_screen">horses</field>
+            <field name="mobile_screen_label">Écurie : chevaux et soins</field>
             <field name="sequence">20</field>
         </record>
 
@@ -30,10 +29,8 @@
             <field name="name">Stand de Tir</field>
             <field name="code">shooting</field>
             <field name="icon_key">shooting</field>
-            <field name="mobile_status">maintenance</field>
-            <field name="current_occupancy">0</field>
-            <field name="max_capacity">12</field>
-            <field name="assigned_staff">Lucas (Superviseur Armurerie)</field>
+            <field name="mobile_screen">armory</field>
+            <field name="mobile_screen_label">Armurerie et nettoyage</field>
             <field name="sequence">30</field>
         </record>
 
@@ -41,10 +38,8 @@
             <field name="name">Paintball</field>
             <field name="code">paintball</field>
             <field name="icon_key">paintball</field>
-            <field name="mobile_status">open</field>
-            <field name="current_occupancy">8</field>
-            <field name="max_capacity">30</field>
-            <field name="assigned_staff">Thomas (Superviseur Field)</field>
+            <field name="mobile_screen">paintball</field>
+            <field name="mobile_screen_label">Terrain et sessions</field>
             <field name="sequence">40</field>
         </record>
 
@@ -52,10 +47,8 @@
             <field name="name">Salle de Gym</field>
             <field name="code">gym</field>
             <field name="icon_key">gym</field>
-            <field name="mobile_status">open</field>
-            <field name="current_occupancy">18</field>
-            <field name="max_capacity">40</field>
-            <field name="assigned_staff">Sophie (Coach Gym)</field>
+            <field name="mobile_screen">gym</field>
+            <field name="mobile_screen_label">Machines de la salle</field>
             <field name="sequence">50</field>
         </record>
 
@@ -63,10 +56,8 @@
             <field name="name">Terrains de Padel</field>
             <field name="code">padel</field>
             <field name="icon_key">padel</field>
-            <field name="mobile_status">open</field>
-            <field name="current_occupancy">8</field>
-            <field name="max_capacity">16</field>
-            <field name="assigned_staff">Antoine (Coordinateur Padel)</field>
+            <field name="mobile_screen">padel</field>
+            <field name="mobile_screen_label">Terrains et réservations</field>
             <field name="sequence">60</field>
         </record>
 

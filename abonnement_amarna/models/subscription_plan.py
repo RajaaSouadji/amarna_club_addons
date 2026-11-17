@@ -24,6 +24,11 @@ class AmarnaSubscriptionPlan(models.Model):
     list_price = fields.Float(
         string='Prix HT', required=True, default=0.0, tracking=True,
         help="Prix hors taxes facturé à chaque période de l'abonnement.")
+    tax_ids = fields.Many2many(
+        'account.tax', 'amarna_plan_tax_rel', 'plan_id', 'tax_id',
+        string='Taxes (TVA)', domain="[('type_tax_use', 'in', ('sale', 'all'))]",
+        default=lambda self: self.env.company.amarna_default_tax_id.ids,
+        help="TVA appliquée à chaque période facturée de cette formule.")
     session_count = fields.Integer(
         string='Séances incluses', default=0, required=True, tracking=True,
         help="Nombre de passages inclus. 0 = formule illimitée.")
@@ -69,7 +74,7 @@ class AmarnaSubscriptionPlan(models.Model):
             'name': self.name,
             'product_uom_qty': 1.0,
             'price_unit': self.list_price,
-            'tax_ids': [(6, 0, product.taxes_id.ids)],
+            'tax_ids': [(6, 0, self.tax_ids.ids)],
         }
 
     def action_view_subscriptions(self):

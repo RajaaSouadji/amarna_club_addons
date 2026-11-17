@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_amarna_pool" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.amarna_club_pool</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="61"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Piscine" string="Piscine" name="amarna_club_pool">
+                    <block title="Normes de qualité de l'eau" name="amarna_pool_rules_block">
+                        <setting id="amarna_pool_temperature"
+                                 string="Température"
+                                 help="Plage conforme de l'eau, en degrés Celsius.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_pool_temp_min" string="Minimum" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_temp_min" class="oe_inline"/> °C
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_pool_temp_max" string="Maximum" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_temp_max" class="oe_inline"/> °C
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="amarna_pool_chlorine"
+                                 string="Chlore libre"
+                                 help="Plage conforme, en mg/L.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_pool_chlorine_min" string="Minimum" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_chlorine_min" class="oe_inline"/> mg/L
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_pool_chlorine_max" string="Maximum" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_chlorine_max" class="oe_inline"/> mg/L
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="amarna_pool_ph"
+                                 string="pH"
+                                 help="Plage conforme du pH.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_pool_ph_min" string="Minimum" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_ph_min" class="oe_inline"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_pool_ph_max" string="Maximum" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_ph_max" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="amarna_pool_turbidity"
+                                 string="Turbidité"
+                                 help="Valeur maximale admise, en NTU.">
+                            <field name="amarna_pool_turbidity_max" class="oe_inline"/> NTU
+                        </setting>
+                    </block>
+                    <block title="Score de conformité" name="amarna_pool_score_block">
+                        <setting id="amarna_pool_weights"
+                                 string="Points retirés par paramètre"
+                                 help="Chaque paramètre hors norme retire ses points au score global (100 maximum).">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="amarna_pool_weight_temperature" string="Température" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_weight_temperature" class="oe_inline"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_pool_weight_chlorine" string="Chlore" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_weight_chlorine" class="oe_inline"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_pool_weight_ph" string="pH" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_weight_ph" class="oe_inline"/>
+                                </div>
+                                <div class="row">
+                                    <label for="amarna_pool_weight_turbidity" string="Turbidité" class="col-lg-3 o_light_label"/>
+                                    <field name="amarna_pool_weight_turbidity" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

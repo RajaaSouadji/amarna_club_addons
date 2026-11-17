@@ -44,10 +44,12 @@ class AmarnaClubReservation(models.Model):
     reservation_date = fields.Date(string='Date (locale)', default=fields.Date.context_today, required=True)
     billing_period_start = fields.Date(related='reservation_date', store=True, readonly=True, string='Date facturée')
     start_hour = fields.Float(
-        string='Heure de début (locale)', default=9.0,
+        string='Heure de début (locale)',
+        default=lambda self: self.env.company.amarna_default_start_hour,
         help='Heure décimale : 14.5 = 14h30.')
     end_hour = fields.Float(
-        string='Heure de fin (locale)', default=10.0,
+        string='Heure de fin (locale)',
+        default=lambda self: self.env.company.amarna_default_end_hour,
         help='Heure décimale : 16.0 = 16h00.')
     people_count = fields.Integer(string='Nombre de personnes', default=1)
     # start_at / end_at are naive UTC, as every Odoo Datetime field.
@@ -121,7 +123,7 @@ class AmarnaClubReservation(models.Model):
             'quantity': 1.0,
             'price_unit': self.amount_untaxed,
             'discount': 0.0,
-            'tax_ids': product.taxes_id,
+            'tax_ids': self.activity_id.tax_ids,
         }]
 
     # ------------------------------------------------------- Time handling

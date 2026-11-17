@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Amarna Club - Écurie',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.2.0',
     'category': 'Services/Club',
     'summary': 'Gestion des chevaux : statut, fatigue, soins vétérinaires',
     'author': 'Amarna',
@@ -9,9 +9,10 @@
     'depends': ['abonnement_amarna'],
     'data': [
         'security/ir.model.access.csv',
-        'data/horse_data.xml',
         'views/club_horse_views.xml',
+        'views/horse_settings_views.xml',
     ],
+    'demo': ['demo/horse_demo.xml'],
     'application': True,
     'installable': True,
 }

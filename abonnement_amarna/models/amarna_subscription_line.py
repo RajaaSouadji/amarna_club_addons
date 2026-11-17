@@ -31,10 +31,10 @@ class AmarnaSubscriptionLine(models.Model):
         if self.product_id:
             self.name = self.product_id.display_name
             plan = self.subscription_id.plan_id
+            is_plan_product = plan and plan.product_id == self.product_id
             self.price_unit = (
-                plan.list_price
-                if plan and plan.product_id == self.product_id
-                else self.product_id.lst_price
-            )
+                plan.list_price if is_plan_product else self.product_id.lst_price)
             self.product_uom_id = self.product_id.uom_id
-            self.tax_ids = self.product_id.taxes_id
+            self.tax_ids = (
+                plan.tax_ids if is_plan_product
+                else self.env.company.amarna_default_tax_id)

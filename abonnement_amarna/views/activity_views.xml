@@ -65,7 +65,12 @@
                         </group>
                         <group string="Facturation des réservations">
                             <field name="unit_price"/>
+                            <field name="tax_ids" widget="many2many_tags"/>
                             <field name="billing_product_id" readonly="1"/>
+                        </group>
+                        <group string="Application tablette">
+                            <field name="mobile_screen"/>
+                            <field name="mobile_screen_label" invisible="not mobile_screen"/>
                         </group>
                     </group>
                     <notebook>

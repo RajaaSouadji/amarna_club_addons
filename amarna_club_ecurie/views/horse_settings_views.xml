@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_amarna_horses" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.amarna_club_ecurie</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="62"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Écurie" string="Écurie" name="amarna_club_ecurie">
+                    <block title="Soins des chevaux" name="amarna_horse_care_block">
+                        <setting id="amarna_horse_fatigue"
+                                 string="Alerte de fatigue"
+                                 help="Niveau de fatigue (de 0 à 1) au-delà duquel le cheval est signalé.">
+                            <field name="amarna_horse_fatigue_alert" class="oe_inline"/>
+                        </setting>
+                        <setting id="amarna_horse_rested"
+                                 string="Cheval reposé"
+                                 help="Niveau de fatigue (de 0 à 1) en dessous duquel le cheval est affiché comme reposé.">
+                            <field name="amarna_horse_fatigue_rested" class="oe_inline"/>
+                        </setting>
+                        <setting id="amarna_horse_farrier"
+                                 string="Ferrage"
+                                 help="Un ferrage plus ancien que ce délai est signalé « à prévoir ».">
+                            <field name="amarna_farrier_interval_days" class="oe_inline"/> jours
+                        </setting>
+                        <setting id="amarna_horse_deworming"
+                                 string="Vermifuge"
+                                 help="Un vermifuge plus ancien que ce délai est signalé « à prévoir ».">
+                            <field name="amarna_deworming_interval_days" class="oe_inline"/> jours
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

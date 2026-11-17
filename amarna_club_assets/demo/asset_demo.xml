@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Sample equipment, loaded only on databases created with demo data. -->
     <data noupdate="1">
 
         <record id="asset_pool_filter_01" model="amarna.club.asset">
@@ -65,6 +66,7 @@
             <field name="code">asset-shoot-pistol-9mm</field>
             <field name="serial_number">SN-PISTOL-9MM-102</field>
             <field name="category">Arme de Poing</field>
+            <field name="is_weapon" eval="True"/>
             <field name="mobile_activity_code">shooting</field>
             <field name="status">available</field>
             <field name="last_maintenance" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
@@ -77,6 +79,7 @@
             <field name="code">asset-shoot-glock-002</field>
             <field name="serial_number">SN-GLOCK-002</field>
             <field name="category">Arme de Poing</field>
+            <field name="is_weapon" eval="True"/>
             <field name="mobile_activity_code">shooting</field>
             <field name="status">available</field>
             <field name="last_maintenance" eval="(datetime.now() - timedelta(days=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
@@ -88,6 +91,7 @@
             <field name="code">asset-shoot-ar15-001</field>
             <field name="serial_number">SN-AR15-001</field>
             <field name="category">Arme d'Épaule</field>
+            <field name="is_weapon" eval="True"/>
             <field name="mobile_activity_code">shooting</field>
             <field name="status">maintenance</field>
             <field name="last_maintenance" eval="(datetime.now() - timedelta(days=48)).strftime('%Y-%m-%d %H:%M:%S')"/>
@@ -99,6 +103,7 @@
             <field name="code">asset-shoot-beretta-001</field>
             <field name="serial_number">SN-BERETTA-001</field>
             <field name="category">Arme de Poing</field>
+            <field name="is_weapon" eval="True"/>
             <field name="mobile_activity_code">shooting</field>
             <field name="status">available</field>
             <field name="last_maintenance" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
@@ -116,25 +121,104 @@
             <field name="specs_json">{"Débit": "12000 m3/h", "Puissance": "4 kW"}</field>
         </record>
 
-        <record id="asset_gym_treadmill_1" model="amarna.club.asset">
-            <field name="name">Tapis de course Matrix 1</field>
-            <field name="code">asset-gym-treadmill-1</field>
-            <field name="serial_number">SN-GYM-TM-01</field>
-            <field name="category">Équipement Cardio</field>
+        <!-- Gym machines -->
+        <record id="asset_gym_m1" model="amarna.club.asset">
+            <field name="name">Tapis de course 1</field>
+            <field name="code">asset-gym-m1</field>
+            <field name="category">Cardio</field>
             <field name="mobile_activity_code">gym</field>
             <field name="status">available</field>
-            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=20)).strftime('%Y-%m-%d %H:%M:%S')"/>
-            <field name="next_maintenance" eval="(datetime.now() + timedelta(days=70)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
         </record>
 
-        <record id="asset_padel_court_1" model="amarna.club.asset">
-            <field name="name">Filet Court de Padel 1</field>
-            <field name="code">asset-padel-court-1</field>
-            <field name="serial_number">SN-PADEL-CT-01</field>
-            <field name="category">Infrastructures Terrain</field>
+        <record id="asset_gym_m2" model="amarna.club.asset">
+            <field name="name">Tapis de course 2</field>
+            <field name="code">asset-gym-m2</field>
+            <field name="category">Cardio</field>
+            <field name="mobile_activity_code">gym</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_gym_m3" model="amarna.club.asset">
+            <field name="name">Vélo elliptique</field>
+            <field name="code">asset-gym-m3</field>
+            <field name="category">Cardio</field>
+            <field name="mobile_activity_code">gym</field>
+            <field name="status">broken</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_gym_m4" model="amarna.club.asset">
+            <field name="name">Presse à cuisses</field>
+            <field name="code">asset-gym-m4</field>
+            <field name="category">Musculation</field>
+            <field name="mobile_activity_code">gym</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_gym_m5" model="amarna.club.asset">
+            <field name="name">Banc développé couché</field>
+            <field name="code">asset-gym-m5</field>
+            <field name="category">Musculation</field>
+            <field name="mobile_activity_code">gym</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_gym_m6" model="amarna.club.asset">
+            <field name="name">Poulie vis-à-vis</field>
+            <field name="code">asset-gym-m6</field>
+            <field name="category">Musculation</field>
+            <field name="mobile_activity_code">gym</field>
+            <field name="status">available</field>
+            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Padel courts -->
+        <record id="asset_padel_c1" model="amarna.club.asset">
+            <field name="name">Terrain 1 (Intérieur)</field>
+            <field name="code">asset-padel-c1</field>
+            <field name="category">Terrain de padel</field>
+            <field name="mobile_activity_code">padel</field>
+            <field name="status">inUse</field>
+        </record>
+
+        <record id="asset_padel_c2" model="amarna.club.asset">
+            <field name="name">Terrain 2 (Intérieur)</field>
+            <field name="code">asset-padel-c2</field>
+            <field name="category">Terrain de padel</field>
             <field name="mobile_activity_code">padel</field>
             <field name="status">available</field>
-            <field name="last_maintenance" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="asset_padel_c3" model="amarna.club.asset">
+            <field name="name">Terrain 3 (Extérieur)</field>
+            <field name="code">asset-padel-c3</field>
+            <field name="category">Terrain de padel</field>
+            <field name="mobile_activity_code">padel</field>
+            <field name="status">available</field>
+        </record>
+
+        <record id="asset_padel_c4" model="amarna.club.asset">
+            <field name="name">Terrain 4 (Extérieur)</field>
+            <field name="code">asset-padel-c4</field>
+            <field name="category">Terrain de padel</field>
+            <field name="mobile_activity_code">padel</field>
+            <field name="status">maintenance</field>
+        </record>
+
+        <!-- Paintball pre-session control points -->
+        <record id="checkpoint_paintball_nets" model="amarna.club.checkpoint">
+            <field name="name">Filets de protection</field>
+            <field name="activity_id" ref="abonnement_amarna.activity_paintball"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="checkpoint_paintball_obstacles" model="amarna.club.checkpoint">
+            <field name="name">Obstacles gonflables</field>
+            <field name="activity_id" ref="abonnement_amarna.activity_paintball"/>
+            <field name="sequence">20</field>
         </record>
 
     </data>

@@ -3,7 +3,7 @@
 and reservations paid at the desk or covered by a subscription.
 
 Run on a scratch database only:
-    odoo -d <scratch> -u abonnement_amarna --test-enable --test-tags /abonnement_amarna --stop-after-init
+    odoo -d <scratch> -u abonnement_amarna --test-enable --test-tags amarna --stop-after-init
 """
 from datetime import timedelta
 

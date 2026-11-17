@@ -45,6 +45,7 @@
                             <field name="mobile_activity_code"/>
                             <field name="activity_id"/>
                             <field name="status"/>
+                            <field name="in_use_since" invisible="not in_use_since"/>
                         </group>
                     </group>
                     <group>

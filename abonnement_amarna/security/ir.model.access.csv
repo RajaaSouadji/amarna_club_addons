@@ -20,3 +20,5 @@ access_amarna_checkin_manager,amarna.checkin manager,model_amarna_checkin,abonne
 access_amarna_scan_wizard_user,amarna.scan.wizard club user,model_amarna_scan_wizard,abonnement_amarna.group_club_user,1,1,1,1
 access_amarna_club_reservation_user,amarna.club.reservation club user,model_amarna_club_reservation,abonnement_amarna.group_club_user,1,1,1,0
 access_amarna_club_reservation_manager,amarna.club.reservation manager,model_amarna_club_reservation,abonnement_amarna.group_club_manager,1,1,1,1
+access_amarna_club_staff_user,amarna.club.staff club user,model_amarna_club_staff,base.group_user,1,0,0,0
+access_amarna_club_staff_manager,amarna.club.staff manager,model_amarna_club_staff,abonnement_amarna.group_club_manager,1,1,1,1

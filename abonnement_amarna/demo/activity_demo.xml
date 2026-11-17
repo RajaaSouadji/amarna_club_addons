@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sample operations data, loaded only on databases created with demo data. -->
+    <record id="activity_pool" model="amarna.club.activity">
+        <field name="mobile_status">open</field>
+        <field name="current_occupancy">45</field>
+        <field name="max_capacity">60</field>
+        <field name="assigned_staff">Jean (Maitre-Nageur)</field>
+    </record>
+    <record id="activity_horses" model="amarna.club.activity">
+        <field name="mobile_status">warning</field>
+        <field name="current_occupancy">12</field>
+        <field name="max_capacity">20</field>
+        <field name="assigned_staff">Marie (Responsable Écurie)</field>
+    </record>
+    <record id="activity_shooting" model="amarna.club.activity">
+        <field name="mobile_status">maintenance</field>
+        <field name="current_occupancy">0</field>
+        <field name="max_capacity">12</field>
+        <field name="assigned_staff">Lucas (Superviseur Armurerie)</field>
+    </record>
+    <record id="activity_paintball" model="amarna.club.activity">
+        <field name="mobile_status">open</field>
+        <field name="current_occupancy">8</field>
+        <field name="max_capacity">30</field>
+        <field name="assigned_staff">Thomas (Superviseur Field)</field>
+    </record>
+    <record id="activity_gym" model="amarna.club.activity">
+        <field name="mobile_status">open</field>
+        <field name="current_occupancy">18</field>
+        <field name="max_capacity">40</field>
+        <field name="assigned_staff">Sophie (Coach Gym)</field>
+    </record>
+    <record id="activity_padel" model="amarna.club.activity">
+        <field name="mobile_status">open</field>
+        <field name="current_occupancy">8</field>
+        <field name="max_capacity">16</field>
+        <field name="assigned_staff">Antoine (Coordinateur Padel)</field>
+    </record>
+</odoo>

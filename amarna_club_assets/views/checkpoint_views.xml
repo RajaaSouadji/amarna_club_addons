@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_club_checkpoint_tree" model="ir.ui.view">
+        <field name="name">amarna.club.checkpoint.tree</field>
+        <field name="model">amarna.club.checkpoint</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="not is_ok" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="activity_id"/>
+                <field name="blocks_session"/>
+                <field name="is_ok"/>
+                <field name="last_checked" optional="show"/>
+                <field name="active" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_club_checkpoints" model="ir.actions.act_window">
+        <field name="name">Points de contrôle</field>
+        <field name="res_model">amarna.club.checkpoint</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Ajoutez un point de contrôle</p>
+            <p>Les points listés ici sont vérifiés sur la tablette avant de démarrer une session d'une activité.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_club_checkpoints"
+              name="Points de contrôle"
+              parent="abonnement_amarna.menu_amarna_configuration_root"
+              action="action_club_checkpoints"
+              sequence="20"/>
+
+</odoo>

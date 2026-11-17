@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+from datetime import timedelta
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -93,7 +94,11 @@ class AmarnaClubIntervention(models.Model):
         string='Équipement',
     )
 
-    date_due = fields.Datetime(string='Échéance (UTC)', tracking=True)
+    date_due = fields.Datetime(
+        string='Échéance (UTC)', tracking=True,
+        default=lambda self: fields.Datetime.now() + timedelta(
+            days=self.env.company.amarna_ticket_due_days),
+        help="Proposée à partir du délai défini dans la configuration du club.")
 
     date_completed = fields.Datetime(string='Réalisé le (UTC)')
 

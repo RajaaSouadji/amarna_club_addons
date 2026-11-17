@@ -35,9 +35,8 @@ class AmarnaClubPoolReading(models.Model):
 
     notes = fields.Text(string='Notes')
 
-    # Conformity rules identical to the app (pool_gauges_screen.dart):
-    # temperature 26-30 °C, chlorine 1.0-3.0 mg/L, pH 7.2-7.6,
-    # turbidity <= 1.0 NTU. Score weights: 20/30/30/20.
+    # Rules come from the club settings (Configuration > Piscine); the app
+    # receives the same values through amarna_app_config().
     temperature_ok = fields.Boolean(compute='_compute_conformity', store=True)
     chlorine_ok = fields.Boolean(compute='_compute_conformity', store=True)
     ph_ok = fields.Boolean(compute='_compute_conformity', store=True)
@@ -63,22 +62,25 @@ class AmarnaClubPoolReading(models.Model):
 
     @api.depends('temperature', 'chlorine', 'ph', 'turbidity')
     def _compute_conformity(self):
+        company = self.env.company
         for rec in self:
-            rec.temperature_ok = 26.0 <= rec.temperature <= 30.0
-            rec.chlorine_ok = 1.0 <= rec.chlorine <= 3.0
-            rec.ph_ok = 7.2 <= rec.ph <= 7.6
-            rec.turbidity_ok = rec.turbidity <= 1.0
+            rec.temperature_ok = (company.amarna_pool_temp_min
+                                  <= rec.temperature <= company.amarna_pool_temp_max)
+            rec.chlorine_ok = (company.amarna_pool_chlorine_min
+                               <= rec.chlorine <= company.amarna_pool_chlorine_max)
+            rec.ph_ok = company.amarna_pool_ph_min <= rec.ph <= company.amarna_pool_ph_max
+            rec.turbidity_ok = rec.turbidity <= company.amarna_pool_turbidity_max
             checks = [rec.temperature_ok, rec.chlorine_ok,
                       rec.ph_ok, rec.turbidity_ok]
             rec.issue_count = checks.count(False)
             rec.conform = rec.issue_count == 0
             score = 100.0
             if not rec.temperature_ok:
-                score -= 20
+                score -= company.amarna_pool_weight_temperature
             if not rec.chlorine_ok:
-                score -= 30
+                score -= company.amarna_pool_weight_chlorine
             if not rec.ph_ok:
-                score -= 30
+                score -= company.amarna_pool_weight_ph
             if not rec.turbidity_ok:
-                score -= 20
+                score -= company.amarna_pool_weight_turbidity
             rec.score = max(score, 0.0)

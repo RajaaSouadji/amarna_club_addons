@@ -39,6 +39,7 @@
                         </group>
                         <group string="Tarif">
                             <field name="list_price"/>
+                            <field name="tax_ids" widget="many2many_tags"/>
                             <field name="product_id" placeholder="Automatique : produit Abonnement"/>
                             <field name="active"/>
                         </group>
