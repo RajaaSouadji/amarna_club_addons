@@ -17,6 +17,7 @@ def migrate(cr, version):
             company.amarna_default_tax_id = company.account_sale_tax_id
 
     Product = env['product.product'].with_context(active_test=False)
+    default_tax = env['res.company'].browse(1).amarna_default_tax_id
 
     for activity in env['amarna.club.activity'].with_context(active_test=False).search([]):
         if activity.tax_ids:
@@ -24,6 +25,9 @@ def migrate(cr, version):
         product = Product.search([('default_code', '=', 'AMARNA-ACT-%s' % activity.code)], limit=1)
         if product and product.taxes_id:
             activity.tax_ids = product.taxes_id
+        elif default_tax:
+            # No product yet: the old behaviour was the product's default sale tax.
+            activity.tax_ids = default_tax
 
     for plan in env['amarna.subscription.plan'].with_context(active_test=False).search([]):
         if plan.tax_ids:
@@ -32,3 +36,5 @@ def migrate(cr, version):
             [('default_code', '=', 'AMARNA-PLAN-%s' % plan.id)], limit=1)
         if product and product.taxes_id:
             plan.tax_ids = product.taxes_id
+        elif default_tax:
+            plan.tax_ids = default_tax
