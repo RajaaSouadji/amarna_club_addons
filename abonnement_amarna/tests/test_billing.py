@@ -104,6 +104,23 @@ class TestAmarnaBilling(TransactionCase):
         self.assertIn(sub, Sub.search([('subscription_status', '=', 'active')]))
         self.assertIn(sub, Sub.search([('subscription_status', 'in', ['active', 'draft'])]))
         self.assertNotIn(sub, Sub.search([('subscription_status', '!=', 'active')]))
+        # The other statuses agree with the computed value.
+        def other_member(name):
+            return {'partner_id': self.env['res.partner'].create({'name': name}).id,
+                    'rfid_card_id': False}
+        old = self._new_subscription(
+            start_date=fields.Date.to_date('2020-01-01'), **other_member('Ancien'))
+        draft = self._new_subscription(**other_member('Brouillon'))
+        old.action_confirm()
+        cancelled = self._new_subscription(**other_member('Annulé'))
+        cancelled.action_confirm()
+        cancelled.action_cancel()
+        for status, record in (('expired', old), ('draft', draft), ('cancelled', cancelled)):
+            self.assertEqual(record.subscription_status, status)
+            self.assertIn(record, Sub.search([('subscription_status', '=', status)]), status)
+        for record in Sub.search([]):
+            self.assertIn(
+                record, Sub.search([('subscription_status', '=', record.subscription_status)]))
 
     def test_full_money_path(self):
         sub = self._new_subscription()

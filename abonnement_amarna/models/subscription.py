@@ -2,6 +2,7 @@
 from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models
+from odoo.fields import Domain
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -79,20 +80,30 @@ class AmarnaSubscription(models.Model):
             rec.expiration_date = ptype._end_date(rec.start_date) if (ptype and rec.start_date) else False
 
     def _search_subscription_status(self, operator, value):
-        # The status depends on today's date, so it is not stored: filter by
-        # evaluating it on every subscription (a club holds a few thousand at most).
+        """The status depends on today's date, so it is not stored: express
+        each status with the stored fields it is computed from (same rules as
+        `_compute_subscription_status`) and let the database filter."""
         # Odoo 20 normalises '=' to 'in' and hands the value over as an OrderedSet.
         if operator not in ('=', '!=', 'in', 'not in'):
             return NotImplemented
         if isinstance(value, (str, bool)) or value is None:
-            values = {value}
+            wanted = {value}
         else:
-            values = set(value)
-        positive = operator in ('=', 'in')
-        records = self.with_context(active_test=False).search([])
-        matching = records.filtered(
-            lambda r: (r.subscription_status in values) == positive)
-        return [('id', 'in', matching.ids)]
+            wanted = set(value)
+        today = fields.Date.context_today(self)
+        confirmed = [('state', '=', 'confirmed')]
+        not_expired = ['|', ('expiration_date', '=', False), ('expiration_date', '>=', today)]
+        by_status = {
+            'cancelled': [('state', '=', 'cancelled')],
+            'draft': [('state', '=', 'draft')],
+            'expired': confirmed + [('expiration_date', '<', today)],
+            'unpaid': confirmed + not_expired + [('payment_valid', '=', False)],
+            'active': confirmed + not_expired + [('payment_valid', '=', True)],
+        }
+        domain = Domain.OR(Domain(by_status[status]) for status in wanted if status in by_status)
+        if not wanted & set(by_status):
+            domain = Domain.FALSE
+        return domain if operator in ('=', 'in') else ~domain
 
     @api.depends('remaining_sessions', 'plan_id.session_count')
     def _compute_sessions_label(self):
