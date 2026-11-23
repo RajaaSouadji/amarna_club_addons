@@ -296,3 +296,28 @@ class TestAmarnaBilling(TransactionCase):
         with self.assertRaises(ValidationError) as raised:
             resa.action_check_in()
         self.assertIn(self.company.currency_id.symbol, str(raised.exception))
+
+    # ------------------------------------------------ Card reader behaviour
+
+    def test_scan_wizard_recognises_a_typed_card_number(self):
+        sub = self._new_subscription()
+        sub.action_confirm()
+        sub.action_create_invoice()
+        self._pay_open_invoices(sub)
+        form = Form(self.env['amarna.scan.wizard'])
+        form.card_code = self.card.name.lower()  # readers differ in case
+        self.assertEqual(form.card_id, self.card)
+        self.assertEqual(form.result_state, 'ok')
+
+    def test_scan_wizard_reports_an_unknown_card_number(self):
+        form = Form(self.env['amarna.scan.wizard'])
+        form.card_code = 'PAS-UNE-CARTE'
+        self.assertFalse(form.card_id)
+        self.assertEqual(form.result_state, 'denied')
+        self.assertIn('Carte inconnue', form.result_message)
+
+    def test_scan_wizard_clears_when_the_number_is_erased(self):
+        form = Form(self.env['amarna.scan.wizard'])
+        form.card_code = 'PAS-UNE-CARTE'
+        form.card_code = ''
+        self.assertEqual(form.result_state, 'pending')

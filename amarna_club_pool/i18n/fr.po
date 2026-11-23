@@ -1,0 +1,361 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* amarna_club_pool
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 14:05+0000\n"
+"PO-Revision-Date: 2026-11-23 14:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_search
+msgid "Aujourd'hui"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid ""
+"Chaque paramètre hors norme retire ses points au score global (100 maximum)."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Chlore"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__chlorine
+msgid "Chlore (mg/L)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__chlorine_ok
+msgid "Chlore conforme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Chlore libre"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_chlorine_max
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_chlorine_max
+msgid "Chlore maximum (mg/L)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_chlorine_min
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_chlorine_min
+msgid "Chlore minimum (mg/L)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model,name:amarna_club_pool.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: amarna_club_pool
+#: model:ir.model,name:amarna_club_pool.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__conform
+msgid "Conforme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_form
+msgid "Conformité"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_form
+msgid "Contrôles"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__reading_time
+msgid "Date du relevé"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__id
+msgid "ID"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Maximum"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_form
+msgid "Mesures"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Minimum"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "NTU"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,help:amarna_club_pool.field_amarna_club_pool_reading__author
+msgid "Nom de l'employé saisi dans l'application tablette."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_search
+msgid "Non conformes"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Normes de qualité de l'eau"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__notes
+msgid "Notes"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_form
+msgid "Notes..."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__issue_count
+msgid "Paramètres hors norme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Piscine"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.ui.menu,name:amarna_club_pool.menu_club_pool_root
+msgid "Piscine Club"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Plage conforme de l'eau, en degrés Celsius."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Plage conforme du pH."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Plage conforme, en mg/L."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,help:amarna_club_pool.field_res_company__amarna_pool_weight_temperature
+#: model:ir.model.fields,help:amarna_club_pool.field_res_config_settings__amarna_pool_weight_temperature
+msgid "Points retirés au score global quand ce paramètre est hors norme."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Points retirés par paramètre"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_weight_chlorine
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_weight_chlorine
+msgid "Points si chlore hors norme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_weight_ph
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_weight_ph
+msgid "Points si pH hors norme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_weight_temperature
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_weight_temperature
+msgid "Points si température hors norme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_weight_turbidity
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_weight_turbidity
+msgid "Points si turbidité hors norme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_form
+msgid "Relevé"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__author
+msgid "Relevé par (mobile)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.view_club_pool_reading_form
+msgid "Relevé qualité de l'eau"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model,name:amarna_club_pool.model_amarna_club_pool_reading
+msgid "Relevé qualité de l'eau (piscine)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.actions.act_window,name:amarna_club_pool.action_club_pool_readings
+msgid "Relevés"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.ui.menu,name:amarna_club_pool.menu_club_pool_readings
+msgid "Relevés qualité de l'eau"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Score de conformité"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__score
+msgid "Score global"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Température"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__temperature
+msgid "Température (°C)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__temperature_ok
+msgid "Température conforme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_temp_max
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_temp_max
+msgid "Température maximale (°C)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_temp_min
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_temp_min
+msgid "Température minimale (°C)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Turbidité"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__turbidity
+msgid "Turbidité (NTU)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__turbidity_ok
+msgid "Turbidité conforme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_turbidity_max
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_turbidity_max
+msgid "Turbidité maximale (NTU)"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__user_id
+msgid "Utilisateur"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "Valeur maximale admise, en NTU."
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "mg/L"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__ph
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "pH"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_amarna_club_pool_reading__ph_ok
+msgid "pH conforme"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_ph_max
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_ph_max
+msgid "pH maximum"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_company__amarna_pool_ph_min
+#: model:ir.model.fields,field_description:amarna_club_pool.field_res_config_settings__amarna_pool_ph_min
+msgid "pH minimum"
+msgstr ""
+
+#. module: amarna_club_pool
+#: model_terms:ir.ui.view,arch_db:amarna_club_pool.res_config_settings_view_form_amarna_pool
+msgid "°C"
+msgstr ""

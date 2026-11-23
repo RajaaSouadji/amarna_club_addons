@@ -15,11 +15,16 @@ class AmarnaScanWizard(models.TransientModel):
     _name = 'amarna.scan.wizard'
     _description = 'Scan de carte RFID - Simulation'
 
+    card_code = fields.Char(
+        string='Numéro de carte',
+        help="Passez la carte devant le lecteur ou saisissez son numéro, puis validez "
+             "avec Entrée : la carte est reconnue et vérifiée aussitôt.",
+    )
     card_id = fields.Many2one(
         'amarna.rfid.card',
-        string='Carte RFID',
-        required=True,
-        help="Sélectionnez la carte RFID à scanner.",
+        string='Carte reconnue',
+        readonly=True,
+        help="Carte trouvée à partir du numéro lu.",
     )
 
     # Informations du membre et de l'abonnement (affichées après le scan)
@@ -67,6 +72,23 @@ class AmarnaScanWizard(models.TransientModel):
     def _compute_sessions_label(self):
         for wiz in self:
             wiz.sessions_label = 'Illimité' if wiz.is_unlimited else str(wiz.remaining_sessions)
+
+    @api.onchange('card_code')
+    def _onchange_card_code(self):
+        """A reader types the card number then Enter: find the card and scan it."""
+        code = (self.card_code or '').strip()
+        self.card_id = False
+        self.result_message = False
+        if not code:
+            self.result_state = 'pending'
+            return
+        card = self.env['amarna.rfid.card'].search([('name', '=ilike', code)], limit=1)
+        if not card:
+            self.result_state = 'denied'
+            self.result_message = "❌ Carte inconnue : %s" % code
+            return
+        self.card_id = card
+        self.action_scan()
 
     def action_scan(self):
         requested_subscription = self.subscription_id or self.env['amarna.subscription'].browse(

@@ -61,18 +61,65 @@
         <field name="model">amarna.club.pool.reading</field>
         <field name="arch" type="xml">
             <search>
+                <field name="author"/>
+                <field name="notes"/>
                 <filter string="Non conformes" name="filter_nonconform"
                         domain="[('conform', '=', False)]"/>
+                <filter string="Conformes" name="filter_conform"
+                        domain="[('conform', '=', True)]"/>
+                <separator/>
                 <filter string="Aujourd'hui" name="filter_today"
                         domain="[('reading_time', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="7 derniers jours" name="filter_7d"
+                        domain="[('reading_time', '&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="30 derniers jours" name="filter_30d"
+                        domain="[('reading_time', '&gt;=', (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d 00:00:00'))]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Jour" name="group_day" context="{'group_by': 'reading_time:day'}"/>
+                    <filter string="Semaine" name="group_week" context="{'group_by': 'reading_time:week'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by': 'reading_time:month'}"/>
+                    <filter string="Relevé par" name="group_author" context="{'group_by': 'author'}"/>
+                </group>
             </search>
+        </field>
+    </record>
+
+    <!-- Évolution dans le temps : une courbe par paramètre (changer la mesure en haut) -->
+    <record id="view_club_pool_reading_graph" model="ir.ui.view">
+        <field name="name">amarna.club.pool.reading.graph</field>
+        <field name="model">amarna.club.pool.reading</field>
+        <field name="arch" type="xml">
+            <graph string="Qualité de l'eau" type="line" sample="1">
+                <field name="reading_time" interval="day"/>
+                <field name="chlorine" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_club_pool_reading_pivot" model="ir.ui.view">
+        <field name="name">amarna.club.pool.reading.pivot</field>
+        <field name="model">amarna.club.pool.reading</field>
+        <field name="arch" type="xml">
+            <pivot string="Qualité de l'eau (moyennes)" sample="1">
+                <field name="reading_time" interval="day" type="row"/>
+                <field name="temperature" type="measure"/>
+                <field name="chlorine" type="measure"/>
+                <field name="ph" type="measure"/>
+                <field name="turbidity" type="measure"/>
+                <field name="score" type="measure"/>
+            </pivot>
         </field>
     </record>
 
     <record id="action_club_pool_readings" model="ir.actions.act_window">
         <field name="name">Relevés</field>
         <field name="res_model">amarna.club.pool.reading</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,graph,pivot,form</field>
+        <field name="search_view_id" ref="view_club_pool_reading_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun relevé pour le moment</p>
+            <p>Les relevés saisis sur la tablette apparaissent ici, avec leur conformité. Utilisez la vue courbe pour suivre le chlore, le pH et la température dans le temps.</p>
+        </field>
     </record>
 
     <!-- Root app: Piscine Club -->

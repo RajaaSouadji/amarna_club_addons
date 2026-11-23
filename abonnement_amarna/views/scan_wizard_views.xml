@@ -20,7 +20,9 @@
 
                     <group>
                         <group string="Sélection de la carte" invisible="result_state == 'success'">
-                            <field name="card_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="card_code" placeholder="Passez la carte ou saisissez le numéro, puis Entrée"
+                                   default_focus="1" class="fs-4"/>
+                            <field name="card_id" options="{'no_create': True, 'no_open': True}" invisible="not card_id"/>
                             <button name="action_scan"
                                     string="Scanner la carte"
                                     type="object"

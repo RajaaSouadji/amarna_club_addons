@@ -1,0 +1,500 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* amarna_club_interventions
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 14:05+0000\n"
+"PO-Revision-Date: 2026-11-23 14:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_needaction
+msgid "Action Needed"
+msgstr "Action requise"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_ids
+msgid "Activities"
+msgstr "Activités"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Décoration de l'exception d'activité"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_state
+msgid "Activity State"
+msgstr "État de l'activité"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icône du type d'activité"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_id
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Activité"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: amarna_club_interventions
+#: model_terms:ir.actions.act_window,help:amarna_club_interventions.action_club_interventions
+msgid "Aucune intervention"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Classification"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Clôturer"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__mobile_activity_code
+msgid "Code activité mobile"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__mobile_asset_code
+msgid "Code de l'équipement concerné, tel que dans la tablette."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__mobile_asset_code
+msgid "Code équipement mobile"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__priority__critical
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_kanban
+msgid "Critique"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_tree
+msgid "Créé le"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__description
+msgid "Description"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__description
+msgid "Description complète saisie sur la tablette."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Description détaillée..."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__status__inprogress
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "En cours"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__is_overdue
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "En retard"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__priority__low
+msgid "Faible"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_follower_ids
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Abonnés (contacts)"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Icône Font Awesome, ex. fa-tasks"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__has_message
+msgid "Has Message"
+msgstr "A un message"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__id
+msgid "ID"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__mobile_id
+msgid "ID mobile"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_exception_icon
+msgid "Icon"
+msgstr "Icône"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icône indiquant une activité en exception."
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__mobile_id
+msgid ""
+"Identifiant du ticket côté tablette. C'est la clé de synchronisation : la "
+"tablette crée ou met à jour le ticket portant cet identifiant."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__message_has_error
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si coché, certains messages ont une erreur d'envoi."
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__type__anomaly
+msgid "Incident"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.actions.act_window,name:amarna_club_interventions.action_club_incidents
+#: model:ir.ui.menu,name:amarna_club_interventions.menu_club_incidents
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Incidents"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Intervention"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model,name:amarna_club_interventions.model_amarna_club_intervention
+msgid "Intervention (incident ou maintenance)"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.actions.act_window,name:amarna_club_interventions.action_club_interventions
+msgid "Interventions"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.ui.menu,name:amarna_club_interventions.menu_club_interventions_root
+msgid "Interventions Club"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_is_follower
+msgid "Is Follower"
+msgstr "Est abonné"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: amarna_club_interventions
+#: model_terms:ir.actions.act_window,help:amarna_club_interventions.action_club_interventions
+msgid ""
+"Les incidents et maintenances créés depuis la tablette\n"
+"               Amarna Club apparaissent ici."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Maintenance"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__type__corrective
+msgid "Maintenance corrective"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__type__preventive
+msgid "Maintenance préventive"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur d'envoi du message"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_ids
+msgid "Messages"
+msgstr "Messages"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__priority__medium
+msgid "Moyen"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Échéance de mon activité"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Échéance de la prochaine activité"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_summary
+msgid "Next Activity Summary"
+msgstr "Résumé de la prochaine activité"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_type_id
+msgid "Next Activity Type"
+msgstr "Type de la prochaine activité"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__assigned_to
+msgid ""
+"Nom du technicien tel que saisi sur la tablette; le lien utilisateur est "
+"résolu automatiquement si possible."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_has_error_counter
+msgid "Number of errors"
+msgstr "Nombre d'erreurs"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Nombre de messages nécessitant une action"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Nombre de messages avec erreur d'envoi"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__status__open
+msgid "Ouvert"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Ouvertes"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Planification"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Prendre en charge"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__priority
+msgid "Priority"
+msgstr "Priorité"
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Priorité"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__date_due
+msgid "Proposée à partir du délai défini dans la configuration du club."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Regrouper par"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__activity_user_id
+msgid "Responsible User"
+msgstr "Utilisateur responsable"
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Rouvrir"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__date_completed
+msgid "Réalisé le"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__status__resolved
+msgid "Résolu"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Résolues"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Erreur d'envoi SMS"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__status
+msgid "Status"
+msgstr "Statut"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_search
+msgid "Statut"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__user_id
+msgid "Technicien"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__assigned_to
+msgid "Technicien (mobile)"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__name
+msgid "Titre"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_form
+msgid "Titre de l'intervention"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.ui.menu,name:amarna_club_interventions.menu_club_interventions
+msgid "Toutes les interventions"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__type
+msgid "Type"
+msgstr "Type"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Type de l'activité d'exception sur l'enregistrement."
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__website_message_ids
+msgid "Website Messages"
+msgstr "Messages du site web"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,help:amarna_club_interventions.field_amarna_club_intervention__website_message_ids
+msgid "Website communication history"
+msgstr "Historique des communications du site web"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__date_due
+msgid "Échéance"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:amarna_club_interventions.selection__amarna_club_intervention__priority__high
+#: model_terms:ir.ui.view,arch_db:amarna_club_interventions.view_club_intervention_kanban
+msgid "Élevé"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields,field_description:amarna_club_interventions.field_amarna_club_intervention__asset_id
+msgid "Équipement"
+msgstr ""
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:mail.selection__amarna_club_intervention__activity_state__overdue
+msgid "Overdue"
+msgstr "En retard"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:mail.selection__amarna_club_intervention__activity_state__today
+msgid "Today"
+msgstr "Aujourd'hui"
+
+#. module: amarna_club_interventions
+#: model:ir.model.fields.selection,name:mail.selection__amarna_club_intervention__activity_state__planned
+msgid "Planned"
+msgstr "Planifiée"

@@ -1,0 +1,2374 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* abonnement_amarna
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 14:05+0000\n"
+"PO-Revision-Date: 2026-11-23 14:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "<span class=\"mx-2\">→</span>"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__subscription_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__subscription_id
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_access__source__subscription
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_tree
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Abonnement & Séances"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_bank_statement_line__amarna_subscription_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_move__amarna_subscription_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_payment__amarna_subscription_id
+msgid "Abonnement Amarna"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_subscription
+msgid "Abonnement client"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__subscription_id
+msgid "Abonnement sélectionné"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__subscription_id
+msgid "Abonnement utilisé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_subscription
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_subscription
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_form
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_tree
+msgid "Abonnements"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Abonnements et interventions"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__result_state__success
+msgid "Accès autorisé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__result_state__denied
+msgid "Accès refusé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__subscription_status__active
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__subscription_status__active
+msgid "Actif"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+msgid "Actifs"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_needaction
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_needaction
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_needaction
+msgid "Action Needed"
+msgstr "Action requise"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__active
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__active
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__active
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__active
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__active
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__active
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__active
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_access__state__active
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__active
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_rfid_card_form
+msgid "Activer"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_ids
+msgid "Activities"
+msgstr "Activités"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Décoration de l'exception d'activité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_state
+msgid "Activity State"
+msgstr "État de l'activité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icône du type d'activité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_bank_statement_line__amarna_activity_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_move__amarna_activity_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_payment__amarna_activity_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__activity_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__activity_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__activity_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__activity_id
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Activité"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_club_activity
+msgid "Activité du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_account_bank_statement_line__amarna_activity_id
+#: model:ir.model.fields,help:abonnement_amarna.field_account_move__amarna_activity_id
+#: model:ir.model.fields,help:abonnement_amarna.field_account_payment__amarna_activity_id
+msgid ""
+"Activité du club facturée (formule ou réservation), pour le chiffre "
+"d'affaires par activité."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__activity_ids
+msgid "Activités affectées"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_activity
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_activity
+msgid "Activités du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Affiché dans l'aide de la tablette."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_club_staff
+msgid "Ajoutez le personnel du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Alerte de fin d'abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_expiry_warning_days
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_expiry_warning_days
+msgid "Alerte fin d'abonnement (jours)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.module.category,name:abonnement_amarna.module_category_amarna_club
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_root
+msgid "Amarna Club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__amount
+msgid "Amount"
+msgstr "Montant"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Annuler cet abonnement ? L'accès RFID sera coupé."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Annuler l'abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__subscription_status__cancelled
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__state__cancelled
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__subscription_status__cancelled
+msgid "Annulé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__status__cancelled
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_access__state__cancelled
+msgid "Annulée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_type__duration_unit__year
+msgid "Année(s)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Application tablette"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_default_tax_id
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_default_tax_id
+msgid ""
+"Appliquée automatiquement aux nouvelles activités et formules. Chaque "
+"activité et chaque formule peut ensuite avoir sa propre TVA."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid ""
+"Appliquée aux nouvelles activités et formules. Chaque activité et formule "
+"peut avoir sa propre TVA."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_type_search
+msgid "Archivées"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_screen__armory
+msgid "Armurerie"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__status__checkedin
+msgid "Arrivée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Assistance"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_attachment_count
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_attachment_count
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_status__warning
+msgid "Attention"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_checkin
+msgid "Aucun check-in enregistré pour le moment."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_invoices
+msgid "Aucune facture pour le moment"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_form
+msgid "Automatique : produit Abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_rfid_access
+msgid "Autorisation d’accès RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_rfid_access
+msgid "Autorisations RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__access_ids
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_rfid_access
+msgid "Autorisations d’accès"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_staff__role__other
+msgid "Autre"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Badge RFID & Historique"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_rfid_card_form
+msgid "Bloquer"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__blocked
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__blocked
+msgid "Bloquée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__subscription_status__draft
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__state__draft
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__subscription_status__draft
+msgid "Brouillon"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__expiration_date
+msgid ""
+"Calculée depuis la durée de la formule. Modifiable pour une prolongation "
+"exceptionnelle."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__max_capacity
+msgid "Capacité maximale"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__rfid_card_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__rfid_card_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__card_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__card_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__rfid_card_id
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Carte RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_rfid_card
+msgid "Carte RFID membre"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_rfid_cards
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_rfid_cards
+msgid "Cartes RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_product_root
+msgid "Catalogue & tarifs"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_history__reason__change
+msgid "Changement de plan"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_checkin
+msgid "Check-in RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__checkin_count
+msgid "Checkin Count"
+msgstr "Nombre de passages"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_pivot
+msgid "Chiffre d'affaires du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__partner_id
+msgid "Client"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Club Amarna"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__code
+msgid "Code"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__mobile_activity_code
+msgid "Code activité mobile"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__company_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__company_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__company_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__company_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__company_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__company_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__user_id
+msgid "Compte Odoo"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_staff__user_id
+msgid ""
+"Compte avec lequel cette personne se connecte à la tablette. Son profil et "
+"ses activités y sont affichés."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: abonnement_amarna
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_configuration_root
+msgid "Configuration du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Confirmer"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__state__confirmed
+msgid "Confirmé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__status__confirmed
+msgid "Confirmée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Contact affiché sur la tablette"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__color
+msgid "Couleur"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__create_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__create_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_history__reason__initial
+msgid "Création"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_subscription
+msgid "Créer un abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_default_start_hour
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_default_start_hour
+msgid "Créneau par défaut : début (h)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_default_end_hour
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_default_end_hour
+msgid "Créneau par défaut : fin (h)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Créneau proposé par défaut"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__currency_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__currency_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__currency_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__currency_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__currency_id
+msgid "Currency"
+msgstr "Devise"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__reservation_date
+msgid "Date (locale)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__start_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__start_date
+msgid "Date de début"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__expiration_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__expiration_date
+msgid "Date de fin"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__assigned_date
+msgid "Date d’attribution"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__checkin_datetime
+msgid "Date et heure du passage"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__billing_period_start
+msgid "Date facturée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__last_checkin_datetime
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Dernier passage"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__description
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__description
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Description"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Description de l'activité..."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_form
+msgid "Description pour le membre..."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__currency_id
+msgid "Devise"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__display_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__display_type
+msgid "Display Type"
+msgstr "Type d'affichage"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_report_default_days
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_report_default_days
+msgid "Doit figurer dans la liste des périodes."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__subscription_type_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__duration_value
+msgid "Durée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__duration_summary
+msgid "Durée affichée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_activity__closure_duration_hours
+msgid "Durée calculée à partir des dates de fermeture optionnelles."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_type_form
+msgid "Durée d'abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__closure_duration_hours
+msgid "Durée de fermeture (h)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_subscription_type
+msgid "Durée d’abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_subscription_type
+msgid "Durées"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_subscription_type
+msgid "Durées d'abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid ""
+"Durées proposées dans les rapports de la tablette, en jours, séparées par "
+"des virgules."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_report_period_days
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_report_period_days
+msgid ""
+"Durées proposées dans les rapports de la tablette, en jours, séparées par "
+"des virgules. Ex : 7,30,90,365"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__start_at
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Début"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__billing_period_start
+msgid "Début de la période facturée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_bank_statement_line__amarna_period_start
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_move__amarna_period_start
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_payment__amarna_period_start
+msgid "Début de période Amarna"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__start_datetime
+msgid "Début d’accès"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Délai d'intervention"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_ticket_due_days
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_ticket_due_days
+msgid "Délai d'intervention par défaut (jours)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Démarrer la période suivante et émettre sa facture ?"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_rfid_card_form
+msgid "Désactiver"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.server,name:abonnement_amarna.ir_cron_close_expired_subscriptions_ir_actions_server
+msgid "Désactiver les abonnements et accès RFID expirés"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_rfid_card_form
+msgid "Désattribuer"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_checkin_form
+msgid "Détails séances & Abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "E-mail"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_support_email
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_support_email
+msgid "E-mail d'assistance"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__partner_email
+msgid "Email"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__status__pending
+msgid "En attente"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__result_state__pending
+msgid "En attente de scan"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_status__maintenance
+msgid "En maintenance"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Encaisser"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__amount_paid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__amount_paid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__amount_paid
+msgid "Encaissé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_form
+msgid "Ex. Forfait 10 séances"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_type_form
+msgid "Ex. Mensuel, Trimestriel, Annuel"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__expiration_date
+msgid "Expiration Date"
+msgstr "Date d'expiration"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__expiry_notified
+msgid "Expiry Notified"
+msgstr "Expiration notifiée"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__subscription_status__expired
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__subscription_status__expired
+msgid "Expiré"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_access__state__expired
+msgid "Expirée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+msgid "Expirés"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__billing_state
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__billing_state
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__billing_state
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_billing_root
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Facturation"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Facturation des réservations"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_billing_mixin
+msgid "Facturation partagée (abonnements et réservations)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_tree
+msgid "Facture"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Facturer la période"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__invoice_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__invoice_ids
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_invoices
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Factures"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_invoices
+msgid "Factures du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__amount_invoiced
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__amount_invoiced
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__amount_invoiced
+msgid "Facturé (TTC)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_billing_mixin__billing_state__unpaid
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__billing_state__unpaid
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__billing_state__unpaid
+msgid "Facturé, non payé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Fermer"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Fermeture"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__closure_end
+msgid "Fermeture au"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__closure_start
+msgid "Fermeture du"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_closing_hour
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_closing_hour
+msgid "Fermeture du club (h)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_status__closed
+msgid "Fermé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_search
+msgid "Fermées / Maintenance"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__end_at
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Fin"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__end_datetime
+msgid "Fin d’accès"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_follower_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_follower_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_follower_ids
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_partner_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_partner_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Abonnés (contacts)"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__role
+msgid "Fonction"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Icône Font Awesome, ex. fa-tasks"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__plan_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__plan_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__name
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_form
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+msgid "Formule"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Formule & Validité"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_subscription_plan
+msgid "Formule d’abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_subscription_plan
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_subscription_plan
+msgid "Formules d'abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.module.category,description:abonnement_amarna.module_category_amarna_club
+msgid "Gestion opérationnelle du club Amarna"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_billing_mixin__billing_state__free
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__billing_state__free
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__billing_state__free
+msgid "Gratuit"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_search
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+msgid "Grouper par"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__has_message
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__has_message
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__has_message
+msgid "Has Message"
+msgstr "A un message"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__start_hour
+msgid "Heure de début (locale)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__end_hour
+msgid "Heure de fin (locale)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__start_hour
+msgid "Heure décimale : 14.5 = 14h30."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__end_hour
+msgid "Heure décimale : 16.0 = 16h00."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_opening_hour
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_opening_hour
+msgid "Heure décimale d'ouverture, 9.5 = 9h30."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_closing_hour
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_closing_hour
+msgid "Heure décimale de fermeture, 22.0 = 22h00."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Heures décimales : 9.5 = 9h30. Utilisées pour la grille des créneaux."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Heures proposées quand on crée une réservation."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__history_ids
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Historique"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_checkin
+msgid "Historique des Check-ins (Scans)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_subscription_history
+msgid "Historique des abonnements"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Historique des périodes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_checkin
+msgid "Historique des scans"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Horaires"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_support_hours
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_support_hours
+msgid "Horaires d'assistance"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Horaires du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Horaires et réservations"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Horizon"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__id
+msgid "ID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_exception_icon
+msgid "Icon"
+msgstr "Icône"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icône indiquant une activité en exception."
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__icon_key
+msgid "Icône mobile"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__name
+msgid "Identifiant RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Identification"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__message_needaction
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__message_needaction
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__message_has_error
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__message_has_sms_error
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__message_has_error
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__message_has_sms_error
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__message_has_error
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si coché, certains messages ont une erreur d'envoi."
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__is_unlimited
+msgid "Illimitée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__image_1920
+msgid "Image"
+msgstr "Image"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__subscription_status__unpaid
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__subscription_status__unpaid
+msgid "Impayé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+msgid "Impayés"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__inactive
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__inactive
+msgid "Inactive"
+msgstr "Inactive"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_checkin_form
+msgid "Informations Passage"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__subscription_ids
+msgid "Inscriptions de la carte"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__invoice_count
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__invoice_count
+msgid "Invoice Count"
+msgstr "Nombre de factures"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_is_follower
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_is_follower
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_is_follower
+msgid "Is Follower"
+msgstr "Est abonné"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__is_unlimited
+msgid "Is Unlimited"
+msgstr "Est illimité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_type__duration_unit__day
+msgid "Jour(s)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_account_move
+msgid "Journal Entry"
+msgstr "Écriture comptable"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid ""
+"Jusqu'où on peut réserver à l'avance, et le nombre de personnes proposé."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__product_id
+msgid "Laisser vide : un produit de service est créé automatiquement."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__write_uid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__write_date
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: abonnement_amarna
+#: model:ir.model.constraint,message:abonnement_amarna.constraint_amarna_club_activity_code_uniq
+msgid "Le code d'activité doit être unique."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.constraint,message:abonnement_amarna.constraint_amarna_subscription_plan_session_count_positive
+msgid "Le nombre de séances ne peut pas être négatif."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.constraint,message:abonnement_amarna.constraint_amarna_subscription_plan_list_price_positive
+msgid "Le prix ne peut pas être négatif."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_checkin
+msgid ""
+"Les check-ins sont créés automatiquement lorsque les membres scannent leur "
+"carte RFID valide."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_invoices
+msgid ""
+"Les factures des abonnements et des réservations apparaissent ici. "
+"Encaissez-les depuis la fiche de l'abonnement ou de la réservation."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_club_staff
+msgid ""
+"Les techniciens et soigneurs proposés sur la tablette viennent de cette "
+"liste."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__mobile_screen_label
+msgid "Libellé du raccourci"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_subscription_line
+msgid "Ligne d’abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__line_ids
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Lignes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.constraint,message:abonnement_amarna.constraint_amarna_rfid_card_rfid_name_unique
+msgid "L’identifiant RFID doit être unique."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_screen__gym
+msgid "Machines"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_staff__role__lifeguard
+msgid "Maître-nageur"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__partner_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__partner_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__partner_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__partner_id
+msgid "Membre"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__partner_id
+msgid "Membre / client"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_club_staff_form
+msgid "Membre du personnel"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Membre et formule"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_subscription_root
+msgid "Membres & abonnements"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__result_message
+msgid "Message"
+msgstr "Message"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_has_error
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_has_error
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur d'envoi du message"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_ids
+msgid "Messages"
+msgstr "Messages"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_type__duration_unit__month
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+msgid "Mois"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_staff__role__instructor
+msgid "Moniteur"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__price_subtotal
+msgid "Montant"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__amount_untaxed
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__amount_untaxed
+msgid "Montant HT"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__amount_total
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__amount_total
+msgid "Montant TTC"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Échéance de mon activité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Échéance de la prochaine activité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_summary
+msgid "Next Activity Summary"
+msgstr "Résumé de la prochaine activité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_type_id
+msgid "Next Activity Type"
+msgstr "Type de la prochaine activité"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__name
+msgid "Nom"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Nom de l'activité"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__client_name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__partner_id
+msgid "Nom du client"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid ""
+"Nombre de jours avant la fin à partir duquel un abonnement est signalé."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_booking_horizon_days
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_booking_horizon_days
+msgid "Nombre de jours à l'avance pendant lesquels on peut réserver."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__session_count
+msgid "Nombre de passages inclus. 0 = formule illimitée."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__people_count
+msgid "Nombre de personnes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_default_people_count
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_default_people_count
+msgid "Nombre de personnes proposé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__note
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_line__display_type__line_note
+msgid "Note"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__notes
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__note
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__note
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Notes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__note
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Notes internes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Notes internes..."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_needaction_counter
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_needaction_counter
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_has_error_counter
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_has_error_counter
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_has_error_counter
+msgid "Number of errors"
+msgstr "Nombre d'erreurs"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__message_needaction_counter
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__message_needaction_counter
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Nombre de messages nécessitant une action"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__message_has_error_counter
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__message_has_error_counter
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Nombre de messages avec erreur d'envoi"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__current_occupancy
+msgid "Occupation actuelle"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_form
+msgid "Offre"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Opérations"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_status__open
+msgid "Ouvert"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_search
+msgid "Ouvertes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Ouverture"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_opening_hour
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_opening_hour
+msgid "Ouverture du club (h)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__payment_required
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__payment_required
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__payment_required
+msgid "Paiement requis pour l’accès"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__payment_valid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__payment_valid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__payment_valid
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__payment_valid
+msgid "Paiement à jour"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Paiements"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Par défaut"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__amount_untaxed
+msgid ""
+"Par défaut : tarif de l'activité × nombre de personnes. Zéro si la "
+"réservation est couverte par un abonnement."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_account_partial_reconcile
+msgid "Partial Reconcile"
+msgstr "Lettrage partiel"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_billing_mixin__billing_state__partial
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__billing_state__partial
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__billing_state__partial
+msgid "Partiellement payé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Passages"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__checkin_ids
+msgid "Passages RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_billing_mixin__billing_state__paid
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__billing_state__paid
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__billing_state__paid
+msgid "Payé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+msgid "Payées"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__lost
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__lost
+msgid "Perdue"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_club_staff
+#: model:ir.model,name:abonnement_amarna.model_amarna_club_staff
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_club_staff
+msgid "Personnel du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__assigned_staff
+msgid "Personnel en service"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Personnes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__partner_image
+msgid "Photo du membre"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__plan_id
+msgid "Plan"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_access__state__scheduled
+msgid "Planifiée"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_tree
+msgid "Plans"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__subscription_plan_ids
+msgid "Plans d'abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__list_price
+msgid "Prix HT"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__list_price
+msgid "Prix hors taxes facturé à chaque période de l'abonnement."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__price_unit
+msgid "Prix unitaire"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_product_product
+msgid "Product Variant"
+msgstr "Variante de produit"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__product_id
+msgid "Produit"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__billing_product_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__product_id
+msgid "Produit de facturation"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_activity__billing_product_id
+msgid ""
+"Produit de service utilisé pour facturer les réservations. Créé "
+"automatiquement si vide."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_club_staff_form
+msgid "Prénom Nom"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__result_state__ok
+msgid "Prêt à valider"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Période"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Période de fermeture (optionnelle)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_report_default_days
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_report_default_days
+msgid "Période par défaut des rapports (jours)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Périodes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Périodes des rapports"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_report_period_days
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_report_period_days
+msgid "Périodes des rapports (jours)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Qté"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_screen__pool
+msgid "Qualité de l'eau"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__product_uom_qty
+msgid "Quantité"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Rapports"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__reason
+msgid "Reason"
+msgstr "Motif"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__discount
+msgid "Rem. %"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Remettre en brouillon"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Renouveler"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_history__reason__renewal
+msgid "Renouvellement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+msgid "Renouvellement auto"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__auto_renew
+msgid "Renouvellement automatique"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.server,name:abonnement_amarna.ir_cron_auto_renew_subscriptions_ir_actions_server
+msgid "Renouvellement et facturation automatique des abonnements"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__user_id
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_staff__role__supervisor
+#: model:res.groups,name:abonnement_amarna.group_club_manager
+msgid "Responsable"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__activity_user_id
+msgid "Responsible User"
+msgstr "Utilisateur responsable"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Reste"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_billing_mixin__amount_due
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__amount_due
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__payment_balance
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__amount_due
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_tree
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_tree
+msgid "Reste à payer"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Règles de réservation"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__name
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__name
+msgid "Référence"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_club_activity_form
+msgid "Réouverture prévue"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__reservation_id
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_access__source__reservation
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_tree
+msgid "Réservation"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_bank_statement_line__amarna_reservation_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_move__amarna_reservation_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_account_payment__amarna_reservation_id
+msgid "Réservation Amarna"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_club_reservation
+msgid "Réservation du club"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+msgid "Réservations"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_booking_horizon_days
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_booking_horizon_days
+msgid "Réservations possibles jusqu'à (jours)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__result_state
+msgid "Résultat"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Résultat de la vérification"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__duration_summary
+msgid "Résumé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_rfid_card_form
+msgid "SCAN"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__message_has_sms_error
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__message_has_sms_error
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Erreur d'envoi SMS"
+
+#. module: abonnement_amarna
+#: model:ir.model,name:abonnement_amarna.model_amarna_scan_wizard
+msgid "Scan de carte RFID - Simulation"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Scanner la carte"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.ui.menu,name:abonnement_amarna.menu_amarna_scan
+msgid "Scanner une carte"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.actions.act_window,name:abonnement_amarna.action_amarna_scan_wizard
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Scanner une carte RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_line__display_type__line_section
+msgid "Section"
+msgstr "Section"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription_type__duration_unit__week
+msgid "Semaine(s)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__sequence
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_staff__role__horse_keeper
+msgid "Soigneur / écurie"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__source
+msgid "Source"
+msgstr "Source"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__start_date
+msgid "Start Date"
+msgstr "Date de début"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_access__state
+msgid "State"
+msgstr "État"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__status
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__subscription_status
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
+msgid "Statut"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Statut Financier"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__subscription_status
+msgid "Statut abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__card_state
+msgid "Statut carte"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+msgid "Statut de paiement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__mobile_status
+msgid "Statut opérationnel"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_history__subscription_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__subscription_id
+msgid "Subscription"
+msgstr "Abonnement"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__subscription_count
+msgid "Subscription Count"
+msgstr "Nombre d'abonnements"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__subscription_plan_count
+msgid "Subscription Plan Count"
+msgstr "Nombre de formules"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Séances & Dates"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_tree
+msgid "Séances (0 = illimité)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__sessions_after
+msgid "Séances après le scan"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_checkin__sessions_before
+msgid "Séances avant le scan"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__session_count
+msgid "Séances incluses"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__remaining_sessions
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__sessions_label
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__remaining_sessions
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__sessions_label
+msgid "Séances restantes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__sessions_label
+msgid "Séances restantes, ou « Illimité » pour une formule sans limite."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Sélection de la carte"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid ""
+"Sélectionnez la carte RFID du membre à scanner puis cliquez sur "
+"<strong>Scanner</strong>."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_scan_wizard__card_id
+msgid "Sélectionnez la carte RFID à scanner."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_activity__tax_ids
+msgid "TVA appliquée aux réservations de cette activité."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__tax_ids
+msgid "TVA appliquée à chaque période facturée de cette formule."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "TVA par défaut"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_default_tax_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_default_tax_id
+msgid "TVA par défaut des services"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_plan_form
+msgid "Tarif"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_activity__unit_price
+msgid "Tarif d'une réservation par personne, hors taxes. 0 = gratuit."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__unit_price
+msgid "Tarif par personne (HT)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__occupancy_pct
+msgid "Taux d'occupation (%)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Taxe"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__tax_ids
+msgid "Taxes"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__tax_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__tax_ids
+msgid "Taxes (TVA)"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_staff__role__technician
+msgid "Technicien"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_screen__paintball
+msgid "Terrain et sessions"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_screen__padel
+msgid "Terrains"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_activity__mobile_screen_label
+msgid "Texte du raccourci vers l'écran dédié. Vide : le nom de l'activité."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Total"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_form
+msgid "Total HT"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_tree
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_tree
+msgid "Total TTC"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__payment_total
+msgid "Total encaissé"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__subscription_type_id
+msgid "Type d'abonnement"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Type de l'activité d'exception sur l'enregistrement."
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_staff__phone
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__partner_phone
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Téléphone"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_company__amarna_support_phone
+#: model:ir.model.fields,field_description:abonnement_amarna.field_res_config_settings__amarna_support_phone
+msgid "Téléphone d'assistance"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_scan_wizard__rfid_uid
+msgid "UID RFID lu"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_expiry_warning_days
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_expiry_warning_days
+msgid ""
+"Un abonnement qui se termine dans moins de ce nombre de jours est signalé "
+"comme « bientôt expiré » sur la tablette."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.actions.act_window,help:abonnement_amarna.action_amarna_subscription
+msgid ""
+"Un abonnement relie un membre à une formule. Confirmez-le, facturez la "
+"période puis encaissez."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.constraint,message:abonnement_amarna.constraint_amarna_club_staff_user_uniq
+msgid "Un compte Odoo ne peut être lié qu'à une seule fiche du personnel."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_line__product_uom_id
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__duration_unit
+msgid "Unité"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:res.groups,name:abonnement_amarna.group_club_user
+msgid "Utilisateur"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_default_people_count
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_default_people_count
+msgid "Valeur proposée à la création d'une réservation."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "Valider le passage"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_billing_mixin__payment_valid
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__payment_valid
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__payment_valid
+msgid ""
+"Vrai lorsque la période en cours est gratuite ou entièrement payée. "
+"Conditionne l'accès RFID et les check-ins."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_reservation__website_message_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__website_message_ids
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__website_message_ids
+msgid "Website Messages"
+msgstr "Messages du site web"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_reservation__website_message_ids
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription__website_message_ids
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_subscription_plan__website_message_ids
+msgid "Website communication history"
+msgstr "Historique des communications du site web"
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "jours"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "jours à l'avance"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_invoice_search
+msgid "À encaisser"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_billing_mixin__billing_state__to_invoice
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_reservation__billing_state__to_invoice
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_subscription__billing_state__to_invoice
+msgid "À facturer"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_res_company__amarna_ticket_due_days
+#: model:ir.model.fields,help:abonnement_amarna.field_res_config_settings__amarna_ticket_due_days
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.res_config_settings_view_form_amarna_core
+msgid "Échéance proposée automatiquement pour une nouvelle intervention."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,help:abonnement_amarna.field_amarna_club_activity__mobile_screen
+msgid ""
+"Écran de suivi propre à l'activité, ouvert depuis sa fiche sur la tablette. "
+"Vide : aucun raccourci."
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_club_activity__mobile_screen
+msgid "Écran dédié sur la tablette"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_club_activity__mobile_screen__horses
+msgid "Écurie"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_rfid_card__state
+#: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription__state
+msgid "État"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_scan_wizard_form
+msgid "🔍 Contrôle d'accès — Scan RFID"
+msgstr ""
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:mail.selection__amarna_subscription__activity_state__overdue
+msgid "Overdue"
+msgstr "En retard"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:mail.selection__amarna_subscription__activity_state__today
+msgid "Today"
+msgstr "Aujourd'hui"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:mail.selection__amarna_subscription__activity_state__planned
+msgid "Planned"
+msgstr "Planifiée"

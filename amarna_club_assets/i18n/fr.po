@@ -1,0 +1,358 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* amarna_club_assets
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 14:05+0000\n"
+"PO-Revision-Date: 2026-11-23 14:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__active
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__activity_id
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__activity_id
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_search
+msgid "Activité"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_form
+msgid "Affectation & état"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.actions.act_window,help:amarna_club_assets.action_club_checkpoints
+msgid "Ajoutez un point de contrôle"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__is_weapon
+msgid "Arme"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_search
+msgid "Armes"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.actions.act_window,name:amarna_club_assets.action_club_armory
+#: model:ir.ui.menu,name:amarna_club_assets.menu_club_armory
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.res_config_settings_view_form_amarna_assets
+msgid "Armurerie"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__blocks_session
+msgid "Bloque la session"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__category
+msgid "Catégorie"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_asset__is_weapon
+msgid ""
+"Cochez pour les armes : elles apparaissent dans l'armurerie de la tablette "
+"et suivent l'intervalle de nettoyage du club."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__mobile_activity_code
+msgid "Code activité"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__mobile_activity_code
+msgid "Code activité mobile"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_asset__mobile_activity_code
+msgid ""
+"Code d'activité envoyé par la tablette; le lien Activité est résolu "
+"automatiquement."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__code
+msgid "Code mobile"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model,name:amarna_club_assets.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: amarna_club_assets
+#: model:ir.model,name:amarna_club_assets.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__is_ok
+msgid "Conforme"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__create_uid
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__create_date
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__last_checked
+msgid "Dernier contrôle"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__last_maintenance
+msgid "Dernière maintenance"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_asset__specs_json
+msgid ""
+"Dictionnaire JSON clé/valeur affiché sur la fiche asset de la tablette."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__display_name
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields.selection,name:amarna_club_assets.selection__amarna_club_asset__status__available
+msgid "Disponible"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_form
+msgid "Divers"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields.selection,name:amarna_club_assets.selection__amarna_club_asset__status__maintenance
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_search
+msgid "En maintenance"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields.selection,name:amarna_club_assets.selection__amarna_club_asset__status__inuse
+msgid "En utilisation"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__in_use_since
+msgid "En utilisation depuis"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.res_config_settings_view_form_amarna_assets
+msgid "Entretien des armes"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields.selection,name:amarna_club_assets.selection__amarna_club_asset__status__broken
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_search
+msgid "Hors-service"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__id
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__id
+msgid "ID"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_asset__code
+msgid ""
+"Identifiant de l'asset dans l'application tablette (ex: asset-pool-"
+"filter-01)."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_form
+msgid "Identification"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__image_url
+msgid "Image (URL)"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__write_uid
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__write_date
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: amarna_club_assets
+#: model_terms:ir.actions.act_window,help:amarna_club_assets.action_club_checkpoints
+msgid ""
+"Les points listés ici sont vérifiés sur la tablette avant de démarrer une "
+"session d'une activité."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_asset__category
+msgid ""
+"Libellé affiché dans l'application (ex: Équipement Piscine, Arme de Poing)."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_form
+msgid "Maintenance"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.res_config_settings_view_form_amarna_assets
+msgid "Nettoyage des armes"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_res_company__amarna_weapon_cleaning_days
+#: model:ir.model.fields,field_description:amarna_club_assets.field_res_config_settings__amarna_weapon_cleaning_days
+msgid "Nettoyage des armes : intervalle (jours)"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_form
+msgid "Nom de l'équipement"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__serial_number
+msgid "Numéro de série"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__name
+msgid "Point de contrôle"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model,name:amarna_club_assets.model_amarna_club_checkpoint
+msgid "Point de contrôle avant session"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.actions.act_window,name:amarna_club_assets.action_club_checkpoints
+#: model:ir.ui.menu,name:amarna_club_assets.menu_club_checkpoints
+msgid "Points de contrôle"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_asset__next_maintenance
+msgid "Pour les armes, sert de date de nettoyage due."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__next_maintenance
+msgid "Prochaine maintenance"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_search
+msgid "Regrouper par"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_asset__in_use_since
+msgid ""
+"Renseigné automatiquement quand l'équipement passe en « En utilisation » "
+"(ex. un terrain de padel)."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_checkpoint__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_checkpoint__blocks_session
+msgid "Si ce point n'est pas conforme, aucune session ne peut démarrer."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__specs_json
+msgid "Spécifications techniques (JSON)"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,field_description:amarna_club_assets.field_amarna_club_asset__status
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_search
+msgid "Statut"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_res_company__amarna_weapon_cleaning_days
+#: model:ir.model.fields,help:amarna_club_assets.field_res_config_settings__amarna_weapon_cleaning_days
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.res_config_settings_view_form_amarna_assets
+msgid "Une arme non nettoyée depuis plus de ce délai est signalée à nettoyer."
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.res_config_settings_view_form_amarna_assets
+msgid "jours"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model_terms:ir.ui.view,arch_db:amarna_club_assets.view_club_asset_form
+msgid "Équipement"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model,name:amarna_club_assets.model_amarna_club_asset
+msgid "Équipement du club"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.actions.act_window,name:amarna_club_assets.action_club_assets
+#: model:ir.ui.menu,name:amarna_club_assets.menu_club_assets
+msgid "Équipements"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.ui.menu,name:amarna_club_assets.menu_club_assets_root
+msgid "Équipements Club"
+msgstr ""
+
+#. module: amarna_club_assets
+#: model:ir.model.fields,help:amarna_club_assets.field_amarna_club_checkpoint__is_ok
+msgid "État actuel, mis à jour depuis la tablette."
+msgstr ""

@@ -91,7 +91,6 @@
         <field name="name">Équipements</field>
         <field name="res_model">amarna.club.asset</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_group_activity': 1}</field>
     </record>
 
     <record id="action_club_armory" model="ir.actions.act_window">

@@ -1,0 +1,142 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* amarna_club_inventory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 14:05+0000\n"
+"PO-Revision-Date: 2026-11-23 14:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__activity_id
+#: model_terms:ir.ui.view,arch_db:amarna_club_inventory.view_club_inventory_search
+msgid "Activité"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.actions.act_window,name:amarna_club_inventory.action_club_inventory_low
+#: model:ir.ui.menu,name:amarna_club_inventory.menu_club_inventory_low
+msgid "Alertes stock bas"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__mobile_activity_code
+msgid "Code activité mobile"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__code
+msgid "Code mobile"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model_terms:ir.ui.view,arch_db:amarna_club_inventory.view_club_inventory_form
+msgid "Consommable"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model,name:amarna_club_inventory.model_amarna_club_inventory_item
+msgid "Consommable du club"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.actions.act_window,name:amarna_club_inventory.action_club_inventory
+#: model:ir.ui.menu,name:amarna_club_inventory.menu_club_inventory
+msgid "Consommables"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__id
+msgid "ID"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,help:amarna_club_inventory.field_amarna_club_inventory_item__code
+msgid ""
+"Identifiant du consommable dans l'application tablette (ex: inv-pool-01)."
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.ui.menu,name:amarna_club_inventory.menu_club_inventory_root
+msgid "Inventaire Club"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: amarna_club_inventory
+#: model_terms:ir.ui.view,arch_db:amarna_club_inventory.view_club_inventory_form
+msgid "Nom du consommable"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model_terms:ir.ui.view,arch_db:amarna_club_inventory.view_club_inventory_search
+msgid "Regrouper par"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__low_threshold
+msgid "Seuil bas"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__qty
+msgid "Stock actuel"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__is_low
+#: model_terms:ir.ui.view,arch_db:amarna_club_inventory.view_club_inventory_search
+msgid "Stock bas"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,field_description:amarna_club_inventory.field_amarna_club_inventory_item__unit
+msgid "Unité"
+msgstr ""
+
+#. module: amarna_club_inventory
+#: model:ir.model.fields,help:amarna_club_inventory.field_amarna_club_inventory_item__unit
+msgid "ex: unités, kg, boîtes, seaux"
+msgstr ""

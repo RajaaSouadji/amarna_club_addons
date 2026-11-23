@@ -14,13 +14,13 @@ class AmarnaClubPoolReading(models.Model):
         required=True,
     )
 
-    temperature = fields.Float(string='Température (°C)')
+    temperature = fields.Float(string='Température (°C)', group_operator='avg')
 
-    chlorine = fields.Float(string='Chlore (mg/L)')
+    chlorine = fields.Float(string='Chlore (mg/L)', group_operator='avg')
 
-    ph = fields.Float(string='pH')
+    ph = fields.Float(string='pH', group_operator='avg')
 
-    turbidity = fields.Float(string='Turbidité (NTU)')
+    turbidity = fields.Float(string='Turbidité (NTU)', group_operator='avg')
 
     author = fields.Char(
         string='Relevé par (mobile)',
@@ -56,6 +56,7 @@ class AmarnaClubPoolReading(models.Model):
 
     score = fields.Float(
         string='Score global',
+        group_operator='avg',
         compute='_compute_conformity',
         store=True,
     )

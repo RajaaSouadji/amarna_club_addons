@@ -1,0 +1,166 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* amarna_club_reservations
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 14:05+0000\n"
+"PO-Revision-Date: 2026-11-23 14:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "Activité"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Annuler"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Annuler cette réservation ?"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Arrivée (check-in)"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "Arrivées"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.actions.act_window,help:amarna_club_reservations.action_club_reservations
+msgid "Aucune réservation"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model:ir.ui.menu,name:amarna_club_reservations.menu_club_reservations_today
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "Aujourd'hui"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Client"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Confirmer"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.actions.act_window,help:amarna_club_reservations.action_club_reservations
+msgid ""
+"Créez une réservation pour une activité, puis facturez-la et enregistrez "
+"l'arrivée."
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Créneau"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "Date"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_tree
+msgid "Début"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "En attente"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Encaisser"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Facturation"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Facturer"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Factures"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "Grouper par"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Reste"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Réservation"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model:ir.ui.menu,name:amarna_club_reservations.menu_club_reservations_root
+msgid "Réservations"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model:ir.actions.act_window,name:amarna_club_reservations.action_club_reservations
+msgid "Réservations du jour"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "Statut"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_form
+msgid "Total"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_tree
+msgid "Total TTC"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model:ir.actions.act_window,name:amarna_club_reservations.action_club_reservations_all
+#: model:ir.ui.menu,name:amarna_club_reservations.menu_club_reservations_all
+msgid "Toutes les réservations"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "À encaisser"
+msgstr ""
+
+#. module: amarna_club_reservations
+#: model_terms:ir.ui.view,arch_db:amarna_club_reservations.view_club_reservation_search
+msgid "À venir"
+msgstr ""

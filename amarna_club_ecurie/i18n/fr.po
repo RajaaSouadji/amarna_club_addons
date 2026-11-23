@@ -1,0 +1,335 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* amarna_club_ecurie
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 14:05+0000\n"
+"PO-Revision-Date: 2026-11-23 14:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Alerte de fatigue"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__diet
+msgid "Alimentation"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields.selection,name:amarna_club_ecurie.selection__amarna_club_horse__status__resting
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_search
+msgid "Au repos"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_company__amarna_horse_fatigue_alert
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_config_settings__amarna_horse_fatigue_alert
+msgid "Au-delà de ce niveau, la fatigue du cheval est affichée en alerte."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields.selection,name:amarna_club_ecurie.selection__amarna_club_horse__status__injured
+msgid "Blessé"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_search
+msgid "Blessés"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__box_number
+msgid "Box"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_form
+msgid "Cheval"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model,name:amarna_club_ecurie.model_amarna_club_horse
+msgid "Cheval du club"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Cheval reposé"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.actions.act_window,name:amarna_club_ecurie.action_club_horses
+#: model:ir.ui.menu,name:amarna_club_ecurie.menu_club_horses
+msgid "Chevaux"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__code
+msgid "Code mobile"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model,name:amarna_club_ecurie.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: amarna_club_ecurie
+#: model:ir.model,name:amarna_club_ecurie.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__last_farrier
+msgid "Dernier maréchal-ferrant"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__last_vaccine
+msgid "Dernier vaccin"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__last_deworming
+msgid "Dernier vermifuge"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields.selection,name:amarna_club_ecurie.selection__amarna_club_horse__status__available
+msgid "Disponible"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_search
+msgid "Disponibles"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_company__amarna_horse_fatigue_rested
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_config_settings__amarna_horse_fatigue_rested
+msgid "En dessous de ce niveau, le cheval est affiché comme reposé."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__fatigue_pct
+msgid "Fatigue (%)"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__fatigue
+msgid "Fatigue (0-1)"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Ferrage"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_company__amarna_farrier_interval_days
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_config_settings__amarna_farrier_interval_days
+msgid "Ferrage : intervalle (jours)"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_amarna_club_horse__farrier_due
+msgid ""
+"Ferrage recommandé selon l'intervalle défini dans la configuration de "
+"l'écurie."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__farrier_due
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_search
+msgid "Ferrage à prévoir"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__id
+msgid "ID"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_amarna_club_horse__code
+msgid "Identifiant du cheval dans l'application tablette (ex: h1)."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_form
+msgid "Identité"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Niveau de fatigue (de 0 à 1) au-delà duquel le cheval est signalé."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid ""
+"Niveau de fatigue (de 0 à 1) en dessous duquel le cheval est affiché comme "
+"reposé."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_amarna_club_horse__fatigue
+msgid ""
+"Niveau de fatigue entre 0.0 (reposé) et 1.0 (épuisé), tel qu'affiché par la "
+"jauge de l'application."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_form
+msgid "Nom du cheval"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__vet_note
+msgid "Note vétérinaire"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__next_vet_visit
+msgid "Prochaine visite vétérinaire"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__breed
+msgid "Race"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_company__amarna_horse_fatigue_alert
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_config_settings__amarna_horse_fatigue_alert
+msgid "Seuil d'alerte de fatigue (0 à 1)"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_company__amarna_horse_fatigue_rested
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_config_settings__amarna_horse_fatigue_rested
+msgid "Seuil « reposé » (0 à 1)"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_form
+msgid "Soins"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Soins des chevaux"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__status
+msgid "Statut"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_form
+msgid "Suivi vétérinaire"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_company__amarna_farrier_interval_days
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_config_settings__amarna_farrier_interval_days
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Un ferrage plus ancien que ce délai est signalé « à prévoir »."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_company__amarna_deworming_interval_days
+#: model:ir.model.fields,help:amarna_club_ecurie.field_res_config_settings__amarna_deworming_interval_days
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Un vermifuge plus ancien que ce délai est signalé « à prévoir »."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Vermifuge"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_company__amarna_deworming_interval_days
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_res_config_settings__amarna_deworming_interval_days
+msgid "Vermifuge : intervalle (jours)"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,help:amarna_club_ecurie.field_amarna_club_horse__deworming_due
+msgid ""
+"Vermifuge recommandé selon l'intervalle défini dans la configuration de "
+"l'écurie."
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__deworming_due
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_search
+msgid "Vermifuge à prévoir"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "jours"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.model.fields,field_description:amarna_club_ecurie.field_amarna_club_horse__age
+msgid "Âge"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model:ir.ui.menu,name:amarna_club_ecurie.menu_club_ecurie_root
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.res_config_settings_view_form_amarna_horses
+msgid "Écurie"
+msgstr ""
+
+#. module: amarna_club_ecurie
+#: model_terms:ir.ui.view,arch_db:amarna_club_ecurie.view_club_horse_form
+msgid "État"
+msgstr ""

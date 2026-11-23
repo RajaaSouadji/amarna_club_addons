@@ -98,6 +98,20 @@ dedicated screen.
 - `billing_state` and `payment_valid` are stored; `subscription_status` is
   computed on read (it depends on today's date).
 
+## Langue
+
+Tout est en français. Les libellés écrits dans le code le sont déjà ; les
+libellés que les modèles héritent d'Odoo (Messages, Société, Devise, Activité…)
+sont traduits par le fichier `i18n/fr.po` de chaque module. Après avoir ajouté un
+champ ou un écran, régénérez les termes pour repérer les libellés restés en
+anglais, puis traduisez-les dans `i18n/fr.po` :
+
+```bash
+odoo -c odoo.conf -d <base> --modules=<module> --i18n-export=<module>.pot --stop-after-init
+```
+
+Chargez les traductions avec `-u <module> --i18n-overwrite`.
+
 ## Tests
 
 Run on a scratch database only, never on the live one:

@@ -30,9 +30,9 @@ class AmarnaClubInventoryItem(models.Model):
         readonly=False,
     )
 
-    qty = fields.Integer(string='Stock actuel')
+    qty = fields.Integer(string='Stock actuel', group_operator=False)
 
-    low_threshold = fields.Integer(string='Seuil bas')
+    low_threshold = fields.Integer(string='Seuil bas', group_operator=False)
 
     unit = fields.Char(
         string='Unité',
