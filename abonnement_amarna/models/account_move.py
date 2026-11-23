@@ -19,6 +19,18 @@ class AccountMove(models.Model):
     amarna_period_start = fields.Date(
         string='Début de période Amarna', copy=False, index=True)
 
+    amarna_activity_id = fields.Many2one(
+        'amarna.club.activity', string='Activité', compute='_compute_amarna_activity',
+        store=True, index=True,
+        help="Activité du club facturée (formule ou réservation), pour le chiffre d'affaires par activité.")
+
+    @api.depends('amarna_subscription_id.plan_id.activity_id', 'amarna_reservation_id.activity_id')
+    def _compute_amarna_activity(self):
+        for move in self:
+            move.amarna_activity_id = (
+                move.amarna_subscription_id.plan_id.activity_id
+                or move.amarna_reservation_id.activity_id)
+
     def _amarna_refresh_access(self):
         """Recompute RFID access for every Amarna record these invoices serve."""
         self.mapped('amarna_subscription_id')._sync_rfid_access()

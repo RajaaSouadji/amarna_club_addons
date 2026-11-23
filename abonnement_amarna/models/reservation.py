@@ -5,6 +5,7 @@ import pytz
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools.misc import format_amount
 
 # Canonical status tokens. The tablet sends the same tokens (see
 # OdooReservationService.statusToken in the Flutter app).
@@ -53,8 +54,9 @@ class AmarnaClubReservation(models.Model):
         help='Heure décimale : 16.0 = 16h00.')
     people_count = fields.Integer(string='Nombre de personnes', default=1)
     # start_at / end_at are naive UTC, as every Odoo Datetime field.
-    start_at = fields.Datetime(string='Début (UTC)', required=True, index=True)
-    end_at = fields.Datetime(string='Fin (UTC)', required=True)
+    # Stored in UTC; Odoo shows Datetime fields in the user's timezone.
+    start_at = fields.Datetime(string='Début', required=True, index=True)
+    end_at = fields.Datetime(string='Fin', required=True)
 
     status = fields.Selection([
         (STATUS_PENDING, 'En attente'),
@@ -96,7 +98,7 @@ class AmarnaClubReservation(models.Model):
             else:
                 rec.amount_untaxed = (rec.activity_id.unit_price or 0.0) * max(rec.people_count, 1)
 
-    @api.depends('amount_untaxed', 'activity_id')
+    @api.depends('amount_untaxed', 'activity_id', 'status')
     def _compute_amount_total(self):
         for rec in self:
             rec.amount_total = rec._billing_amounts()[1]
@@ -116,10 +118,15 @@ class AmarnaClubReservation(models.Model):
         self.ensure_one()
         if not self.activity_id or self.amount_untaxed <= 0:
             return []
+        # A cancelled booking that was never invoiced owes nothing.
+        if self.status == STATUS_CANCELLED and not self.invoice_ids:
+            return []
         product = self.activity_id._get_billing_product()
+        # Bookings made on the tablet are already named "Activité – Client".
+        label = self.name if self.activity_id.name in (self.name or '') else '%s – %s' % (self.activity_id.name, self.name)
         return [{
             'product': product,
-            'name': '%s – %s' % (self.activity_id.name, self.name),
+            'name': label,
             'quantity': 1.0,
             'price_unit': self.amount_untaxed,
             'discount': 0.0,
@@ -320,8 +327,8 @@ class AmarnaClubReservation(models.Model):
         today = fields.Date.context_today(self)
         if not self.payment_valid:
             raise ValidationError(
-                "Arrivée refusée : la réservation n'est pas payée (reste à payer : %s %s)." % (
-                    self.amount_total - self.amount_paid, self.currency_id.symbol or ''))
+                "Arrivée refusée : la réservation n'est pas payée (reste à payer : %s)." % format_amount(
+                    self.env, self.amount_total - self.amount_paid, self.currency_id))
 
         if self.subscription_id:
             sub = self.subscription_id

@@ -69,7 +69,13 @@ class AmarnaClubIntervention(models.Model):
         ],
         default='open',
         tracking=True,
+        group_expand='_read_group_status',
     )
+
+    @api.model
+    def _read_group_status(self, states, domain, order):
+        """Kanban columns follow the workflow, not the alphabet."""
+        return [key for key, _label in self._fields['status'].selection]
 
     mobile_activity_code = fields.Char(
         string='Code activité mobile',
@@ -95,12 +101,12 @@ class AmarnaClubIntervention(models.Model):
     )
 
     date_due = fields.Datetime(
-        string='Échéance (UTC)', tracking=True,
+        string='Échéance', tracking=True,
         default=lambda self: fields.Datetime.now() + timedelta(
             days=self.env.company.amarna_ticket_due_days),
         help="Proposée à partir du délai défini dans la configuration du club.")
 
-    date_completed = fields.Datetime(string='Réalisé le (UTC)')
+    date_completed = fields.Datetime(string='Réalisé le')
 
     assigned_to = fields.Char(
         string='Technicien (mobile)',

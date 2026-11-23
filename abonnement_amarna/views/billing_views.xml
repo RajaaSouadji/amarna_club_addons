@@ -17,7 +17,7 @@
                 <field name="amount_residual" sum="Reste à payer"/>
                 <field name="payment_state" widget="badge"/>
                 <field name="state" widget="badge" optional="hide"/>
-                <field name="currency_id" invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
             </tree>
         </field>
     </record>
@@ -31,6 +31,7 @@
                 <field name="partner_id"/>
                 <field name="amarna_subscription_id"/>
                 <field name="amarna_reservation_id"/>
+                <field name="amarna_activity_id"/>
                 <filter string="À encaisser" name="filter_open"
                         domain="[('payment_state', 'in', ('not_paid', 'partial'))]"/>
                 <filter string="Payées" name="filter_paid" domain="[('payment_state', '=', 'paid')]"/>
@@ -38,6 +39,7 @@
                 <filter string="Abonnements" name="filter_subs" domain="[('amarna_subscription_id', '!=', False)]"/>
                 <filter string="Réservations" name="filter_resa" domain="[('amarna_reservation_id', '!=', False)]"/>
                 <group expand="0" string="Grouper par">
+                    <filter string="Activité" name="group_activity" context="{'group_by': 'amarna_activity_id'}"/>
                     <filter string="Mois" name="group_month" context="{'group_by': 'invoice_date:month'}"/>
                     <filter string="Statut de paiement" name="group_payment" context="{'group_by': 'payment_state'}"/>
                 </group>
@@ -51,7 +53,7 @@
         <field name="arch" type="xml">
             <pivot string="Chiffre d'affaires du club" sample="1">
                 <field name="invoice_date" interval="month" type="row"/>
-                <field name="amarna_subscription_id" type="col"/>
+                <field name="amarna_activity_id" type="col"/>
                 <field name="amount_total" type="measure"/>
                 <field name="amount_residual" type="measure"/>
             </pivot>

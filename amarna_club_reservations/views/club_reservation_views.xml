@@ -7,19 +7,19 @@
         <field name="arch" type="xml">
             <tree decoration-success="status == 'checkedin'" decoration-muted="status == 'cancelled'"
                   decoration-danger="billing_state in ('unpaid', 'partial', 'to_invoice') and status != 'cancelled'">
-                <field name="start_at" string="Début (UTC)"/>
+                <field name="start_at" string="Début" optional="hide"/>
                 <field name="reservation_date"/>
                 <field name="start_hour" widget="float_time"/>
                 <field name="end_hour" widget="float_time"/>
                 <field name="activity_id"/>
                 <field name="partner_id"/>
-                <field name="client_name" optional="show"/>
+                <field name="client_name" optional="hide"/>
                 <field name="people_count"/>
                 <field name="subscription_id" optional="hide"/>
                 <field name="amount_total" sum="Total TTC"/>
                 <field name="billing_state" widget="badge"/>
                 <field name="status" widget="badge"/>
-                <field name="currency_id" invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
             </tree>
         </field>
     </record>

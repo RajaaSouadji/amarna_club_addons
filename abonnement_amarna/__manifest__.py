@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Amarna Club - Abonnements, facturation & accès RFID',
-    'version': '17.0.3.2.0',
+    'version': '17.0.3.3.0',
     'category': 'Services',
     'summary': 'Socle du club : formules, facturation centralisée, encaissements et accès RFID',
     'description': """

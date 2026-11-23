@@ -222,3 +222,45 @@ class TestAmarnaBilling(TransactionCase):
         self.assertEqual(invoice.amarna_reservation_id, resa)
         self.assertEqual(invoice.amarna_period_start, resa.reservation_date)
         self.assertTrue(invoice.invoice_line_ids.product_id.default_code.startswith('AMARNA-ACT-'))
+
+    # ------------------------------------------------- Findings of the field test
+
+    def test_cancelled_unbilled_reservation_owes_nothing(self):
+        resa = self._new_reservation()
+        self.assertEqual(resa.billing_state, 'to_invoice')
+        resa.action_cancel()
+        self.assertEqual(resa.billing_state, 'free')
+        self.assertEqual(resa.amount_total, 0.0)
+
+    def test_invoice_label_does_not_repeat_the_activity_name(self):
+        # The tablet names bookings "Activité – Client".
+        resa = self._new_reservation(name='%s – Membre test' % self.activity.name)
+        resa.action_confirm()
+        resa.action_create_invoice()
+        line = resa.invoice_ids.invoice_line_ids
+        self.assertEqual(line.name, resa.name)
+
+    def test_invoice_knows_the_activity_it_bills(self):
+        sub = self._new_subscription()
+        sub.action_confirm()
+        sub.action_create_invoice()
+        self.assertEqual(sub.invoice_ids.amarna_activity_id, self.activity)
+        resa = self._new_reservation()
+        resa.action_confirm()
+        resa.action_create_invoice()
+        self.assertEqual(resa.invoice_ids.amarna_activity_id, self.activity)
+
+    def test_front_desk_role_can_bill_and_collect(self):
+        group = self.env.ref('abonnement_amarna.group_club_user')
+        user = self.env['res.users'].create({
+            'name': 'Accueil test', 'login': 'accueil_test_amarna',
+            'groups_id': [(6, 0, [group.id])],
+        })
+        self.assertTrue(user.has_group('account.group_account_invoice'))
+
+    def test_check_in_refusal_shows_a_formatted_amount(self):
+        resa = self._new_reservation()
+        resa.action_confirm()
+        with self.assertRaises(ValidationError) as raised:
+            resa.action_check_in()
+        self.assertIn(self.company.currency_id.symbol, str(raised.exception))

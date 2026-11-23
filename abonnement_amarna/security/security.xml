@@ -11,7 +11,8 @@
     <record id="group_club_user" model="res.groups">
         <field name="name">Utilisateur</field>
         <field name="category_id" ref="module_category_amarna_club"/>
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <!-- Cashing a subscription or a booking creates invoices and payments. -->
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('account.group_account_invoice'))]"/>
     </record>
 
     <!-- Managers may delete records; the tablet never needs this right. -->
