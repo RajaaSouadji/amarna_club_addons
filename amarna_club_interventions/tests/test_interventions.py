@@ -88,3 +88,12 @@ class TestInterventions(TransactionCase):
             [], ['status'], ['__count'])
         self.assertEqual(
             {g['status'] for g in result['groups']}, {'open', 'inProgress', 'resolved'})
+
+    def test_home_screen_counts_open_tickets_per_activity(self):
+        before = self.pool.open_ticket_count
+        ticket = self.Ticket.create({'name': 'Compteur', 'mobile_activity_code': 'pool'})
+        self.pool.invalidate_recordset(['open_ticket_count'])
+        self.assertEqual(self.pool.open_ticket_count, before + 1)
+        ticket.action_resolve()
+        self.pool.invalidate_recordset(['open_ticket_count'])
+        self.assertEqual(self.pool.open_ticket_count, before)

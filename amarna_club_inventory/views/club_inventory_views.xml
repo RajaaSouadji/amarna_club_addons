@@ -76,6 +76,22 @@
         <field name="domain">[('is_low', '=', True)]</field>
     </record>
 
+    <record id="view_club_activity_kanban" model="ir.ui.view">
+        <field name="name">amarna.club.activity.kanban.inventory</field>
+        <field name="model">amarna.club.activity</field>
+        <field name="inherit_id" ref="abonnement_amarna.view_club_activity_kanban"/>
+        <field name="arch" type="xml">
+            <kanban position="inside">
+                <field name="low_stock_count"/>
+            </kanban>
+            <div name="amarna_alerts" position="inside">
+                <span t-if="record.low_stock_count.raw_value" class="badge text-bg-warning">
+                    <t t-out="record.low_stock_count.raw_value"/> consommable(s) en stock bas
+                </span>
+            </div>
+        </field>
+    </record>
+
     <!-- Root app: Inventaire Club -->
     <menuitem id="menu_club_inventory_root"
               name="Stock"

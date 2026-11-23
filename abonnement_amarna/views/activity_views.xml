@@ -99,6 +99,52 @@
         </field>
     </record>
 
+    <!-- Home screen of the club: one card per activity. Optional modules add
+         their own alerts into the "amarna_alerts" block. -->
+    <record id="view_club_activity_kanban" model="ir.ui.view">
+        <field name="name">amarna.club.activity.kanban</field>
+        <field name="model">amarna.club.activity</field>
+        <field name="arch" type="xml">
+            <kanban class="o_amarna_dashboard" create="0" records_draggable="0">
+                <field name="reservation_today_count"/>
+                <field name="unpaid_subscription_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <field name="name" class="fw-bold fs-4"/>
+                            <field name="mobile_status" widget="badge"
+                                   decoration-success="mobile_status == 'open'"
+                                   decoration-warning="mobile_status == 'warning'"
+                                   decoration-danger="mobile_status in ('closed', 'maintenance')"/>
+                        </div>
+                        <field name="assigned_staff" class="text-muted small"/>
+                        <field name="occupancy_pct" widget="progressbar"/>
+                        <div class="d-flex gap-1 flex-wrap" name="amarna_alerts">
+                            <span t-if="record.reservation_today_count.raw_value"
+                                  class="badge text-bg-info">
+                                <t t-out="record.reservation_today_count.raw_value"/> réservation(s) aujourd'hui
+                            </span>
+                            <span t-if="record.unpaid_subscription_count.raw_value"
+                                  class="badge text-bg-danger">
+                                <t t-out="record.unpaid_subscription_count.raw_value"/> abonnement(s) impayé(s)
+                            </span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_amarna_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de bord</field>
+        <field name="res_model">amarna.club.activity</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="view_club_activity_kanban"/>
+    </record>
+
+    <menuitem id="menu_amarna_dashboard" name="Tableau de bord"
+              parent="menu_amarna_root" action="action_amarna_dashboard" sequence="5"/>
+
     <!-- ACTION -->
     <record id="action_amarna_activity" model="ir.actions.act_window">
         <field name="name">Activités du club</field>
