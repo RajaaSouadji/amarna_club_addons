@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.misc import format_amount
 
 
 class AmarnaScanWizard(models.TransientModel):
@@ -38,6 +39,8 @@ class AmarnaScanWizard(models.TransientModel):
     start_date = fields.Date(string='Date de début', readonly=True)
     expiration_date = fields.Date(string='Date de fin', readonly=True)
     remaining_sessions = fields.Integer(string='Séances restantes', readonly=True)
+    is_unlimited = fields.Boolean(readonly=True)
+    sessions_label = fields.Char(string='Séances restantes', compute='_compute_sessions_label')
     card_state = fields.Selection([
         ('active', 'Active'), ('inactive', 'Inactive'), ('lost', 'Perdue'), ('blocked', 'Bloquée'),
     ], string='Statut carte', readonly=True)
@@ -59,6 +62,11 @@ class AmarnaScanWizard(models.TransientModel):
     ], default='pending', string='Résultat', readonly=True)
 
     result_message = fields.Text(string='Message', readonly=True)
+
+    @api.depends('remaining_sessions', 'is_unlimited')
+    def _compute_sessions_label(self):
+        for wiz in self:
+            wiz.sessions_label = 'Illimité' if wiz.is_unlimited else str(wiz.remaining_sessions)
 
     def action_scan(self):
         requested_subscription = self.subscription_id or self.env['amarna.subscription'].browse(
@@ -161,7 +169,11 @@ class AmarnaScanWizard(models.TransientModel):
 
         if not sub.payment_valid:
             self.result_state = 'denied'
-            self.result_message = "❌ Paiement en attente : reste à payer %s." % sub.amount_due
+            if sub.billing_state == 'to_invoice':
+                self.result_message = "❌ Aucune facture émise pour cette période : facturez l'abonnement."
+            else:
+                self.result_message = "❌ Paiement en attente : reste à payer %s." % format_amount(
+                    self.env, sub.amount_due, sub.currency_id)
             return {
                 'type': 'ir.actions.act_window',
                 'res_model': 'amarna.scan.wizard',
@@ -196,6 +208,7 @@ class AmarnaScanWizard(models.TransientModel):
         self.start_date = sub.start_date
         self.expiration_date = sub.expiration_date
         self.remaining_sessions = sub.remaining_sessions
+        self.is_unlimited = sub.is_unlimited
         self.card_state = self.card_id.state
         self.subscription_status = sub.subscription_status
         self.currency_id = sub.currency_id.id if sub.currency_id else False
@@ -248,13 +261,15 @@ class AmarnaScanWizard(models.TransientModel):
 
         # Mettre à jour l'affichage du wizard
         self.remaining_sessions = sub.remaining_sessions
+        self.is_unlimited = sub.is_unlimited
         self.result_state = 'success'
         self.result_message = (
             "✅ Accès autorisé\n"
             "Client : %s\n"
             "Activité : %s\n"
             "Séances restantes : %s"
-        ) % (sub.partner_id.name, sub.activity_id.name if sub.activity_id else '', sub.remaining_sessions)
+        ) % (sub.partner_id.name, sub.activity_id.name if sub.activity_id else '',
+             'Illimité' if sub.is_unlimited else sub.remaining_sessions)
 
         return {
             'type': 'ir.actions.act_window',

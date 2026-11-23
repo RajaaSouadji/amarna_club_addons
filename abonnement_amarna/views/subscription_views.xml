@@ -14,7 +14,7 @@
                 <field name="plan_id"/>
                 <field name="start_date"/>
                 <field name="expiration_date"/>
-                <field name="remaining_sessions" optional="show"/>
+                <field name="sessions_label" optional="show"/>
                 <field name="amount_total" sum="Total TTC"/>
                 <field name="amount_due" sum="Reste à payer"/>
                 <field name="subscription_status" widget="badge"/>

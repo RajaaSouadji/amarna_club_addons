@@ -37,10 +37,10 @@ class AmarnaClubPoolReading(models.Model):
 
     # Rules come from the club settings (Configuration > Piscine); the app
     # receives the same values through amarna_app_config().
-    temperature_ok = fields.Boolean(compute='_compute_conformity', store=True)
-    chlorine_ok = fields.Boolean(compute='_compute_conformity', store=True)
-    ph_ok = fields.Boolean(compute='_compute_conformity', store=True)
-    turbidity_ok = fields.Boolean(compute='_compute_conformity', store=True)
+    temperature_ok = fields.Boolean(string='Température conforme', compute='_compute_conformity', store=True)
+    chlorine_ok = fields.Boolean(string='Chlore conforme', compute='_compute_conformity', store=True)
+    ph_ok = fields.Boolean(string='pH conforme', compute='_compute_conformity', store=True)
+    turbidity_ok = fields.Boolean(string='Turbidité conforme', compute='_compute_conformity', store=True)
 
     issue_count = fields.Integer(
         string='Paramètres hors norme',

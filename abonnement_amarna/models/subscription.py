@@ -47,6 +47,9 @@ class AmarnaSubscription(models.Model):
     billing_period_start = fields.Date(related='start_date', store=True, readonly=True, string='Début de la période facturée')
     auto_renew = fields.Boolean(string='Renouvellement automatique', tracking=True)
     is_unlimited = fields.Boolean(string='Illimitée', compute='_compute_is_unlimited')
+    sessions_label = fields.Char(
+        string='Séances restantes', compute='_compute_sessions_label',
+        help="Séances restantes, ou « Illimité » pour une formule sans limite.")
     remaining_sessions = fields.Integer(string='Séances restantes')
 
     rfid_card_id = fields.Many2one('amarna.rfid.card', string='Carte RFID', tracking=True)
@@ -84,6 +87,11 @@ class AmarnaSubscription(models.Model):
         matching = records.filtered(
             lambda r: (r.subscription_status in values) == positive)
         return [('id', 'in', matching.ids)]
+
+    @api.depends('remaining_sessions', 'plan_id.session_count')
+    def _compute_sessions_label(self):
+        for rec in self:
+            rec.sessions_label = 'Illimité' if not rec.plan_id.session_count else str(rec.remaining_sessions)
 
     @api.depends('plan_id.session_count')
     def _compute_is_unlimited(self):

@@ -62,7 +62,7 @@
                                                 <field name="plan_id"/>
                                                 <field name="start_date"/>
                                                 <field name="expiration_date"/>
-                                                <field name="remaining_sessions"/>
+                                                <field name="sessions_label"/>
                                                 <field name="subscription_status" widget="badge"/>
                                             </tree>
                                         </field>
@@ -74,7 +74,7 @@
                                     <group string="Séances &amp; Dates">
                                         <field name="start_date" readonly="1"/>
                                         <field name="expiration_date" readonly="1"/>
-                                        <field name="remaining_sessions" class="fw-bold fs-5 text-primary" readonly="1"/>
+                                        <field name="sessions_label" class="fw-bold fs-5 text-primary" readonly="1"/>
                                     </group>
                                 </group>
                             </page>
@@ -108,7 +108,7 @@
 
                 <footer>
                     <button name="action_do_checkin"
-                            string="Valider le passage (Décrémenter séance)"
+                            string="Valider le passage"
                             type="object"
                             class="btn-success"
                             icon="fa-check"

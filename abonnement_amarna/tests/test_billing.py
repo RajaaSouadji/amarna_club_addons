@@ -154,7 +154,39 @@ class TestAmarnaBilling(TransactionCase):
         wizard = self.env['amarna.scan.wizard'].create({'card_id': self.card.id})
         wizard.action_scan()
         self.assertEqual(wizard.result_state, 'denied')
+        # Never invoiced: nothing is owed yet, so the message says to invoice.
+        self.assertIn('Aucune facture', wizard.result_message)
+
+    def test_scan_wizard_shows_the_amount_owed_with_its_currency(self):
+        sub = self._new_subscription()
+        sub.action_confirm()
+        sub.action_create_invoice()
+        wizard = self.env['amarna.scan.wizard'].create({'card_id': self.card.id})
+        wizard.action_scan()
+        self.assertEqual(wizard.result_state, 'denied')
         self.assertIn('Paiement en attente', wizard.result_message)
+        self.assertIn(self.company.currency_id.symbol, wizard.result_message)
+
+    def test_unlimited_plan_says_unlimited_not_zero_sessions(self):
+        plan = self.env['amarna.subscription.plan'].create({
+            'name': 'Illimité test', 'activity_id': self.activity.id,
+            'subscription_type_id': self.sub_type.id, 'list_price': 50.0, 'session_count': 0,
+        })
+        sub = self.env['amarna.subscription'].create({
+            'partner_id': self.partner.id, 'plan_id': plan.id,
+            'rfid_card_id': self.card.id,
+            'start_date': fields.Date.context_today(self.env.user),
+        })
+        self.assertEqual(sub.sessions_label, 'Illimité')
+        sub.action_confirm()
+        sub.action_create_invoice()
+        self._pay_open_invoices(sub)
+        wizard = self.env['amarna.scan.wizard'].create({'card_id': self.card.id})
+        wizard.action_scan()
+        self.assertEqual(wizard.result_state, 'ok')
+        self.assertEqual(wizard.sessions_label, 'Illimité')
+        wizard.action_do_checkin()
+        self.assertIn('Illimité', wizard.result_message)
 
     # --------------------------------------------------------- reservations
 
