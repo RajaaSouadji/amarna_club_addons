@@ -26,16 +26,12 @@ class AmarnaClubReservation(models.Model):
     in against the subscription's sessions).
     """
     _name = 'amarna.club.reservation'
-    _inherit = ['mail.thread', 'amarna.billing.mixin']
+    _inherit = ['mail.thread', 'amarna.billing.mixin', 'amarna.activity.mixin']
     _description = 'Réservation du club'
     _order = 'start_at desc'
     _billing_link_field = 'amarna_reservation_id'
 
     name = fields.Char(string='Référence', required=True, copy=False)
-    mobile_activity_code = fields.Char(string='Code activité mobile', index=True)
-    activity_id = fields.Many2one(
-        'amarna.club.activity', string='Activité', compute='_compute_activity_id',
-        store=True, readonly=False, index=True)
     client_name = fields.Char(string='Nom du client')
     partner_id = fields.Many2one('res.partner', string='Membre / client', index=True)
     subscription_id = fields.Many2one(
@@ -80,15 +76,6 @@ class AmarnaClubReservation(models.Model):
     active = fields.Boolean(default=True)
 
     # ------------------------------------------------------------ Compute
-
-    @api.depends('mobile_activity_code')
-    def _compute_activity_id(self):
-        Activity = self.env['amarna.club.activity']
-        for rec in self:
-            if rec.mobile_activity_code:
-                rec.activity_id = Activity._find_by_mobile_code(rec.mobile_activity_code)
-            elif not rec.activity_id:
-                rec.activity_id = False
 
     @api.depends('activity_id.unit_price', 'people_count', 'subscription_id')
     def _compute_amount_untaxed(self):

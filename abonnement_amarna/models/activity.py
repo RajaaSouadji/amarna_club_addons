@@ -247,7 +247,7 @@ class AmarnaClubActivity(models.Model):
             "type": "ir.actions.act_window",
             "name": "Plans",
             "res_model": "amarna.subscription.plan",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "domain": [("activity_id", "=", self.id)],
             "context": {
                 "default_activity_id": self.id,

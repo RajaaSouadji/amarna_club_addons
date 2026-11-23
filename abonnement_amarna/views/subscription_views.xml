@@ -17,7 +17,10 @@
                 <field name="sessions_label" optional="show"/>
                 <field name="amount_total" sum="Total TTC"/>
                 <field name="amount_due" sum="Reste à payer"/>
-                <field name="subscription_status" widget="badge"/>
+                <field name="subscription_status" widget="badge"
+                       decoration-success="subscription_status == 'active'"
+                       decoration-danger="subscription_status in ('unpaid', 'expired')"
+                       decoration-info="subscription_status == 'draft'"/>
                 <field name="currency_id" column_invisible="1"/>
             </list>
         </field>

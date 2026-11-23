@@ -100,11 +100,11 @@
         <field name="domain">[('is_weapon', '=', True)]</field>
     </record>
 
-    <!-- Root app: Équipements Club -->
+    <!-- Exploitation > Matériel -->
     <menuitem id="menu_club_assets_root"
-              name="Équipements Club"
-              sequence="21"
-              groups="abonnement_amarna.group_club_user"/>
+              name="Matériel"
+              parent="abonnement_amarna.menu_amarna_operations_root"
+              sequence="20"/>
 
     <menuitem id="menu_club_assets"
               name="Équipements"

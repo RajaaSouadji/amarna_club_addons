@@ -88,8 +88,12 @@ class AmarnaClubHorse(models.Model):
             rec.fatigue_pct = rec.fatigue * 100.0
 
     def _search_care_due(self, field_name, days, operator, value):
+        if operator not in ('=', '!=', 'in', 'not in'):
+            return NotImplemented
+        # Odoo 20 turns ('x', '=', True) into ('x', 'in', OrderedSet([True])).
+        values = {value} if isinstance(value, bool) else set(value)
         cutoff = fields.Date.context_today(self) - timedelta(days=days)
-        want_due = bool(value) == (operator == '=')
+        want_due = (True in values) == (operator in ('=', 'in'))
         if want_due:
             return [(field_name, '!=', False), (field_name, '<', cutoff)]
         return ['|', (field_name, '=', False), (field_name, '>=', cutoff)]

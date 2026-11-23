@@ -53,7 +53,7 @@ def main():
     args = parser.parse_args()
 
     base = [sys.executable, args.odoo_bin]
-    common = ['-c', args.config, '-d', args.db]
+    common = ['-c', args.config, '-d', args.db, '--no-http']
     run(base + ['-i', 'base', '--load-language', 'fr_FR', '--stop-after-init'] + common)
     run(base[:2] + ['shell'] + common,
         COMPANY_SCRIPT % {'name': args.company_name, 'city': args.city,

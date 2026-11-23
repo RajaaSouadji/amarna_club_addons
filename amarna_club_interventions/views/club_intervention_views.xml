@@ -165,9 +165,9 @@
 
     <!-- Root app: Interventions Club -->
     <menuitem id="menu_club_interventions_root"
-              name="Interventions Club"
-              sequence="22"
-              groups="abonnement_amarna.group_club_user"/>
+              name="Maintenance"
+              parent="abonnement_amarna.menu_amarna_operations_root"
+              sequence="10"/>
 
     <menuitem id="menu_club_interventions"
               name="Toutes les interventions"

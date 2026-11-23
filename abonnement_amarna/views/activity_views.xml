@@ -108,9 +108,9 @@
 
     <!-- MENU -->
     <menuitem id="menu_amarna_activity"
-              name="Activités du club"
-              parent="menu_amarna_configuration_root"
+              name="Activités"
+              parent="menu_amarna_product_root"
               action="action_amarna_activity"
-              sequence="4"/>
+              sequence="1"/>
 
 </odoo>

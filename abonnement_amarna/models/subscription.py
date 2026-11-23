@@ -81,7 +81,13 @@ class AmarnaSubscription(models.Model):
     def _search_subscription_status(self, operator, value):
         # The status depends on today's date, so it is not stored: filter by
         # evaluating it on every subscription (a club holds a few thousand at most).
-        values = value if isinstance(value, (list, tuple)) else [value]
+        # Odoo 20 normalises '=' to 'in' and hands the value over as an OrderedSet.
+        if operator not in ('=', '!=', 'in', 'not in'):
+            return NotImplemented
+        if isinstance(value, (str, bool)) or value is None:
+            values = {value}
+        else:
+            values = set(value)
         positive = operator in ('=', 'in')
         records = self.with_context(active_test=False).search([])
         matching = records.filtered(
@@ -289,7 +295,7 @@ class AmarnaSubscription(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Passages RFID',
             'res_model': 'amarna.checkin',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('subscription_id', '=', self.id)],
             'context': {'default_subscription_id': self.id, 'default_partner_id': self.partner_id.id},
         }

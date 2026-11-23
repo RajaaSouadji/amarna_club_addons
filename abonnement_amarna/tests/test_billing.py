@@ -72,6 +72,39 @@ class TestAmarnaBilling(TransactionCase):
         sub = self._new_subscription(start_date=fields.Date.to_date('2026-01-15'))
         self.assertEqual(sub.expiration_date, fields.Date.to_date('2026-02-14'))
 
+    def test_smart_button_actions_only_use_odoo20_view_modes(self):
+        """Odoo 20 renamed the "tree" view type to "list"; actions built in
+        Python (smart buttons) are not covered by the XML port."""
+        sub = self._new_subscription()
+        sub.action_confirm()
+        sub.action_create_invoice()
+        checked = 0
+        for record in (sub, sub.plan_id, sub.plan_id.activity_id, sub.partner_id):
+            for name in dir(record):
+                if not name.startswith('action_view_'):
+                    continue
+                action = getattr(record, name)()
+                modes = (action.get('view_mode') or '').split(',')
+                self.assertNotIn('tree', modes, '%s.%s' % (record._name, name))
+                if action.get('res_model') and action.get('type') == 'ir.actions.act_window':
+                    self.env[action['res_model']].get_views(
+                        [(False, mode) for mode in modes if mode])
+                checked += 1
+        self.assertGreater(checked, 2)
+
+    def test_status_can_be_searched_and_grouped_by_the_list_filters(self):
+        """The "Actifs" / "Impayés" filters search the computed status."""
+        Sub = self.env['amarna.subscription']
+        sub = self._new_subscription()
+        sub.action_confirm()
+        self.assertIn(sub, Sub.search([('subscription_status', '=', 'unpaid')]))
+        self.assertNotIn(sub, Sub.search([('subscription_status', '=', 'active')]))
+        sub.action_create_invoice()
+        self._pay_open_invoices(sub)
+        self.assertIn(sub, Sub.search([('subscription_status', '=', 'active')]))
+        self.assertIn(sub, Sub.search([('subscription_status', 'in', ['active', 'draft'])]))
+        self.assertNotIn(sub, Sub.search([('subscription_status', '!=', 'active')]))
+
     def test_full_money_path(self):
         sub = self._new_subscription()
         sub.action_confirm()

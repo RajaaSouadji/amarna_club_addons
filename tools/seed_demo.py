@@ -200,7 +200,7 @@ TICKETS = [
     ('Fuite sur la pompe de filtration n°2', 'pool', 'anomaly', 'high', 'inProgress',
      'Mourad Haddad', "Fuite d'eau visible au niveau du joint, pression en baisse.", 2),
     ('Vélo elliptique hors service', 'gym', 'anomaly', 'medium', 'open',
-     'Yacine Amrani', "L'écran ne s'allume plus.", 3),
+     'Yacine Amrani', "L'écran ne s'allume plus.", -1),
     ('Contrôle mensuel des filets de protection', 'paintball', 'preventive', 'medium', 'open',
      'Sofiane Belkacem', "Vérifier l'état et la tension des filets avant le week-end.", 2),
     ("Remplacement de l'éclairage du terrain 4", 'padel', 'corrective', 'low', 'open',
@@ -409,6 +409,27 @@ def seed_operations(odoo, acts):
     log('operations ok: horses, tickets, pool readings')
 
 
+def seed_scans(odoo, partners):
+    """Badge a few members at the desk, through the same wizard the staff use."""
+    done = 0
+    for member in ('Mohamed Benali', 'Amina Boudiaf', 'Yacine Cherif', 'Karim Hadjadj',
+                   'Fatima Zohra Belkacem', 'Samia Mansouri', 'Redouane Meziane'):
+        card = odoo.search('amarna.rfid.card', [('partner_id', '=', partners[member])],
+                           ('id',), limit=1)
+        if not card:
+            continue
+        try:
+            # The desk screen fills card_id from the typed code (onchange);
+            # over RPC the card is given directly.
+            wizard = odoo.call('amarna.scan.wizard', 'create', [{'card_id': card[0]['id']}])
+            odoo.call('amarna.scan.wizard', 'action_scan', [[wizard]])
+            odoo.call('amarna.scan.wizard', 'action_do_checkin', [[wizard]])
+            done += 1
+        except Exception as exc:  # unpaid or expired member: refused by design
+            log('  scan not done:', member, '->', str(exc)[:80])
+    log('scans ok:', done)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     parser.add_argument('--url', default='http://localhost:8069')
@@ -423,6 +444,7 @@ def main():
     subs = seed_subscriptions(odoo, partners, cards, plans)
     seed_reservations(odoo, partners, subs, acts)
     seed_operations(odoo, acts)
+    seed_scans(odoo, partners)
     log('done')
 
 

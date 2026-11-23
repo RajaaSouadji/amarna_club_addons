@@ -29,8 +29,8 @@
 
     <menuitem id="menu_club_checkpoints"
               name="Points de contrôle"
-              parent="abonnement_amarna.menu_amarna_configuration_root"
+              parent="menu_club_assets_root"
               action="action_club_checkpoints"
-              sequence="20"/>
+              sequence="30"/>
 
 </odoo>

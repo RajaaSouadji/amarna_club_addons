@@ -83,7 +83,7 @@ class AmarnaSubscriptionPlan(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Abonnements',
             'res_model': 'amarna.subscription',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('plan_id', '=', self.id)],
             'context': {'default_plan_id': self.id},
         }

@@ -52,6 +52,6 @@
     </record>
 
     <menuitem id="menu_amarna_subscription_type" name="Durées"
-              parent="menu_amarna_product_root" action="action_amarna_subscription_type" sequence="2"/>
+              parent="menu_amarna_product_root" action="action_amarna_subscription_type" sequence="3"/>
 
 </odoo>

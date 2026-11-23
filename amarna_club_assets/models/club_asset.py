@@ -4,6 +4,7 @@ from odoo import api, fields, models
 
 class AmarnaClubAsset(models.Model):
     _name = 'amarna.club.asset'
+    _inherit = ['amarna.activity.mixin']
     _description = 'Équipement du club'
     _order = 'activity_id, name'
 
@@ -25,19 +26,6 @@ class AmarnaClubAsset(models.Model):
              "(ex: Équipement Piscine, Arme de Poing).",
     )
 
-    mobile_activity_code = fields.Char(
-        string='Code activité mobile',
-        help="Code d'activité envoyé par la tablette; le lien Activité "
-             "est résolu automatiquement.",
-    )
-
-    activity_id = fields.Many2one(
-        'amarna.club.activity',
-        string='Activité',
-        compute='_compute_activity_id',
-        store=True,
-        readonly=False,
-    )
 
     # Selection keys match the app's AssetStatus enum names.
     status = fields.Selection(
@@ -81,17 +69,6 @@ class AmarnaClubAsset(models.Model):
     )
 
     active = fields.Boolean(default=True)
-
-    @api.depends('mobile_activity_code')
-    def _compute_activity_id(self):
-        Activity = self.env['amarna.club.activity']
-        for rec in self:
-            if rec.mobile_activity_code:
-                rec.activity_id = Activity._find_by_mobile_code(
-                    rec.mobile_activity_code
-                )
-            elif not rec.activity_id:
-                rec.activity_id = False
 
     @api.model_create_multi
     def create(self, vals_list):

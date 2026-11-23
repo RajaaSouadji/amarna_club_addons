@@ -77,6 +77,6 @@
     </record>
 
     <menuitem id="menu_amarna_subscription_plan" name="Formules d'abonnement"
-              parent="menu_amarna_product_root" action="action_amarna_subscription_plan" sequence="1"/>
+              parent="menu_amarna_product_root" action="action_amarna_subscription_plan" sequence="2"/>
 
 </odoo>

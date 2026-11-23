@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Racine : tout le module Amarna Club -->
-    <menuitem id="menu_amarna_root" name="Amarna Club" sequence="1"/>
+    <!--
+        One app for the whole club. Every optional module (equipment,
+        interventions, inventory, stable, pool, reservations) adds its screens
+        under one of the sections below; a section with nothing installed in it
+        stays hidden. Sequences leave room for the optional modules:
 
-    <!-- Membres et abonnements (accueil quotidien) -->
-    <menuitem id="menu_amarna_subscription_root" name="Membres &amp; abonnements"
-              parent="menu_amarna_root" sequence="1"/>
+            10 Réservations      (amarna_club_reservations)
+            20 Membres
+            30 Facturation
+            40 Exploitation      (assets, interventions, inventory)
+            50 Écurie            (amarna_club_ecurie)
+            60 Piscine           (amarna_club_pool)
+            70 Catalogue & tarifs
+            90 Configuration
+    -->
+    <menuitem id="menu_amarna_root" name="Amarna Club" sequence="1"
+              groups="group_club_user"/>
+
+    <menuitem id="menu_amarna_subscription_root" name="Membres"
+              parent="menu_amarna_root" sequence="20"/>
 
     <!-- Facturation centralisée : toutes les factures du club -->
     <menuitem id="menu_amarna_billing_root" name="Facturation"
-              parent="menu_amarna_root" sequence="2"/>
+              parent="menu_amarna_root" sequence="30"/>
 
-    <!-- Catalogue : formules et durées -->
+    <!-- Exploitation : matériel, maintenance et stock (modules optionnels) -->
+    <menuitem id="menu_amarna_operations_root" name="Exploitation"
+              parent="menu_amarna_root" sequence="40"/>
+
+    <!-- Catalogue : activités, formules et durées -->
     <menuitem id="menu_amarna_product_root" name="Catalogue &amp; tarifs"
-              parent="menu_amarna_root" sequence="3"/>
+              parent="menu_amarna_root" sequence="70"/>
 
     <!-- Configuration du club -->
-    <menuitem id="menu_amarna_configuration_root" name="Configuration du club"
-              parent="menu_amarna_root" sequence="4"/>
+    <menuitem id="menu_amarna_configuration_root" name="Configuration"
+              parent="menu_amarna_root" sequence="90"/>
 
 </odoo>

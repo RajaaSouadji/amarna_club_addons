@@ -5,6 +5,7 @@ from . import staff
 from . import billing
 from . import account_move
 from . import activity
+from . import activity_mixin
 from . import subscription_type
 from . import subscription_plan
 from . import amarna_subscription_line

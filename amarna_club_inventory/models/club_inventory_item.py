@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 
 class AmarnaClubInventoryItem(models.Model):
     _name = 'amarna.club.inventory.item'
+    _inherit = ['amarna.activity.mixin']
     _description = 'Consommable du club'
     _order = 'activity_id, name'
 
@@ -18,17 +19,6 @@ class AmarnaClubInventoryItem(models.Model):
              "(ex: inv-pool-01).",
     )
 
-    mobile_activity_code = fields.Char(
-        string='Code activité mobile',
-    )
-
-    activity_id = fields.Many2one(
-        'amarna.club.activity',
-        string='Activité',
-        compute='_compute_activity_id',
-        store=True,
-        readonly=False,
-    )
 
     qty = fields.Integer(string='Stock actuel', aggregator=None)
 
@@ -46,17 +36,6 @@ class AmarnaClubInventoryItem(models.Model):
     )
 
     active = fields.Boolean(default=True)
-
-    @api.depends('mobile_activity_code')
-    def _compute_activity_id(self):
-        Activity = self.env['amarna.club.activity']
-        for rec in self:
-            if rec.mobile_activity_code:
-                rec.activity_id = Activity._find_by_mobile_code(
-                    rec.mobile_activity_code
-                )
-            elif not rec.activity_id:
-                rec.activity_id = False
 
     @api.constrains('qty', 'low_threshold')
     def _check_quantities(self):

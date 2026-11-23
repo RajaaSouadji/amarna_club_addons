@@ -18,7 +18,7 @@ STATUS_VALUES = ('open', 'inProgress', 'resolved')
 
 class AmarnaClubIntervention(models.Model):
     _name = 'amarna.club.intervention'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'amarna.activity.mixin']
     _description = 'Intervention (incident ou maintenance)'
     _order = 'create_date desc'
 
@@ -72,18 +72,7 @@ class AmarnaClubIntervention(models.Model):
         group_expand=True,
     )
 
-    mobile_activity_code = fields.Char(
-        string='Code activité mobile',
-    )
-
-    activity_id = fields.Many2one(
-        'amarna.club.activity',
-        string='Activité',
-        compute='_compute_activity_id',
-        store=True,
-        readonly=False,
-        tracking=True,
-    )
+    activity_id = fields.Many2one(tracking=True)
 
     mobile_asset_code = fields.Char(
         string='Code équipement mobile',
@@ -124,17 +113,6 @@ class AmarnaClubIntervention(models.Model):
         'res.company',
         default=lambda self: self.env.company,
     )
-
-    @api.depends('mobile_activity_code')
-    def _compute_activity_id(self):
-        Activity = self.env['amarna.club.activity']
-        for rec in self:
-            if rec.mobile_activity_code:
-                rec.activity_id = Activity._find_by_mobile_code(
-                    rec.mobile_activity_code
-                )
-            elif not rec.activity_id:
-                rec.activity_id = False
 
     @api.depends('date_due', 'status')
     def _compute_is_overdue(self):

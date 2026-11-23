@@ -33,3 +33,17 @@ class TestHorseRules(TransactionCase):
         self.env.company.amarna_farrier_interval_days = 60
         horse.invalidate_recordset(['farrier_due'])
         self.assertFalse(horse.farrier_due)
+
+    def test_care_due_filters_search_the_same_rule(self):
+        Horse = self.env['amarna.club.horse']
+        horse = Horse.create({
+            'name': 'Cheval filtre', 'code': 'horse-test-filter',
+            'last_farrier': fields.Date.context_today(self.env.user) - timedelta(days=50),
+        })
+        self.env.company.amarna_farrier_interval_days = 42
+        self.assertIn(horse, Horse.search([('farrier_due', '=', True)]))
+        self.assertNotIn(horse, Horse.search([('farrier_due', '=', False)]))
+        self.assertNotIn(horse, Horse.search([('farrier_due', '!=', True)]))
+        self.env.company.amarna_farrier_interval_days = 60
+        self.assertNotIn(horse, Horse.search([('farrier_due', '=', True)]))
+        self.assertIn(horse, Horse.search([('farrier_due', '=', False)]))

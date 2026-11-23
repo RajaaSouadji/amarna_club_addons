@@ -124,4 +124,16 @@
         </field>
     </record>
 
+    <!-- Opens the "Club Amarna" page of the Settings screen from the club menu. -->
+    <record id="action_amarna_settings" model="ir.actions.act_window">
+        <field name="name">Paramètres du club</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'abonnement_amarna'}</field>
+    </record>
+
+    <menuitem id="menu_amarna_settings" name="Paramètres du club"
+              parent="menu_amarna_configuration_root" action="action_amarna_settings"
+              sequence="5" groups="base.group_system"/>
+
 </odoo>

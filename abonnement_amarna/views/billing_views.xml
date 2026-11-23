@@ -15,7 +15,10 @@
                 <field name="amarna_reservation_id" string="Réservation"/>
                 <field name="amount_total" sum="Total TTC"/>
                 <field name="amount_residual" sum="Reste à payer"/>
-                <field name="payment_state" widget="badge"/>
+                <field name="payment_state" widget="badge"
+                       decoration-success="payment_state in ('paid', 'in_payment')"
+                       decoration-warning="payment_state == 'partial'"
+                       decoration-danger="payment_state == 'not_paid'"/>
                 <field name="state" widget="badge" optional="hide"/>
                 <field name="currency_id" column_invisible="1"/>
             </list>
@@ -54,9 +57,36 @@
             <pivot string="Chiffre d'affaires du club" sample="1">
                 <field name="invoice_date" interval="month" type="row"/>
                 <field name="amarna_activity_id" type="col"/>
+                <field name="amount_untaxed" type="measure"/>
                 <field name="amount_total" type="measure"/>
                 <field name="amount_residual" type="measure"/>
             </pivot>
+        </field>
+    </record>
+
+    <record id="view_amarna_invoice_graph" model="ir.ui.view">
+        <field name="name">amarna.invoice.graph</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <graph string="Chiffre d'affaires du club" type="bar" sample="1">
+                <field name="amarna_activity_id"/>
+                <field name="amount_untaxed" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Chiffre d'affaires : toutes les factures du club, payées ou non. -->
+    <record id="action_amarna_revenue" model="ir.actions.act_window">
+        <field name="name">Chiffre d'affaires</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_amarna_invoice_search"/>
+        <field name="domain">[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'),
+            '|', ('amarna_subscription_id', '!=', False), ('amarna_reservation_id', '!=', False)]</field>
+        <field name="context">{'search_default_group_activity': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Pas encore de chiffre d'affaires</p>
+            <p>Le chiffre d'affaires se calcule à partir des factures des abonnements et des réservations.</p>
         </field>
     </record>
 
@@ -77,5 +107,7 @@
 
     <menuitem id="menu_amarna_invoices" name="Factures"
               parent="menu_amarna_billing_root" action="action_amarna_invoices" sequence="1"/>
+    <menuitem id="menu_amarna_revenue" name="Chiffre d'affaires"
+              parent="menu_amarna_billing_root" action="action_amarna_revenue" sequence="2"/>
 
 </odoo>
