@@ -121,23 +121,23 @@
             <kanban default_group_by="status" quick_create="false">
                 <field name="priority"/>
                 <field name="activity_id"/>
+                <field name="is_overdue"/>
                 <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click">
-                            <div class="o_kanban_record_top">
-                                <strong><field name="name"/></strong>
-                            </div>
-                            <div class="o_kanban_record_body">
-                                <field name="activity_id"/>
-                                <span t-if="record.priority.raw_value == 'critical'"
-                                      class="badge text-bg-danger">Critique</span>
-                                <span t-elif="record.priority.raw_value == 'high'"
-                                      class="badge text-bg-warning">Élevé</span>
-                            </div>
-                            <div class="o_kanban_record_bottom">
-                                <field name="user_id" widget="many2one_avatar_user"/>
-                            </div>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold fs-5"/>
+                        <field name="activity_id" class="text-muted"/>
+                        <div class="d-flex gap-1 flex-wrap">
+                            <span t-if="record.priority.raw_value == 'critical'"
+                                  class="badge text-bg-danger">Critique</span>
+                            <span t-elif="record.priority.raw_value == 'high'"
+                                  class="badge text-bg-warning">Élevé</span>
+                            <span t-if="record.is_overdue.raw_value"
+                                  class="badge text-bg-danger">En retard</span>
                         </div>
+                        <footer class="pt-1">
+                            <field name="date_due" widget="remaining_days" class="text-muted"/>
+                            <field name="user_id" widget="many2one_avatar_user" class="ms-auto"/>
+                        </footer>
                     </t>
                 </templates>
             </kanban>
