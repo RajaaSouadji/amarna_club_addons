@@ -61,7 +61,7 @@
                             <field name="current_occupancy"/>
                             <field name="max_capacity"/>
                             <field name="occupancy_pct" widget="progressbar"/>
-                            <field name="assigned_staff"/>
+                            <field name="staff_ids" widget="many2many_tags"/>
                         </group>
                         <group string="Facturation des réservations">
                             <field name="unit_price"/>

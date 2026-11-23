@@ -260,7 +260,7 @@ def seed_catalog(odoo, tax_id):
     acts = {}
     for code, (name, price, staff, capacity) in ACTIVITIES.items():
         found = odoo.search('amarna.club.activity', [('code', '=', code)], limit=1)
-        vals = {'name': name, 'unit_price': price, 'assigned_staff': staff,
+        vals = {'name': name, 'unit_price': price,
                 'max_capacity': capacity, 'tax_ids': tax}
         if found:
             acts[code] = found[0]['id']

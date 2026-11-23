@@ -175,3 +175,13 @@ class TestAmarnaConfig(TransactionCase):
     def test_activities_carry_their_tablet_screen(self):
         gym = self.env['amarna.club.activity'].search([('code', '=', 'gym')], limit=1)
         self.assertEqual(gym.mobile_screen, 'gym')
+
+    def test_activity_staff_text_comes_from_the_staff_list(self):
+        pool = self.env['amarna.club.activity'].search([('code', '=', 'pool')], limit=1)
+        staff = self.env['amarna.club.staff'].create({
+            'name': 'Samir Test', 'role': 'lifeguard', 'activity_ids': [(6, 0, pool.ids)]})
+        self.assertIn('Samir Test (Maître-nageur)', pool.assigned_staff)
+        staff.name = 'Samir Renommé'
+        self.assertIn('Samir Renommé', pool.assigned_staff)
+        staff.activity_ids = False
+        self.assertNotIn('Samir Renommé', pool.assigned_staff or '')

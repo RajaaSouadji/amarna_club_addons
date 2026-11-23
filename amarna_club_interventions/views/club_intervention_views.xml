@@ -24,7 +24,7 @@
                        decoration-success="status == 'resolved'"/>
                 <field name="date_due"/>
                 <field name="is_overdue" optional="hide"/>
-                <field name="user_id" optional="show"/>
+                <field name="staff_id" optional="show"/>
             </list>
         </field>
     </record>
@@ -63,8 +63,8 @@
                         <group string="Planification">
                             <field name="date_due"/>
                             <field name="date_completed" readonly="1"/>
-                            <field name="assigned_to"/>
-                            <field name="user_id"/>
+                            <field name="staff_id"/>
+                            <field name="assigned_to" invisible="staff_id"/>
                             <field name="mobile_id" readonly="1"/>
                         </group>
                     </group>
@@ -87,7 +87,7 @@
                 <field name="name"/>
                 <field name="mobile_id"/>
                 <field name="activity_id"/>
-                <field name="user_id"/>
+                <field name="staff_id"/>
                 <filter string="Incidents" name="filter_anomaly"
                         domain="[('type', '=', 'anomaly')]"/>
                 <filter string="Maintenance" name="filter_maintenance"
@@ -136,7 +136,7 @@
                         </div>
                         <footer class="pt-1">
                             <field name="date_due" widget="remaining_days" class="text-muted"/>
-                            <field name="user_id" widget="many2one_avatar_user" class="ms-auto"/>
+                            <field name="staff_id" class="ms-auto text-muted"/>
                         </footer>
                     </t>
                 </templates>

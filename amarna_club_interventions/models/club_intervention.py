@@ -92,16 +92,28 @@ class AmarnaClubIntervention(models.Model):
 
     date_completed = fields.Datetime(string='Réalisé le')
 
+    staff_id = fields.Many2one(
+        'amarna.club.staff',
+        string='Technicien',
+        tracking=True,
+        help="Membre du personnel chargé de l'intervention.",
+    )
+
     assigned_to = fields.Char(
-        string='Technicien (mobile)',
-        help='Nom du technicien tel que saisi sur la tablette; le lien '
-             'utilisateur est résolu automatiquement si possible.',
+        string='Technicien (nom)',
+        compute='_compute_assigned_to',
+        store=True,
+        readonly=False,
+        help="Nom du technicien tel que la tablette l'envoie et le lit; il est "
+             "relié automatiquement à la fiche du personnel de même nom.",
     )
 
     user_id = fields.Many2one(
         'res.users',
-        string='Technicien',
-        tracking=True,
+        string='Compte Odoo du technicien',
+        compute='_compute_user_id',
+        store=True,
+        readonly=False,
     )
 
     is_overdue = fields.Boolean(
@@ -113,6 +125,18 @@ class AmarnaClubIntervention(models.Model):
         'res.company',
         default=lambda self: self.env.company,
     )
+
+    @api.depends('staff_id')
+    def _compute_assigned_to(self):
+        for rec in self:
+            if rec.staff_id:
+                rec.assigned_to = rec.staff_id.name
+
+    @api.depends('staff_id.user_id')
+    def _compute_user_id(self):
+        for rec in self:
+            if rec.staff_id.user_id:
+                rec.user_id = rec.staff_id.user_id
 
     @api.depends('date_due', 'status')
     def _compute_is_overdue(self):
@@ -169,12 +193,13 @@ class AmarnaClubIntervention(models.Model):
                 [('code', '=', vals['mobile_asset_code'])], limit=1)
             vals['asset_id'] = asset.id or False
 
+        # The tablet sends the technician's name: link it to the staff card.
         assignee = (vals.get('assigned_to') or '').strip()
-        if assignee and 'user_id' not in vals:
-            Users = self.env['res.users']
-            user = (Users.search([('name', '=', assignee)], limit=1)
-                    or Users.search([('name', 'ilike', assignee)], limit=1))
-            vals['user_id'] = user.id or False
+        if assignee and 'staff_id' not in vals:
+            Staff = self.env['amarna.club.staff']
+            staff = (Staff.search([('name', '=', assignee)], limit=1)
+                     or Staff.search([('name', 'ilike', assignee)], limit=1))
+            vals['staff_id'] = staff.id or False
 
     def action_take_over(self):
         self.write({'status': 'inProgress'})

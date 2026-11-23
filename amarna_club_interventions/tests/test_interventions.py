@@ -25,11 +25,26 @@ class TestInterventions(TransactionCase):
             {'name': 'Pompe', 'code': 'asset-test-pump', 'mobile_activity_code': 'pool'})
         user = self.env['res.users'].create(
             {'name': 'Mourad Haddad Test', 'login': 'mourad.test'})
+        staff = self.env['amarna.club.staff'].create(
+            {'name': 'Mourad Haddad Test', 'role': 'technician', 'user_id': user.id})
         ticket = self.Ticket.create({
             'name': 'Pompe HS', 'mobile_asset_code': 'asset-test-pump',
             'assigned_to': 'Mourad Haddad Test'})
         self.assertEqual(ticket.asset_id, asset)
+        self.assertEqual(ticket.staff_id, staff)
         self.assertEqual(ticket.user_id, user)
+
+    def test_technician_chosen_in_odoo_is_what_the_tablet_reads(self):
+        staff = self.env['amarna.club.staff'].create(
+            {'name': 'Yacine Test', 'role': 'technician'})
+        ticket = self.Ticket.create({'name': 'Choisi dans Odoo', 'staff_id': staff.id})
+        self.assertEqual(ticket.assigned_to, 'Yacine Test')
+        self.assertFalse(ticket.user_id)
+
+    def test_unknown_technician_name_is_kept_as_text(self):
+        ticket = self.Ticket.create({'name': 'Externe', 'assigned_to': 'Prestataire X'})
+        self.assertEqual(ticket.assigned_to, 'Prestataire X')
+        self.assertFalse(ticket.staff_id)
 
     def test_legacy_description_still_gives_id_and_type(self):
         ticket = self.Ticket.create({

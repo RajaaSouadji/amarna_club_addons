@@ -32,7 +32,15 @@ class AmarnaClubActivity(models.Model):
     )
     current_occupancy = fields.Integer(string='Occupation actuelle')
     max_capacity = fields.Integer(string='Capacité maximale')
-    assigned_staff = fields.Char(string='Personnel en service')
+    staff_ids = fields.Many2many(
+        'amarna.club.staff', 'amarna_staff_activity_rel', 'activity_id', 'staff_id',
+        string='Personnel affecté',
+        help="Les personnes se rattachent à une activité depuis leur fiche "
+             "(Configuration > Personnel du club).")
+    assigned_staff = fields.Char(
+        string='Personnel en service',
+        compute='_compute_assigned_staff',
+        help="Texte affiché sur la tablette : noms et fonctions du personnel affecté.")
     mobile_screen = fields.Selection([
         ('pool', "Qualité de l'eau"),
         ('horses', 'Écurie'),
@@ -231,6 +239,14 @@ class AmarnaClubActivity(models.Model):
     def _compute_subscription_plan_count(self):
         for rec in self:
             rec.subscription_plan_count = len(rec.subscription_plan_ids)
+
+    @api.depends('staff_ids.name', 'staff_ids.role')
+    def _compute_assigned_staff(self):
+        roles = dict(self.env['amarna.club.staff']._fields['role'].selection)
+        for rec in self:
+            rec.assigned_staff = ', '.join(
+                '%s (%s)' % (staff.name, roles.get(staff.role, ''))
+                for staff in rec.staff_ids)
 
     @api.model
     def _find_by_mobile_code(self, code):
