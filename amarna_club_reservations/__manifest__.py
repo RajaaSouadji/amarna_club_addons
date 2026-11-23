@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Amarna Club - Réservations',
-    'version': '17.0.2.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Services/Club',
     'summary': 'Réservations des activités du club, facturation et check-in depuis la tablette',
     'author': 'Amarna',

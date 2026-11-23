@@ -7,19 +7,24 @@
         <field name="sequence">25</field>
     </record>
 
+    <record id="res_groups_privilege_amarna_club" model="res.groups.privilege">
+        <field name="name">Amarna Club</field>
+        <field name="category_id" ref="module_category_amarna_club"/>
+    </record>
+
     <!-- Tablet and back-office staff. Implies internal-user rights. -->
     <record id="group_club_user" model="res.groups">
         <field name="name">Utilisateur</field>
-        <field name="category_id" ref="module_category_amarna_club"/>
+        <field name="privilege_id" ref="res_groups_privilege_amarna_club"/>
         <!-- Cashing a subscription or a booking creates invoices and payments. -->
-        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('account.group_account_invoice'))]"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_user')), Command.link(ref('account.group_account_invoice'))]"/>
     </record>
 
     <!-- Managers may delete records; the tablet never needs this right. -->
     <record id="group_club_manager" model="res.groups">
         <field name="name">Responsable</field>
-        <field name="category_id" ref="module_category_amarna_club"/>
-        <field name="implied_ids" eval="[(4, ref('group_club_user'))]"/>
+        <field name="privilege_id" ref="res_groups_privilege_amarna_club"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_club_user'))]"/>
     </record>
 
     <!--
@@ -29,7 +34,7 @@
     -->
     <data noupdate="1">
         <record id="base.user_admin" model="res.users">
-            <field name="groups_id" eval="[(4, ref('abonnement_amarna.group_club_manager'))]"/>
+            <field name="group_ids" eval="[Command.link(ref('abonnement_amarna.group_club_manager'))]"/>
         </record>
     </data>
 </odoo>

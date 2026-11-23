@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Amarna Club - Abonnements, facturation & accès RFID',
-    'version': '17.0.3.3.0',
+    'version': '20.0.1.0.0',
     'category': 'Services',
     'summary': 'Socle du club : formules, facturation centralisée, encaissements et accès RFID',
     'description': """
@@ -17,7 +17,7 @@ Socle partagé par tout le club.
     'depends': ['base', 'account', 'mail', 'product'],
     'data': [
         'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/activity_data.xml',
         'data/subscription_sequence.xml',
         'data/rfid_cron.xml',

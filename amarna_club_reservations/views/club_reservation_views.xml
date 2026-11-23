@@ -5,7 +5,7 @@
         <field name="name">amarna.club.reservation.tree</field>
         <field name="model">amarna.club.reservation</field>
         <field name="arch" type="xml">
-            <tree decoration-success="status == 'checkedin'" decoration-muted="status == 'cancelled'"
+            <list decoration-success="status == 'checkedin'" decoration-muted="status == 'cancelled'"
                   decoration-danger="billing_state in ('unpaid', 'partial', 'to_invoice') and status != 'cancelled'">
                 <field name="start_at" string="Début" optional="hide"/>
                 <field name="reservation_date"/>
@@ -20,7 +20,7 @@
                 <field name="billing_state" widget="badge"/>
                 <field name="status" widget="badge"/>
                 <field name="currency_id" column_invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -92,13 +92,13 @@
                     <notebook>
                         <page string="Factures" name="invoices">
                             <field name="invoice_ids" nolabel="1" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="invoice_date"/>
                                     <field name="amount_total" sum="Total"/>
                                     <field name="amount_residual" sum="Reste"/>
                                     <field name="payment_state" widget="badge"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -141,7 +141,7 @@
                 <filter string="Arrivées" name="checkedin" domain="[('status', '=', 'checkedin')]"/>
                 <filter string="À encaisser" name="unpaid"
                         domain="[('billing_state', 'in', ('to_invoice', 'unpaid', 'partial')), ('status', '!=', 'cancelled')]"/>
-                <group expand="0" string="Grouper par">
+                <group>
                     <filter string="Activité" name="group_activity" context="{'group_by': 'activity_id'}"/>
                     <filter string="Date" name="group_date" context="{'group_by': 'reservation_date:day'}"/>
                     <filter string="Statut" name="group_status" context="{'group_by': 'status'}"/>
@@ -153,7 +153,7 @@
     <record id="action_club_reservations" model="ir.actions.act_window">
         <field name="name">Réservations du jour</field>
         <field name="res_model">amarna.club.reservation</field>
-        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_mode">list,form,calendar</field>
         <field name="search_view_id" ref="view_club_reservation_search"/>
         <field name="context">{'search_default_today': 1}</field>
         <field name="help" type="html">
@@ -165,7 +165,7 @@
     <record id="action_club_reservations_all" model="ir.actions.act_window">
         <field name="name">Toutes les réservations</field>
         <field name="res_model">amarna.club.reservation</field>
-        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_mode">list,form,calendar</field>
         <field name="search_view_id" ref="view_club_reservation_search"/>
         <field name="context">{}</field>
     </record>

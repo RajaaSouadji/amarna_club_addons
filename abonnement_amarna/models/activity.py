@@ -79,9 +79,8 @@ class AmarnaClubActivity(models.Model):
     image_1920 = fields.Image("Image", max_width=1920, max_height=1920)
     note = fields.Html(string="Notes internes")
 
-    _sql_constraints = [
-        ('code_uniq', 'unique(code)', "Le code d'activité doit être unique."),
-    ]
+    _code_uniq = models.Constraint(
+        'unique(code)', "Le code d'activité doit être unique.")
 
     @api.model
     def _prepare_default_activity_xmlids(self):

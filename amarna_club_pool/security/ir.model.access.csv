@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_club_pool_reading_user,amarna.club.pool.reading.user,model_amarna_club_pool_reading,abonnement_amarna.group_club_user,1,1,1,0
-access_club_pool_reading_manager,amarna.club.pool.reading.manager,model_amarna_club_pool_reading,abonnement_amarna.group_club_manager,1,1,1,1

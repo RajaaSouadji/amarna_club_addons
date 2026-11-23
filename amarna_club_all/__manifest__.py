@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Amarna Club - Suite complète',
-    'version': '17.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Services/Club',
     'summary': "Installe toute la suite Amarna Club en un clic (backend de l'application tablette)",
     'author': 'Amarna',

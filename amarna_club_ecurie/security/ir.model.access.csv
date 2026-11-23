@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_club_horse_user,amarna.club.horse.user,model_amarna_club_horse,abonnement_amarna.group_club_user,1,1,1,0
-access_club_horse_manager,amarna.club.horse.manager,model_amarna_club_horse,abonnement_amarna.group_club_manager,1,1,1,1

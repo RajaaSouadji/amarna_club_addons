@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_club_asset_user,amarna.club.asset.user,amarna.club.asset,abonnement_amarna.group_club_user,cru,
+access_club_asset_manager,amarna.club.asset.manager,amarna.club.asset,abonnement_amarna.group_club_manager,crud,
+access_club_checkpoint_user,amarna.club.checkpoint.user,amarna.club.checkpoint,abonnement_amarna.group_club_user,ru,
+access_club_checkpoint_manager,amarna.club.checkpoint.manager,amarna.club.checkpoint,abonnement_amarna.group_club_manager,crud,

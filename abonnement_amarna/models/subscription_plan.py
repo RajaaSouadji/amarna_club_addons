@@ -38,12 +38,12 @@ class AmarnaSubscriptionPlan(models.Model):
     description = fields.Html(string='Description')
     subscription_count = fields.Integer(compute='_compute_subscription_count')
 
-    _sql_constraints = [
-        ('session_count_positive', 'CHECK(session_count >= 0)',
-         'Le nombre de séances ne peut pas être négatif.'),
-        ('list_price_positive', 'CHECK(list_price >= 0)',
-         'Le prix ne peut pas être négatif.'),
-    ]
+    _session_count_positive = models.Constraint(
+        'CHECK(session_count >= 0)',
+        'Le nombre de séances ne peut pas être négatif.')
+    _list_price_positive = models.Constraint(
+        'CHECK(list_price >= 0)',
+        'Le prix ne peut pas être négatif.')
 
     @api.constrains('list_price')
     def _check_list_price(self):
@@ -52,9 +52,9 @@ class AmarnaSubscriptionPlan(models.Model):
                 raise ValidationError('Le prix de la formule ne peut pas être négatif.')
 
     def _compute_subscription_count(self):
-        counts = self.env['amarna.subscription'].read_group(
-            [('plan_id', 'in', self.ids)], ['plan_id'], ['plan_id'])
-        mapped = {c['plan_id'][0]: c['plan_id_count'] for c in counts}
+        counts = self.env['amarna.subscription']._read_group(
+            [('plan_id', 'in', self.ids)], ['plan_id'], ['__count'])
+        mapped = {plan.id: count for plan, count in counts}
         for plan in self:
             plan.subscription_count = mapped.get(plan.id, 0)
 

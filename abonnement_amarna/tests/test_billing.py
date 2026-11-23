@@ -286,7 +286,7 @@ class TestAmarnaBilling(TransactionCase):
         group = self.env.ref('abonnement_amarna.group_club_user')
         user = self.env['res.users'].create({
             'name': 'Accueil test', 'login': 'accueil_test_amarna',
-            'groups_id': [(6, 0, [group.id])],
+            'group_ids': [(6, 0, [group.id])],
         })
         self.assertTrue(user.has_group('account.group_account_invoice'))
 

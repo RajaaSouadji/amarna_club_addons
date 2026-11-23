@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_club_intervention_user,amarna.club.intervention.user,model_amarna_club_intervention,abonnement_amarna.group_club_user,1,1,1,0
-access_club_intervention_manager,amarna.club.intervention.manager,model_amarna_club_intervention,abonnement_amarna.group_club_manager,1,1,1,1

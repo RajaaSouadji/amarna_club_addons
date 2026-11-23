@@ -16,9 +16,8 @@ class AmarnaRfidCard(models.Model):
     note = fields.Text(string='Notes')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company, required=True)
 
-    _sql_constraints = [
-        ('rfid_name_unique', 'unique(name)', 'L’identifiant RFID doit être unique.'),
-    ]
+    _rfid_name_unique = models.Constraint(
+        'unique(name)', 'L’identifiant RFID doit être unique.')
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -59,14 +59,14 @@
                                     <group string="Formule &amp; Validité">
                                         <field name="subscription_id" domain="[('id', 'in', subscription_ids)]"/>
                                         <field name="subscription_ids" nolabel="1" colspan="2">
-                                            <tree create="0" delete="0">
+                                            <list create="0" delete="0">
                                                 <field name="activity_id"/>
                                                 <field name="plan_id"/>
                                                 <field name="start_date"/>
                                                 <field name="expiration_date"/>
                                                 <field name="sessions_label"/>
                                                 <field name="subscription_status" widget="badge"/>
-                                            </tree>
+                                            </list>
                                         </field>
                                         <field name="plan_id" readonly="1"/>
                                         <field name="activity_id" readonly="1"/>

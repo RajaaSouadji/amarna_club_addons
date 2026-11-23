@@ -5,14 +5,14 @@
         <field name="name">amarna.subscription.plan.tree</field>
         <field name="model">amarna.subscription.plan</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="activity_id"/>
                 <field name="subscription_type_id"/>
                 <field name="session_count" string="Séances (0 = illimité)"/>
                 <field name="list_price"/>
                 <field name="subscription_count" string="Abonnements"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -62,7 +62,7 @@
                 <field name="name"/>
                 <field name="activity_id"/>
                 <filter string="Archivées" name="filter_archived" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Grouper par">
+                <group>
                     <filter string="Activité" name="group_activity" context="{'group_by': 'activity_id'}"/>
                 </group>
             </search>
@@ -72,7 +72,7 @@
     <record id="action_amarna_subscription_plan" model="ir.actions.act_window">
         <field name="name">Formules d'abonnement</field>
         <field name="res_model">amarna.subscription.plan</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_amarna_subscription_plan_search"/>
     </record>
 

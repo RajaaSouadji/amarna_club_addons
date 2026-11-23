@@ -5,7 +5,7 @@
         <field name="name">amarna.club.intervention.tree</field>
         <field name="model">amarna.club.intervention</field>
         <field name="arch" type="xml">
-            <tree decoration-danger="is_overdue"
+            <list decoration-danger="is_overdue"
                   decoration-muted="status == 'resolved'">
                 <field name="create_date" string="Créé le"/>
                 <field name="name"/>
@@ -25,7 +25,7 @@
                 <field name="date_due"/>
                 <field name="is_overdue" optional="hide"/>
                 <field name="user_id" optional="show"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -102,7 +102,7 @@
                 <separator/>
                 <filter string="En retard" name="filter_overdue"
                         domain="[('date_due', '&lt;', context_today().strftime('%Y-%m-%d')), ('status', '!=', 'resolved')]"/>
-                <group expand="1" string="Regrouper par">
+                <group>
                     <filter string="Activité" name="group_activity"
                             context="{'group_by': 'activity_id'}"/>
                     <filter string="Statut" name="group_status"
@@ -147,7 +147,7 @@
     <record id="action_club_interventions" model="ir.actions.act_window">
         <field name="name">Interventions</field>
         <field name="res_model">amarna.club.intervention</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Aucune intervention</p>
             <p>Les incidents et maintenances créés depuis la tablette
@@ -158,7 +158,7 @@
     <record id="action_club_incidents" model="ir.actions.act_window">
         <field name="name">Incidents</field>
         <field name="res_model">amarna.club.intervention</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="domain">[('type', '=', 'anomaly')]</field>
         <field name="context">{'default_type': 'anomaly'}</field>
     </record>

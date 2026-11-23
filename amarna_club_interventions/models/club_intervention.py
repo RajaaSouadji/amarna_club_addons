@@ -69,13 +69,8 @@ class AmarnaClubIntervention(models.Model):
         ],
         default='open',
         tracking=True,
-        group_expand='_read_group_status',
+        group_expand=True,
     )
-
-    @api.model
-    def _read_group_status(self, states, domain, order):
-        """Kanban columns follow the workflow, not the alphabet."""
-        return [key for key, _label in self._fields['status'].selection]
 
     mobile_activity_code = fields.Char(
         string='Code activité mobile',

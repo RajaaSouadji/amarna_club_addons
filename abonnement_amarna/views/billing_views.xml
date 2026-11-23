@@ -7,7 +7,7 @@
         <field name="name">amarna.invoice.tree</field>
         <field name="model">account.move</field>
         <field name="arch" type="xml">
-            <tree create="0" decoration-danger="payment_state in ('not_paid', 'partial')">
+            <list create="0" decoration-danger="payment_state in ('not_paid', 'partial')">
                 <field name="name" string="Facture"/>
                 <field name="invoice_date"/>
                 <field name="partner_id"/>
@@ -18,7 +18,7 @@
                 <field name="payment_state" widget="badge"/>
                 <field name="state" widget="badge" optional="hide"/>
                 <field name="currency_id" column_invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -38,7 +38,7 @@
                 <separator/>
                 <filter string="Abonnements" name="filter_subs" domain="[('amarna_subscription_id', '!=', False)]"/>
                 <filter string="Réservations" name="filter_resa" domain="[('amarna_reservation_id', '!=', False)]"/>
-                <group expand="0" string="Grouper par">
+                <group>
                     <filter string="Activité" name="group_activity" context="{'group_by': 'amarna_activity_id'}"/>
                     <filter string="Mois" name="group_month" context="{'group_by': 'invoice_date:month'}"/>
                     <filter string="Statut de paiement" name="group_payment" context="{'group_by': 'payment_state'}"/>
@@ -63,7 +63,7 @@
     <record id="action_amarna_invoices" model="ir.actions.act_window">
         <field name="name">Factures du club</field>
         <field name="res_model">account.move</field>
-        <field name="view_mode">tree,form,pivot</field>
+        <field name="view_mode">list,form,pivot</field>
         <field name="view_id" ref="view_amarna_invoice_tree"/>
         <field name="search_view_id" ref="view_amarna_invoice_search"/>
         <field name="domain">[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'),

@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_club_inventory_item_user,amarna.club.inventory.item.user,model_amarna_club_inventory_item,abonnement_amarna.group_club_user,1,1,1,0
-access_club_inventory_item_manager,amarna.club.inventory.item.manager,model_amarna_club_inventory_item,abonnement_amarna.group_club_manager,1,1,1,1

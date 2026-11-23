@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_club_intervention_user,amarna.club.intervention.user,amarna.club.intervention,abonnement_amarna.group_club_user,cru,
+access_club_intervention_manager,amarna.club.intervention.manager,amarna.club.intervention,abonnement_amarna.group_club_manager,crud,

@@ -32,10 +32,9 @@ class AmarnaClubStaff(models.Model):
         'res.company', default=lambda self: self.env.company, required=True)
     active = fields.Boolean(default=True)
 
-    _sql_constraints = [
-        ('user_uniq', 'unique(user_id)',
-         'Un compte Odoo ne peut être lié qu\'à une seule fiche du personnel.'),
-    ]
+    _user_uniq = models.Constraint(
+        'unique(user_id)',
+        "Un compte Odoo ne peut être lié qu'à une seule fiche du personnel.")
 
     @api.model
     def amarna_my_profile(self):

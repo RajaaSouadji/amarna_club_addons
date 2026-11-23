@@ -5,12 +5,12 @@
         <field name="name">amarna.club.staff.tree</field>
         <field name="model">amarna.club.staff</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="role"/>
                 <field name="phone"/>
                 <field name="active" optional="hide"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -39,7 +39,7 @@
     <record id="action_amarna_club_staff" model="ir.actions.act_window">
         <field name="name">Personnel du club</field>
         <field name="res_model">amarna.club.staff</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Ajoutez le personnel du club</p>
             <p>Les techniciens et soigneurs proposés sur la tablette viennent de cette liste.</p>

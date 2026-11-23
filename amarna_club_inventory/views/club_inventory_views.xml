@@ -5,7 +5,7 @@
         <field name="name">amarna.club.inventory.item.tree</field>
         <field name="model">amarna.club.inventory.item</field>
         <field name="arch" type="xml">
-            <tree editable="bottom" decoration-danger="is_low">
+            <list editable="bottom" decoration-danger="is_low">
                 <field name="name"/>
                 <field name="activity_id"/>
                 <field name="mobile_activity_code" optional="hide"/>
@@ -14,7 +14,7 @@
                 <field name="low_threshold"/>
                 <field name="unit"/>
                 <field name="is_low"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -55,7 +55,7 @@
                 <field name="activity_id"/>
                 <filter string="Stock bas" name="filter_low"
                         domain="[('is_low', '=', True)]"/>
-                <group expand="1" string="Regrouper par">
+                <group>
                     <filter string="Activité" name="group_activity"
                             context="{'group_by': 'activity_id'}"/>
                 </group>
@@ -66,13 +66,13 @@
     <record id="action_club_inventory" model="ir.actions.act_window">
         <field name="name">Consommables</field>
         <field name="res_model">amarna.club.inventory.item</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="action_club_inventory_low" model="ir.actions.act_window">
         <field name="name">Alertes stock bas</field>
         <field name="res_model">amarna.club.inventory.item</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[('is_low', '=', True)]</field>
     </record>
 

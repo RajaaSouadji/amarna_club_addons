@@ -5,7 +5,7 @@
         <field name="name">amarna.subscription.tree</field>
         <field name="model">amarna.subscription</field>
         <field name="arch" type="xml">
-            <tree decoration-muted="subscription_status == 'cancelled'"
+            <list decoration-muted="subscription_status == 'cancelled'"
                   decoration-danger="subscription_status in ('unpaid', 'expired')"
                   decoration-success="subscription_status == 'active'">
                 <field name="name"/>
@@ -19,7 +19,7 @@
                 <field name="amount_due" sum="Reste à payer"/>
                 <field name="subscription_status" widget="badge"/>
                 <field name="currency_id" column_invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -95,7 +95,7 @@
                     <notebook>
                         <page string="Lignes" name="lines">
                             <field name="line_ids" nolabel="1">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="product_id"/>
                                     <field name="name"/>
                                     <field name="product_uom_qty" string="Qté"/>
@@ -103,12 +103,12 @@
                                     <field name="discount"/>
                                     <field name="tax_ids" widget="many2many_tags"/>
                                     <field name="price_subtotal" sum="Total HT"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Factures" name="invoices">
                             <field name="invoice_ids" nolabel="1" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="amarna_period_start"/>
                                     <field name="invoice_date"/>
@@ -116,17 +116,17 @@
                                     <field name="amount_residual" sum="Reste"/>
                                     <field name="payment_state" widget="badge"/>
                                     <field name="state" widget="badge"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Historique des périodes" name="history">
                             <field name="history_ids" nolabel="1" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="start_date"/>
                                     <field name="expiration_date"/>
                                     <field name="reason"/>
                                     <field name="amount"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Notes" name="notes">
@@ -160,7 +160,7 @@
                         domain="[('subscription_status', '=', 'expired')]"/>
                 <separator/>
                 <filter string="Renouvellement auto" name="filter_auto" domain="[('auto_renew', '=', True)]"/>
-                <group expand="0" string="Grouper par">
+                <group>
                     <filter string="Activité" name="group_activity" context="{'group_by': 'activity_id'}"/>
                     <filter string="Formule" name="group_plan" context="{'group_by': 'plan_id'}"/>
                     <filter string="Statut" name="group_status" context="{'group_by': 'subscription_status'}"/>
@@ -172,7 +172,7 @@
     <record id="action_amarna_subscription" model="ir.actions.act_window">
         <field name="name">Abonnements</field>
         <field name="res_model">amarna.subscription</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_amarna_subscription_search"/>
         <field name="context">{'search_default_filter_active': 1}</field>
         <field name="help" type="html">
