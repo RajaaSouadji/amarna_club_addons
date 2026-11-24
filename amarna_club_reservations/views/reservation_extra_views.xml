@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= Ressources ================= -->
+    <record id="view_club_resource_tree" model="ir.ui.view">
+        <field name="name">amarna.club.resource.tree</field>
+        <field name="model">amarna.club.resource</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="activity_id"/>
+                <field name="capacity"/>
+                <field name="reservation_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_resource_form" model="ir.ui.view">
+        <field name="name">amarna.club.resource.form</field>
+        <field name="model">amarna.club.resource</field>
+        <field name="arch" type="xml">
+            <form string="Ressource réservable">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_reservations" type="object" class="oe_stat_button"
+                                icon="fa-calendar">
+                            <field name="reservation_count" widget="statinfo" string="À venir"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name" placeholder="Ex. Terrain 1"/></h1></div>
+                    <group>
+                        <field name="activity_id"/>
+                        <field name="capacity"/>
+                        <field name="active" invisible="1"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_club_resource" model="ir.actions.act_window">
+        <field name="name">Ressources réservables</field>
+        <field name="res_model">amarna.club.resource</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune ressource</p>
+            <p>Terrains de padel, couloirs de nage, pistes... Une réservation liée à une ressource ne peut pas la réserver deux fois sur le même créneau.</p>
+        </field>
+    </record>
+
+    <!-- ================= Liste d'attente ================= -->
+    <record id="view_club_waiting_tree" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.waiting.tree</field>
+        <field name="model">amarna.club.reservation.waiting</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state != 'waiting'">
+                <field name="create_date" string="Demandé le"/>
+                <field name="partner_id"/>
+                <field name="activity_id"/>
+                <field name="resource_id" optional="show"/>
+                <field name="reservation_date"/>
+                <field name="start_hour" widget="float_time"/>
+                <field name="end_hour" widget="float_time"/>
+                <field name="people_count"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'waiting'"
+                       decoration-success="state == 'promoted'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_waiting_form" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.waiting.form</field>
+        <field name="model">amarna.club.reservation.waiting</field>
+        <field name="arch" type="xml">
+            <form string="Liste d'attente">
+                <header>
+                    <button name="action_promote" type="object" string="Réserver maintenant"
+                            class="btn-primary" invisible="state != 'waiting'"/>
+                    <button name="action_cancel" type="object" string="Annuler la demande"
+                            invisible="state != 'waiting'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="activity_id"/>
+                            <field name="resource_id"/>
+                        </group>
+                        <group>
+                            <field name="reservation_date"/>
+                            <field name="start_hour" widget="float_time"/>
+                            <field name="end_hour" widget="float_time"/>
+                            <field name="people_count"/>
+                            <field name="reservation_id" invisible="not reservation_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_club_waiting" model="ir.actions.act_window">
+        <field name="name">Liste d'attente</field>
+        <field name="res_model">amarna.club.reservation.waiting</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Personne n'attend</p>
+            <p>Quand un créneau est complet, notez la demande ici : dès qu'une réservation est annulée, la première demande compatible est réservée automatiquement.</p>
+        </field>
+    </record>
+
+    <!-- ================= Répéter ================= -->
+    <record id="view_club_reservation_repeat_form" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.repeat.form</field>
+        <field name="model">amarna.club.reservation.repeat</field>
+        <field name="arch" type="xml">
+            <form string="Répéter la réservation">
+                <group>
+                    <field name="reservation_id" readonly="1"/>
+                    <field name="weeks" invisible="result"/>
+                    <field name="result" invisible="not result"/>
+                </group>
+                <footer>
+                    <button name="action_repeat" type="object" string="Répéter" class="btn-primary"
+                            invisible="result"/>
+                    <button string="Fermer" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= Réservation : champs ajoutés ================= -->
+    <record id="view_club_reservation_form_extra" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.form.extra</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="inherit_id" ref="view_club_reservation_form"/>
+        <field name="arch" type="xml">
+            <button name="action_cancel" position="after">
+                <button name="action_no_show" string="Absent" type="object"
+                        invisible="status not in ('pending', 'confirmed')"
+                        confirm="Marquer le client absent ? La réservation sera annulée."/>
+                <button name="action_repeat" string="Répéter chaque semaine" type="object"
+                        invisible="status == 'cancelled'"/>
+            </button>
+            <field name="activity_id" position="after">
+                <field name="resource_id"/>
+            </field>
+            <field name="notes" position="after">
+                <field name="no_show" invisible="not no_show"/>
+                <field name="late_cancel" invisible="not late_cancel"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_club_reservation_search_extra" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.search.extra</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="inherit_id" ref="view_club_reservation_search"/>
+        <field name="arch" type="xml">
+            <field name="activity_id" position="after">
+                <field name="resource_id"/>
+            </field>
+            <filter name="unpaid" position="after">
+                <separator/>
+                <filter string="Absents" name="no_show" domain="[('no_show', '=', True)]"/>
+                <filter string="Annulations tardives" name="late_cancel" domain="[('late_cancel', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="view_club_reservation_calendar_extra" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.calendar.extra</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="inherit_id" ref="view_club_reservation_calendar"/>
+        <field name="arch" type="xml">
+            <field name="activity_id" position="after">
+                <field name="resource_id" filters="1"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Planning : calendrier en semaine -->
+    <record id="view_club_reservation_planning" model="ir.ui.view">
+        <field name="name">amarna.club.reservation.planning</field>
+        <field name="model">amarna.club.reservation</field>
+        <field name="arch" type="xml">
+            <calendar date_start="start_at" date_stop="end_at" color="activity_id" mode="week"
+                      quick_create="0">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="resource_id"/>
+                <field name="activity_id" filters="1"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_club_reservation_planning" model="ir.actions.act_window">
+        <field name="name">Planning</field>
+        <field name="res_model">amarna.club.reservation</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="domain">[('status', '!=', 'cancelled')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_club_reservation_planning')}),
+            (0, 0, {'view_mode': 'list'}),
+            (0, 0, {'view_mode': 'form'})]"/>
+    </record>
+
+    <!-- Settings -->
+    <record id="res_config_settings_view_form_amarna_reservations" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.amarna_club_reservations</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="65"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Réservations" string="Réservations" name="amarna_club_reservations">
+                    <block title="Annulations" name="amarna_reservation_cancel_block">
+                        <setting id="amarna_reservation_late_cancel"
+                                 string="Annulation tardive"
+                                 help="Une réservation annulée moins de ce nombre d'heures avant son début est signalée. 0 : pas de suivi.">
+                            <field name="amarna_reservation_late_cancel_hours" class="oe_inline"/> heures
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_reservations_settings" model="ir.actions.act_window">
+        <field name="name">Paramètres des réservations</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'amarna_club_reservations'}</field>
+    </record>
+
+    <!-- ================= Menus ================= -->
+    <menuitem id="menu_club_reservations_planning" name="Planning"
+              parent="menu_club_reservations_root" action="action_club_reservation_planning" sequence="0"/>
+    <menuitem id="menu_club_reservations_waiting" name="Liste d'attente"
+              parent="menu_club_reservations_root" action="action_club_waiting" sequence="3"/>
+
+    <menuitem id="menu_club_reservations_config" name="Configuration"
+              parent="menu_club_reservations_root" sequence="90"
+              groups="abonnement_amarna.group_club_manager"/>
+    <menuitem id="menu_club_resource" name="Ressources"
+              parent="menu_club_reservations_config" action="action_club_resource" sequence="10"/>
+    <menuitem id="menu_club_reservations_settings" name="Paramètres"
+              parent="menu_club_reservations_config" action="action_reservations_settings" sequence="20"
+              groups="base.group_system"/>
+
+</odoo>
