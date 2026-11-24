@@ -36,6 +36,7 @@ class AmarnaSubscription(models.Model):
         ('draft', 'Brouillon'),
         ('active', 'Actif'),
         ('unpaid', 'Impayé'),
+        ('frozen', 'Suspendu'),
         ('expired', 'Expiré'),
         ('cancelled', 'Annulé'),
     ], string='Statut', compute='_compute_subscription_status',
@@ -47,9 +48,17 @@ class AmarnaSubscription(models.Model):
         help="Calculée depuis la durée de la formule. Modifiable pour une prolongation exceptionnelle.")
     billing_period_start = fields.Date(related='start_date', store=True, readonly=True, string='Début de la période facturée')
     auto_renew = fields.Boolean(string='Renouvellement automatique', tracking=True)
+    freeze_start = fields.Date(string='Suspendu du', copy=False, tracking=True)
+    freeze_end = fields.Date(string="Suspendu jusqu'au", copy=False, tracking=True)
+    is_frozen = fields.Boolean(
+        string='Suspendu', compute='_compute_is_frozen',
+        help="L'abonnement est suspendu aujourd'hui (voyage, blessure...) : pas d'accès, "
+             "et la date de fin a été repoussée d'autant.")
+    close_reason_id = fields.Many2one(
+        'amarna.subscription.close.reason', string="Motif d'arrêt", tracking=True)
     is_unlimited = fields.Boolean(string='Illimitée', compute='_compute_is_unlimited')
     sessions_label = fields.Char(
-        string='Séances restantes', compute='_compute_sessions_label',
+        string='Séances', compute='_compute_sessions_label',
         help="Séances restantes, ou « Illimité » pour une formule sans limite.")
     remaining_sessions = fields.Integer(string='Séances restantes')
 
@@ -79,6 +88,14 @@ class AmarnaSubscription(models.Model):
             ptype = rec.plan_id.subscription_type_id
             rec.expiration_date = ptype._end_date(rec.start_date) if (ptype and rec.start_date) else False
 
+    @api.depends('freeze_start', 'freeze_end')
+    def _compute_is_frozen(self):
+        today = fields.Date.context_today(self)
+        for rec in self:
+            rec.is_frozen = bool(
+                rec.freeze_start and rec.freeze_end
+                and rec.freeze_start <= today <= rec.freeze_end)
+
     def _search_subscription_status(self, operator, value):
         """The status depends on today's date, so it is not stored: express
         each status with the stored fields it is computed from (same rules as
@@ -93,12 +110,16 @@ class AmarnaSubscription(models.Model):
         today = fields.Date.context_today(self)
         confirmed = [('state', '=', 'confirmed')]
         not_expired = ['|', ('expiration_date', '=', False), ('expiration_date', '>=', today)]
+        frozen_now = [('freeze_start', '<=', today), ('freeze_end', '>=', today)]
+        not_frozen = ['|', '|', ('freeze_start', '=', False),
+                      ('freeze_start', '>', today), ('freeze_end', '<', today)]
         by_status = {
             'cancelled': [('state', '=', 'cancelled')],
             'draft': [('state', '=', 'draft')],
-            'expired': confirmed + [('expiration_date', '<', today)],
-            'unpaid': confirmed + not_expired + [('payment_valid', '=', False)],
-            'active': confirmed + not_expired + [('payment_valid', '=', True)],
+            'frozen': confirmed + frozen_now,
+            'expired': confirmed + not_frozen + [('expiration_date', '<', today)],
+            'unpaid': confirmed + not_frozen + not_expired + [('payment_valid', '=', False)],
+            'active': confirmed + not_frozen + not_expired + [('payment_valid', '=', True)],
         }
         domain = Domain.OR(Domain(by_status[status]) for status in wanted if status in by_status)
         if not wanted & set(by_status):
@@ -115,7 +136,7 @@ class AmarnaSubscription(models.Model):
         for rec in self:
             rec.is_unlimited = not rec.plan_id.session_count
 
-    @api.depends('state', 'expiration_date', 'payment_valid')
+    @api.depends('state', 'expiration_date', 'payment_valid', 'freeze_start', 'freeze_end')
     def _compute_subscription_status(self):
         today = fields.Date.context_today(self)
         for rec in self:
@@ -123,6 +144,8 @@ class AmarnaSubscription(models.Model):
                 rec.subscription_status = 'cancelled'
             elif rec.state == 'draft':
                 rec.subscription_status = 'draft'
+            elif rec.is_frozen:
+                rec.subscription_status = 'frozen'
             elif rec.expiration_date and rec.expiration_date < today:
                 rec.subscription_status = 'expired'
             elif not rec.payment_valid:
@@ -210,7 +233,8 @@ class AmarnaSubscription(models.Model):
 
     def write(self, vals):
         result = super().write(vals)
-        if set(vals) & {'rfid_card_id', 'start_date', 'expiration_date', 'active', 'state', 'partner_id'}:
+        if set(vals) & {'rfid_card_id', 'start_date', 'expiration_date', 'active', 'state', 'partner_id',
+                        'freeze_start', 'freeze_end'}:
             self._sync_rfid_access()
         return result
 
@@ -232,7 +256,7 @@ class AmarnaSubscription(models.Model):
         for sub in self:
             existing = Access.search([('subscription_id', '=', sub.id)])
             granted = (
-                sub.state == 'confirmed' and sub.active and sub.payment_valid
+                sub.state == 'confirmed' and sub.active and sub.payment_valid and not sub.is_frozen
                 and sub.rfid_card_id and sub.start_date and sub.expiration_date
                 and sub.expiration_date >= max(sub.start_date, today)
             )
@@ -300,6 +324,35 @@ class AmarnaSubscription(models.Model):
                 rec.action_create_invoice()
         return True
 
+    def action_freeze(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window', 'name': "Suspendre l'abonnement",
+            'res_model': 'amarna.subscription.freeze', 'view_mode': 'form', 'target': 'new',
+            'context': {'default_subscription_id': self.id}}
+
+    def action_unfreeze(self):
+        """Resume today: the unused frozen days come off the new end date."""
+        today = fields.Date.context_today(self)
+        for rec in self.filtered('is_frozen'):
+            unused = (rec.freeze_end - today).days + 1
+            rec.write({
+                'freeze_end': today - timedelta(days=1),
+                'expiration_date': rec.expiration_date - timedelta(days=unused)})
+            rec.message_post(body="Abonnement repris le %s." % today, subtype_xmlid='mail.mt_note')
+        return True
+
+    def action_send_reminder(self):
+        """Renewal reminder e-mail to the member."""
+        template = self.env.ref('abonnement_amarna.mail_template_subscription_reminder')
+        for rec in self:
+            if not rec.partner_id.email:
+                raise UserError("%s n'a pas d'adresse e-mail." % rec.partner_id.name)
+            template.send_mail(rec.id, force_send=False)
+            rec.message_post(body="Rappel de renouvellement envoyé à %s." % rec.partner_id.email,
+                             subtype_xmlid='mail.mt_note')
+        return True
+
     def action_view_checkins(self):
         self.ensure_one()
         return {
@@ -332,6 +385,8 @@ class AmarnaSubscription(models.Model):
                     summary='Relancer le membre : abonnement %s expiré' % sub.name,
                     user_id=sub.user_id.id)
         expired._sync_rfid_access()
+        # A suspension starts or ends on a given day: refresh the card access.
+        self.search([('freeze_end', '!=', False), ('state', '=', 'confirmed')])._sync_rfid_access()
         self.env['amarna.rfid.access'].cron_sync_access()
         return True
 

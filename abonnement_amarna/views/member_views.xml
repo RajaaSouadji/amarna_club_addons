@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= Motifs d'arrêt ================= -->
+    <record id="view_amarna_close_reason_tree" model="ir.ui.view">
+        <field name="name">amarna.subscription.close.reason.tree</field>
+        <field name="model">amarna.subscription.close.reason</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_amarna_close_reason" model="ir.actions.act_window">
+        <field name="name">Motifs d'arrêt</field>
+        <field name="res_model">amarna.subscription.close.reason</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ================= Suspension ================= -->
+    <record id="view_amarna_subscription_freeze_form" model="ir.ui.view">
+        <field name="name">amarna.subscription.freeze.form</field>
+        <field name="model">amarna.subscription.freeze</field>
+        <field name="arch" type="xml">
+            <form string="Suspendre l'abonnement">
+                <group>
+                    <field name="subscription_id" readonly="1"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="days"/>
+                </group>
+                <p class="text-muted">
+                    Pendant la suspension l'accès RFID est coupé. La date de fin de l'abonnement
+                    est repoussée du nombre de jours suspendus.
+                </p>
+                <footer>
+                    <button name="action_freeze" type="object" string="Suspendre" class="btn-primary"/>
+                    <button string="Fermer" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= Abonnement : champs ajoutés ================= -->
+    <record id="view_amarna_subscription_form_members" model="ir.ui.view">
+        <field name="name">amarna.subscription.form.members</field>
+        <field name="model">amarna.subscription</field>
+        <field name="inherit_id" ref="view_amarna_subscription_form"/>
+        <field name="arch" type="xml">
+            <button name="action_cancel" position="before">
+                <button name="action_freeze" string="Suspendre" type="object"
+                        invisible="state != 'confirmed' or is_frozen"/>
+                <button name="action_unfreeze" string="Reprendre" type="object"
+                        invisible="not is_frozen"/>
+                <button name="action_send_reminder" string="Relancer" type="object"
+                        invisible="state != 'confirmed'"/>
+            </button>
+            <sheet position="inside">
+                <widget name="web_ribbon" title="Suspendu" bg_color="text-bg-info"
+                        invisible="not is_frozen"/>
+            </sheet>
+            <field name="expiration_date" position="after">
+                <field name="is_frozen" invisible="1"/>
+                <field name="freeze_start" invisible="not freeze_start"/>
+                <field name="freeze_end" invisible="not freeze_end"/>
+                <field name="close_reason_id" invisible="state != 'cancelled'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_amarna_subscription_search_members" model="ir.ui.view">
+        <field name="name">amarna.subscription.search.members</field>
+        <field name="model">amarna.subscription</field>
+        <field name="inherit_id" ref="view_amarna_subscription_search"/>
+        <field name="arch" type="xml">
+            <filter name="filter_expired" position="after">
+                <filter string="Expire dans 30 jours" name="filter_expiring"
+                        domain="[('state', '=', 'confirmed'),
+                                 ('expiration_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('expiration_date', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Suspendus" name="filter_frozen"
+                        domain="[('subscription_status', '=', 'frozen')]"/>
+            </filter>
+            <group position="inside">
+                <filter string="Motif d'arrêt" name="group_close_reason" context="{'group_by': 'close_reason_id'}"/>
+            </group>
+        </field>
+    </record>
+
+    <!-- ================= Fiche contact : onglet Club ================= -->
+    <record id="view_partner_form_amarna_member" model="ir.ui.view">
+        <field name="name">res.partner.form.amarna.member</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_amarna_subscriptions" type="object" class="oe_stat_button"
+                        icon="fa-id-card-o" invisible="not amarna_subscription_count">
+                    <field name="amarna_subscription_count" widget="statinfo" string="Abonnements"/>
+                </button>
+            </div>
+            <notebook position="inside">
+                <page string="Club" name="amarna_member">
+                    <group>
+                        <group string="Identité">
+                            <field name="amarna_birth_date"/>
+                            <field name="amarna_is_minor" invisible="not amarna_is_minor"/>
+                            <field name="amarna_guardian_id" invisible="not amarna_is_minor"/>
+                        </group>
+                        <group string="Santé et urgence">
+                            <field name="amarna_medical_certificate_end"/>
+                            <field name="amarna_emergency_name"/>
+                            <field name="amarna_emergency_phone"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="view_partner_search_amarna_member" model="ir.ui.view">
+        <field name="name">res.partner.search.amarna.member</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="before">
+                <filter string="Certificat médical expiré ou à renouveler" name="amarna_certificate_due"
+                        domain="[('amarna_subscription_ids', '!=', False),
+                                 '|', ('amarna_medical_certificate_end', '=', False),
+                                 ('amarna_medical_certificate_end', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Mineurs" name="amarna_minors"
+                        domain="[('amarna_birth_date', '&gt;', (context_today() - relativedelta(years=18)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- Membres : les contacts qui ont (ou ont eu) un abonnement -->
+    <record id="action_amarna_members" model="ir.actions.act_window">
+        <field name="name">Membres</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('amarna_subscription_ids', '!=', False)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun membre pour le moment</p>
+            <p>Un contact devient membre dès qu'il a un abonnement. Sa fiche garde le certificat médical, le contact d'urgence et la date de naissance.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_amarna_members" name="Membres"
+              parent="menu_amarna_subscription_root" action="action_amarna_members" sequence="0"/>
+    <menuitem id="menu_amarna_close_reason" name="Motifs d'arrêt"
+              parent="menu_amarna_configuration_root" action="action_amarna_close_reason" sequence="20"
+              groups="group_club_manager"/>
+
+</odoo>

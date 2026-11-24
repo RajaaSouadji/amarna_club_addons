@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="close_reason_moved" model="amarna.subscription.close.reason">
+            <field name="name">Déménagement</field><field name="sequence">10</field>
+        </record>
+        <record id="close_reason_price" model="amarna.subscription.close.reason">
+            <field name="name">Tarif trop élevé</field><field name="sequence">20</field>
+        </record>
+        <record id="close_reason_health" model="amarna.subscription.close.reason">
+            <field name="name">Blessure ou santé</field><field name="sequence">30</field>
+        </record>
+        <record id="close_reason_time" model="amarna.subscription.close.reason">
+            <field name="name">Manque de temps</field><field name="sequence">40</field>
+        </record>
+        <record id="close_reason_unhappy" model="amarna.subscription.close.reason">
+            <field name="name">Insatisfaction</field><field name="sequence">50</field>
+        </record>
+        <record id="close_reason_other" model="amarna.subscription.close.reason">
+            <field name="name">Autre</field><field name="sequence">90</field>
+        </record>
+
+        <record id="mail_template_subscription_reminder" model="mail.template">
+            <field name="name">Abonnement : rappel de renouvellement</field>
+            <field name="model_id" ref="model_amarna_subscription"/>
+            <field name="subject">Votre abonnement {{ object.plan_id.name }} arrive à échéance</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="body_html" type="html">
+<div>
+    <p>Bonjour <t t-out="object.partner_id.name or ''">Membre</t>,</p>
+    <p>Votre abonnement <strong><t t-out="object.plan_id.name or ''">Formule</t></strong>
+       prend fin le <strong><t t-out="object.expiration_date or ''">01/01/2027</t></strong>.</p>
+    <p>Passez à l'accueil du club pour le renouveler et continuer à profiter de vos activités.</p>
+    <p>À bientôt,<br/><t t-out="user.company_id.name or ''">Amarna Club</t></p>
+</div>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -45,7 +45,7 @@ class AmarnaScanWizard(models.TransientModel):
     expiration_date = fields.Date(string='Date de fin', readonly=True)
     remaining_sessions = fields.Integer(string='Séances restantes', readonly=True)
     is_unlimited = fields.Boolean(readonly=True)
-    sessions_label = fields.Char(string='Séances restantes', compute='_compute_sessions_label')
+    sessions_label = fields.Char(string='Séances', compute='_compute_sessions_label')
     card_state = fields.Selection([
         ('active', 'Active'), ('inactive', 'Inactive'), ('lost', 'Perdue'), ('blocked', 'Bloquée'),
     ], string='Statut carte', readonly=True)
@@ -170,6 +170,17 @@ class AmarnaScanWizard(models.TransientModel):
         if not sub.active or sub.state != 'confirmed':
             self.result_state = 'denied'
             self.result_message = "❌ Abonnement non confirmé (brouillon ou annulé)."
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'amarna.scan.wizard',
+                'res_id': self.id,
+                'view_mode': 'form',
+                'target': 'new',
+            }
+
+        if sub.is_frozen:
+            self.result_state = 'denied'
+            self.result_message = "❌ Abonnement suspendu jusqu'au %s." % sub.freeze_end
             return {
                 'type': 'ir.actions.act_window',
                 'res_model': 'amarna.scan.wizard',

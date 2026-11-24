@@ -22,3 +22,6 @@ access_amarna_club_reservation_user,amarna.club.reservation club user,amarna.clu
 access_amarna_club_reservation_manager,amarna.club.reservation manager,amarna.club.reservation,abonnement_amarna.group_club_manager,crud,
 access_amarna_club_staff_user,amarna.club.staff club user,amarna.club.staff,base.group_user,r,
 access_amarna_club_staff_manager,amarna.club.staff manager,amarna.club.staff,abonnement_amarna.group_club_manager,crud,
+access_amarna_close_reason_internal,amarna.subscription.close.reason internal read,amarna.subscription.close.reason,abonnement_amarna.group_club_user,r,
+access_amarna_close_reason_manager,amarna.subscription.close.reason manager,amarna.subscription.close.reason,abonnement_amarna.group_club_manager,crud,
+access_amarna_subscription_freeze_user,amarna.subscription.freeze user,amarna.subscription.freeze,abonnement_amarna.group_club_user,crud,

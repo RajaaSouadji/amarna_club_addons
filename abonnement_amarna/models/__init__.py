@@ -16,3 +16,4 @@ from . import rfid_access
 from . import checkin
 from . import reservation
 from . import scan_wizard
+from . import member
