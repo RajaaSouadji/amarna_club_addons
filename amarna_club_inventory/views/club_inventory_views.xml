@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- ================= Articles ================= -->
     <record id="view_club_inventory_tree" model="ir.ui.view">
         <field name="name">amarna.club.inventory.item.tree</field>
         <field name="model">amarna.club.inventory.item</field>
         <field name="arch" type="xml">
-            <list editable="bottom" decoration-danger="is_low">
+            <list decoration-danger="is_low">
                 <field name="name"/>
                 <field name="activity_id"/>
+                <field name="location_id" optional="show"/>
                 <field name="mobile_activity_code" optional="hide"/>
                 <field name="code" optional="hide"/>
                 <field name="qty"/>
                 <field name="low_threshold"/>
                 <field name="unit"/>
-                <field name="is_low"/>
+                <field name="supplier_id" optional="hide"/>
+                <field name="stock_value" optional="hide"/>
+                <field name="is_low" column_invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
             </list>
         </field>
     </record>
@@ -23,25 +28,71 @@
         <field name="model">amarna.club.inventory.item</field>
         <field name="arch" type="xml">
             <form string="Consommable">
+                <header>
+                    <button name="action_stock_in" type="object" string="Entrée de stock"
+                            class="btn-primary"/>
+                    <button name="action_stock_out" type="object" string="Sortie de stock"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_moves" type="object" class="oe_stat_button"
+                                icon="fa-exchange">
+                            <field name="move_count" widget="statinfo" string="Mouvements"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Stock bas" bg_color="text-bg-danger"
+                            invisible="not is_low"/>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Nom du consommable"/></h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="mobile_activity_code"/>
-                            <field name="activity_id"/>
-                            <field name="code"/>
-                            <field name="active" invisible="1"/>
-                        </group>
-                        <group>
-                            <field name="qty"/>
-                            <field name="low_threshold"/>
+                        <group string="Stock">
+                            <field name="qty" readonly="1"/>
                             <field name="unit"/>
-                            <field name="is_low"/>
+                            <field name="low_threshold"/>
+                            <field name="location_id"/>
+                            <field name="is_low" invisible="1"/>
+                            <field name="active" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Affectation">
+                            <field name="activity_id"/>
+                            <field name="mobile_activity_code"/>
+                            <field name="code"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Réapprovisionnement" name="reorder">
+                            <group>
+                                <group>
+                                    <field name="supplier_id"/>
+                                    <field name="reorder_qty"/>
+                                    <field name="to_order_qty"/>
+                                </group>
+                                <group>
+                                    <field name="unit_cost"/>
+                                    <field name="stock_value"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Mouvements" name="moves">
+                            <field name="move_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="move_type"/>
+                                    <field name="reason"/>
+                                    <field name="qty_delta"/>
+                                    <field name="user_id"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -53,11 +104,18 @@
             <search>
                 <field name="name"/>
                 <field name="activity_id"/>
+                <field name="location_id"/>
+                <field name="supplier_id"/>
                 <filter string="Stock bas" name="filter_low"
                         domain="[('is_low', '=', True)]"/>
+                <filter string="Archivés" name="inactive" domain="[('active', '=', False)]"/>
                 <group>
                     <filter string="Activité" name="group_activity"
                             context="{'group_by': 'activity_id'}"/>
+                    <filter string="Emplacement" name="group_location"
+                            context="{'group_by': 'location_id'}"/>
+                    <filter string="Fournisseur" name="group_supplier"
+                            context="{'group_by': 'supplier_id'}"/>
                 </group>
             </search>
         </field>
@@ -67,31 +125,202 @@
         <field name="name">Consommables</field>
         <field name="res_model">amarna.club.inventory.item</field>
         <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Ajoutez un consommable</p>
+            <p>Chlore, aliments, munitions, balles de padel... Suivez leur quantité, leur seuil d'alerte et leur fournisseur.</p>
+        </field>
     </record>
 
     <record id="action_club_inventory_low" model="ir.actions.act_window">
-        <field name="name">Alertes stock bas</field>
+        <field name="name">À réapprovisionner</field>
         <field name="res_model">amarna.club.inventory.item</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[('is_low', '=', True)]</field>
+        <field name="context">{'search_default_group_supplier': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Rien à commander</p>
+            <p>Les articles dont le stock atteint le seuil bas apparaissent ici, regroupés par fournisseur.</p>
+        </field>
     </record>
 
-    <!-- Root app: Inventaire Club -->
+    <!-- ================= Mouvements ================= -->
+    <record id="view_club_inventory_move_tree" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.move.tree</field>
+        <field name="model">amarna.club.inventory.move</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-danger="qty_delta &lt; 0" decoration-success="qty_delta &gt; 0">
+                <field name="date"/>
+                <field name="item_id"/>
+                <field name="activity_id" optional="show"/>
+                <field name="move_type"/>
+                <field name="reason"/>
+                <field name="qty_delta"/>
+                <field name="user_id"/>
+                <field name="notes" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_inventory_move_form" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.move.form</field>
+        <field name="model">amarna.club.inventory.move</field>
+        <field name="arch" type="xml">
+            <form string="Mouvement de stock">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="item_id" readonly="applied"/>
+                            <field name="move_type" readonly="applied"/>
+                            <field name="reason"/>
+                            <field name="qty" readonly="applied"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="applied"/>
+                            <field name="user_id"/>
+                            <field name="notes"/>
+                            <field name="applied" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_inventory_move_search" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.move.search</field>
+        <field name="model">amarna.club.inventory.move</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="item_id"/>
+                <field name="activity_id"/>
+                <field name="user_id"/>
+                <filter string="Entrées" name="filter_in" domain="[('qty_delta', '&gt;', 0)]"/>
+                <filter string="Sorties" name="filter_out" domain="[('qty_delta', '&lt;', 0)]"/>
+                <group>
+                    <filter string="Article" name="group_item" context="{'group_by': 'item_id'}"/>
+                    <filter string="Activité" name="group_activity" context="{'group_by': 'activity_id'}"/>
+                    <filter string="Motif" name="group_reason" context="{'group_by': 'reason'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_inventory_move" model="ir.actions.act_window">
+        <field name="name">Mouvements de stock</field>
+        <field name="res_model">amarna.club.inventory.move</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= Inventaires physiques ================= -->
+    <record id="view_club_inventory_count_tree" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.count.tree</field>
+        <field name="model">amarna.club.inventory.count</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'done'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="location_id"/>
+                <field name="user_id"/>
+                <field name="difference_count"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_inventory_count_form" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.count.form</field>
+        <field name="model">amarna.club.inventory.count</field>
+        <field name="arch" type="xml">
+            <form string="Inventaire physique">
+                <header>
+                    <button name="action_load_items" type="object" string="Charger les articles"
+                            invisible="state != 'draft'"/>
+                    <button name="action_validate" type="object" string="Valider l'inventaire"
+                            class="btn-primary" invisible="state != 'draft'"
+                            confirm="Les écarts seront enregistrés comme ajustements de stock."/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="date" readonly="state == 'done'"/>
+                            <field name="location_id" readonly="state == 'done'"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="difference_count"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" readonly="state == 'done'">
+                        <list editable="bottom" decoration-danger="difference != 0">
+                            <field name="item_id"/>
+                            <field name="unit"/>
+                            <field name="theoretical_qty"/>
+                            <field name="counted_qty"/>
+                            <field name="difference"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_club_inventory_count" model="ir.actions.act_window">
+        <field name="name">Inventaires physiques</field>
+        <field name="res_model">amarna.club.inventory.count</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun inventaire</p>
+            <p>Créez un inventaire, chargez les articles, saisissez les quantités comptées puis validez : les écarts deviennent des ajustements.</p>
+        </field>
+    </record>
+
+    <!-- ================= Emplacements ================= -->
+    <record id="view_club_inventory_location_tree" model="ir.ui.view">
+        <field name="name">amarna.club.inventory.location.tree</field>
+        <field name="model">amarna.club.inventory.location</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="activity_id"/>
+                <field name="item_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_club_inventory_location" model="ir.actions.act_window">
+        <field name="name">Emplacements</field>
+        <field name="res_model">amarna.club.inventory.location</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ================= Menus : app « Stock » ================= -->
     <menuitem id="menu_club_inventory_root"
               name="Stock"
               groups="abonnement_amarna.group_club_user"
               sequence="50"/>
 
-    <menuitem id="menu_club_inventory"
-              name="Consommables"
-              parent="menu_club_inventory_root"
-              action="action_club_inventory"
-              sequence="10"/>
+    <menuitem id="menu_club_inventory_items" name="Articles"
+              parent="menu_club_inventory_root" sequence="10"/>
+    <menuitem id="menu_club_inventory" name="Consommables"
+              parent="menu_club_inventory_items" action="action_club_inventory" sequence="10"/>
+    <menuitem id="menu_club_inventory_low" name="À réapprovisionner"
+              parent="menu_club_inventory_items" action="action_club_inventory_low" sequence="20"/>
 
-    <menuitem id="menu_club_inventory_low"
-              name="Alertes stock bas"
-              parent="menu_club_inventory_root"
-              action="action_club_inventory_low"
-              sequence="20"/>
+    <menuitem id="menu_club_inventory_operations" name="Opérations"
+              parent="menu_club_inventory_root" sequence="20"/>
+    <menuitem id="menu_club_inventory_move" name="Mouvements"
+              parent="menu_club_inventory_operations" action="action_club_inventory_move" sequence="10"/>
+    <menuitem id="menu_club_inventory_count" name="Inventaires physiques"
+              parent="menu_club_inventory_operations" action="action_club_inventory_count" sequence="20"/>
+
+    <menuitem id="menu_club_inventory_config" name="Configuration"
+              parent="menu_club_inventory_root" sequence="90"
+              groups="abonnement_amarna.group_club_manager"/>
+    <menuitem id="menu_club_inventory_location" name="Emplacements"
+              parent="menu_club_inventory_config" action="action_club_inventory_location" sequence="10"/>
 
 </odoo>

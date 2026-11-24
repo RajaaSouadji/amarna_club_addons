@@ -11,6 +11,7 @@
         'amarna_club_assets',
         'amarna_club_interventions',
         'amarna_club_inventory',
+        'amarna_club_maintenance_stock',
         'amarna_club_ecurie',
         'amarna_club_pool',
         'amarna_club_reservations',

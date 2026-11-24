@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_club_inventory_count" model="ir.sequence">
+        <field name="name">Inventaire physique du club</field>
+        <field name="code">amarna.club.inventory.count</field>
+        <field name="prefix">INV/%(year)s/</field>
+        <field name="padding">4</field>
+    </record>
+</odoo>

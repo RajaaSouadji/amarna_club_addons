@@ -1,3 +1,11 @@
 id,name,model_id,group_id/id,operation,domain
 access_club_inventory_item_user,amarna.club.inventory.item.user,amarna.club.inventory.item,abonnement_amarna.group_club_user,cru,
 access_club_inventory_item_manager,amarna.club.inventory.item.manager,amarna.club.inventory.item,abonnement_amarna.group_club_manager,crud,
+access_club_inventory_location_user,amarna.club.inventory.location.user,amarna.club.inventory.location,abonnement_amarna.group_club_user,r,
+access_club_inventory_location_manager,amarna.club.inventory.location.manager,amarna.club.inventory.location,abonnement_amarna.group_club_manager,crud,
+access_club_inventory_move_user,amarna.club.inventory.move.user,amarna.club.inventory.move,abonnement_amarna.group_club_user,cr,
+access_club_inventory_move_manager,amarna.club.inventory.move.manager,amarna.club.inventory.move,abonnement_amarna.group_club_manager,cr,
+access_club_inventory_count_user,amarna.club.inventory.count.user,amarna.club.inventory.count,abonnement_amarna.group_club_user,cru,
+access_club_inventory_count_manager,amarna.club.inventory.count.manager,amarna.club.inventory.count,abonnement_amarna.group_club_manager,crud,
+access_club_inventory_count_line_user,amarna.club.inventory.count.line.user,amarna.club.inventory.count.line,abonnement_amarna.group_club_user,crud,
+access_club_inventory_count_line_manager,amarna.club.inventory.count.line.manager,amarna.club.inventory.count.line,abonnement_amarna.group_club_manager,crud,

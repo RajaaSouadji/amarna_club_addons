@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_club_intervention_form_parts" model="ir.ui.view">
+        <field name="name">amarna.club.intervention.form.parts</field>
+        <field name="model">amarna.club.intervention</field>
+        <field name="inherit_id" ref="amarna_club_interventions.view_club_intervention_form"/>
+        <field name="arch" type="xml">
+            <page name="work" position="after">
+                <page string="Pièces utilisées" name="parts">
+                    <field name="part_ids">
+                        <list editable="bottom">
+                            <field name="item_id"/>
+                            <field name="qty"/>
+                            <field name="unit"/>
+                            <field name="consumed"/>
+                        </list>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
