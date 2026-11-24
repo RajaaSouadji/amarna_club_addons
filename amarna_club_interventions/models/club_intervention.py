@@ -99,6 +99,22 @@ class AmarnaClubIntervention(models.Model):
         help="Membre du personnel chargé de l'intervention.",
     )
 
+    category_id = fields.Many2one(
+        'amarna.club.intervention.category', string='Catégorie de panne', tracking=True)
+    team_id = fields.Many2one(
+        'amarna.club.intervention.team', string='Équipe', tracking=True)
+    duration = fields.Float(
+        string='Durée passée (h)', help="Temps de travail réel, en heures.")
+    currency_id = fields.Many2one(
+        'res.currency', default=lambda self: self.env.company.currency_id)
+    cost = fields.Monetary(string='Coût', currency_field='currency_id',
+                           help="Main-d'œuvre, pièces et prestataire.")
+    recurrence_days = fields.Integer(
+        string='Répéter tous les (jours)',
+        help="Si renseigné, un nouveau ticket est créé à la clôture de celui-ci.")
+    service_ids = fields.One2many(
+        'amarna.club.asset.service', 'intervention_id', string="Entretiens enregistrés")
+
     assigned_to = fields.Char(
         string='Technicien (nom)',
         compute='_compute_assigned_to',
@@ -151,16 +167,46 @@ class AmarnaClubIntervention(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             self._apply_mobile_values(vals)
+            if vals.get('category_id') and not vals.get('staff_id') and not vals.get('assigned_to'):
+                category = self.env['amarna.club.intervention.category'].browse(vals['category_id'])
+                if category.staff_id:
+                    vals['staff_id'] = category.staff_id.id
         return super().create(vals_list)
 
     def write(self, vals):
         vals = dict(vals)
         self._apply_mobile_values(vals)
+        resolving = self.browse()
+        if vals.get('status') == 'resolved':
+            resolving = self.filtered(lambda r: r.status != 'resolved')
         result = super().write(vals)
         # Stamp the completion date once, on the first transition to resolved.
         for rec in self.filtered(lambda r: r.status == 'resolved' and not r.date_completed):
             rec.date_completed = fields.Datetime.now()
+        resolving._on_resolved()
         return result
+
+    def _on_resolved(self):
+        """Closing a ticket records the work in the equipment's journal and,
+        for a recurring ticket, plans the next one."""
+        types = {'preventive': 'preventive', 'corrective': 'repair', 'anomaly': 'repair'}
+        for rec in self:
+            if rec.asset_id and not rec.service_ids:
+                self.env['amarna.club.asset.service'].create({
+                    'asset_id': rec.asset_id.id,
+                    'intervention_id': rec.id,
+                    'service_type': types[rec.type],
+                    'date': fields.Date.to_date(rec.date_completed or fields.Datetime.now()),
+                    'description': rec.name,
+                    'staff_id': rec.staff_id.id,
+                    'cost': rec.cost,
+                })
+            if rec.recurrence_days > 0:
+                rec.copy({
+                    'name': rec.name, 'status': 'open', 'mobile_id': False, 'date_completed': False,
+                    'date_due': fields.Datetime.now() + timedelta(days=rec.recurrence_days),
+                    'duration': 0, 'cost': 0,
+                })
 
     def _apply_mobile_values(self, vals):
         """Derive structured fields from the payload pushed by the tablet.

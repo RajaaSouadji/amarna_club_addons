@@ -88,3 +88,62 @@ class TestInterventions(TransactionCase):
             [], ['status'], ['__count'])
         self.assertEqual(
             {g['status'] for g in result['groups']}, {'open', 'inProgress', 'resolved'})
+
+
+@tagged('post_install', '-at_install', 'amarna')
+class TestMaintenancePlanning(TransactionCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.Ticket = cls.env['amarna.club.intervention']
+        cls.Asset = cls.env['amarna.club.asset']
+        cls.asset = cls.Asset.create({
+            'name': 'Pompe planifiée', 'code': 'asset-test-plan',
+            'mobile_activity_code': 'pool', 'maintenance_interval_days': 30})
+
+    def test_category_proposes_its_technician(self):
+        staff = self.env['amarna.club.staff'].create({'name': 'Élec test', 'role': 'technician'})
+        category = self.env['amarna.club.intervention.category'].create({
+            'name': 'Électricité test', 'staff_id': staff.id})
+        ticket = self.Ticket.create({'name': 'Court-circuit', 'category_id': category.id})
+        self.assertEqual(ticket.staff_id, staff)
+        self.assertEqual(ticket.assigned_to, 'Élec test')
+
+    def test_resolving_writes_the_asset_journal_once(self):
+        ticket = self.Ticket.create({
+            'name': 'Réparer pompe', 'type': 'corrective',
+            'asset_id': self.asset.id, 'cost': 800})
+        ticket.action_resolve()
+        service = self.asset.service_ids
+        self.assertEqual(len(service), 1)
+        self.assertEqual(service.service_type, 'repair')
+        self.assertEqual(service.cost, 800)
+        self.assertTrue(self.asset.next_maintenance)
+        # Reopen then close again: still a single journal line.
+        ticket.action_reopen()
+        ticket.action_resolve()
+        self.assertEqual(len(self.asset.service_ids), 1)
+
+    def test_recurring_ticket_plans_the_next_one(self):
+        ticket = self.Ticket.create({'name': 'Contrôle mensuel', 'recurrence_days': 30})
+        ticket.action_resolve()
+        follow_up = self.Ticket.search([
+            ('name', '=', 'Contrôle mensuel'), ('status', '=', 'open')])
+        self.assertEqual(len(follow_up), 1)
+        self.assertGreater(follow_up.date_due, fields.Datetime.now() + timedelta(days=29))
+
+    def test_cron_creates_one_preventive_ticket_per_due_asset(self):
+        self.asset.next_maintenance = fields.Datetime.now() + timedelta(days=3)
+        self.Asset._cron_create_preventive_tickets()
+        self.Asset._cron_create_preventive_tickets()
+        tickets = self.Ticket.search([
+            ('asset_id', '=', self.asset.id), ('type', '=', 'preventive')])
+        self.assertEqual(len(tickets), 1)
+        self.assertEqual(tickets.date_due, self.asset.next_maintenance)
+        self.assertEqual(self.asset.open_intervention_count, 1)
+
+    def test_cron_ignores_assets_far_from_their_date(self):
+        self.asset.next_maintenance = fields.Datetime.now() + timedelta(days=60)
+        self.Asset._cron_create_preventive_tickets()
+        self.assertFalse(self.Ticket.search([('asset_id', '=', self.asset.id)]))

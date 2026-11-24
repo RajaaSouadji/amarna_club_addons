@@ -54,6 +54,7 @@
                     <group>
                         <group string="Classification">
                             <field name="type"/>
+                            <field name="category_id"/>
                             <field name="priority"/>
                             <field name="mobile_activity_code"/>
                             <field name="activity_id"/>
@@ -63,18 +64,39 @@
                         <group string="Planification">
                             <field name="date_due"/>
                             <field name="date_completed" readonly="1"/>
+                            <field name="team_id"/>
                             <field name="staff_id"/>
                             <field name="assigned_to" invisible="staff_id"/>
                             <field name="mobile_id" readonly="1"/>
                         </group>
                     </group>
-                    <field name="description" placeholder="Description détaillée..."/>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description détaillée..."/>
+                        </page>
+                        <page string="Travail réalisé" name="work">
+                            <group>
+                                <group>
+                                    <field name="duration" widget="float_time"/>
+                                    <field name="cost"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="recurrence_days"/>
+                                </group>
+                            </group>
+                            <field name="service_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="asset_id"/>
+                                    <field name="service_type"/>
+                                    <field name="cost"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -88,6 +110,10 @@
                 <field name="mobile_id"/>
                 <field name="activity_id"/>
                 <field name="staff_id"/>
+                <field name="asset_id"/>
+                <field name="category_id"/>
+                <filter string="Mes interventions" name="filter_mine"
+                        domain="[('user_id', '=', uid)]"/>
                 <filter string="Incidents" name="filter_anomaly"
                         domain="[('type', '=', 'anomaly')]"/>
                 <filter string="Maintenance" name="filter_maintenance"
@@ -109,6 +135,12 @@
                             context="{'group_by': 'status'}"/>
                     <filter string="Priorité" name="group_priority"
                             context="{'group_by': 'priority'}"/>
+                    <filter string="Catégorie" name="group_category"
+                            context="{'group_by': 'category_id'}"/>
+                    <filter string="Technicien" name="group_staff"
+                            context="{'group_by': 'staff_id'}"/>
+                    <filter string="Équipe" name="group_team"
+                            context="{'group_by': 'team_id'}"/>
                 </group>
             </search>
         </field>
@@ -163,22 +195,133 @@
         <field name="context">{'default_type': 'anomaly'}</field>
     </record>
 
-    <!-- Root app: Interventions Club -->
+    <record id="action_club_preventive" model="ir.actions.act_window">
+        <field name="name">Maintenance préventive</field>
+        <field name="res_model">amarna.club.intervention</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('type', '=', 'preventive')]</field>
+        <field name="context">{'default_type': 'preventive'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun entretien préventif planifié</p>
+            <p>Donnez un intervalle d'entretien à vos équipements : un ticket est créé automatiquement avant l'échéance.</p>
+        </field>
+    </record>
+
+    <!-- Configuration screens -->
+    <record id="view_club_intervention_category_tree" model="ir.ui.view">
+        <field name="name">amarna.club.intervention.category.tree</field>
+        <field name="model">amarna.club.intervention.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="staff_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_club_intervention_category" model="ir.actions.act_window">
+        <field name="name">Catégories de panne</field>
+        <field name="res_model">amarna.club.intervention.category</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_club_intervention_team_tree" model="ir.ui.view">
+        <field name="name">amarna.club.intervention.team.tree</field>
+        <field name="model">amarna.club.intervention.team</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="staff_ids" widget="many2many_tags"/>
+                <field name="ticket_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_intervention_team_form" model="ir.ui.view">
+        <field name="name">amarna.club.intervention.team.form</field>
+        <field name="model">amarna.club.intervention.team</field>
+        <field name="arch" type="xml">
+            <form string="Équipe de maintenance">
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Ex. Équipe technique"/></h1></div>
+                    <group><field name="staff_ids" widget="many2many_tags"/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_club_intervention_team" model="ir.actions.act_window">
+        <field name="name">Équipes de maintenance</field>
+        <field name="res_model">amarna.club.intervention.team</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Equipment form: tickets of the equipment -->
+    <record id="view_club_asset_form_interventions" model="ir.ui.view">
+        <field name="name">amarna.club.asset.form.interventions</field>
+        <field name="model">amarna.club.asset</field>
+        <field name="inherit_id" ref="amarna_club_assets.view_club_asset_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_interventions" type="object" class="oe_stat_button"
+                        icon="fa-ticket">
+                    <field name="open_intervention_count" widget="statinfo" string="Interventions ouvertes"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <!-- Settings -->
+    <record id="res_config_settings_view_form_amarna_interventions" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.amarna_club_interventions</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="64"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Maintenance" string="Maintenance" name="amarna_club_interventions">
+                    <block title="Entretien préventif" name="amarna_preventive_block">
+                        <setting id="amarna_preventive_lead"
+                                 string="Préavis des tickets préventifs"
+                                 help="Un ticket est créé automatiquement ce nombre de jours avant la prochaine maintenance d'un équipement.">
+                            <field name="amarna_preventive_lead_days" class="oe_inline"/> jours
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ir_cron_preventive_tickets" model="ir.cron">
+        <field name="name">Maintenance : créer les tickets préventifs</field>
+        <field name="model_id" ref="amarna_club_assets.model_amarna_club_asset"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_create_preventive_tickets()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+
+    <!-- Menus : app « Maintenance » -->
     <menuitem id="menu_club_interventions_root"
               name="Maintenance"
               groups="abonnement_amarna.group_club_user"
               sequence="40"/>
 
-    <menuitem id="menu_club_interventions"
-              name="Toutes les interventions"
-              parent="menu_club_interventions_root"
-              action="action_club_interventions"
-              sequence="10"/>
+    <menuitem id="menu_club_interventions_tickets" name="Interventions"
+              parent="menu_club_interventions_root" sequence="10"/>
+    <menuitem id="menu_club_interventions" name="Toutes les interventions"
+              parent="menu_club_interventions_tickets" action="action_club_interventions" sequence="10"/>
+    <menuitem id="menu_club_incidents" name="Incidents"
+              parent="menu_club_interventions_tickets" action="action_club_incidents" sequence="20"/>
+    <menuitem id="menu_club_preventive" name="Maintenance préventive"
+              parent="menu_club_interventions_tickets" action="action_club_preventive" sequence="30"/>
 
-    <menuitem id="menu_club_incidents"
-              name="Incidents"
-              parent="menu_club_interventions_root"
-              action="action_club_incidents"
-              sequence="20"/>
+    <menuitem id="menu_club_interventions_config" name="Configuration"
+              parent="menu_club_interventions_root" sequence="90"
+              groups="abonnement_amarna.group_club_manager"/>
+    <menuitem id="menu_club_intervention_category" name="Catégories de panne"
+              parent="menu_club_interventions_config" action="action_club_intervention_category" sequence="10"/>
+    <menuitem id="menu_club_intervention_team" name="Équipes"
+              parent="menu_club_interventions_config" action="action_club_intervention_team" sequence="20"/>
 
 </odoo>

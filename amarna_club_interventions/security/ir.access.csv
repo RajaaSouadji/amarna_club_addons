@@ -1,3 +1,7 @@
 id,name,model_id,group_id/id,operation,domain
 access_club_intervention_user,amarna.club.intervention.user,amarna.club.intervention,abonnement_amarna.group_club_user,cru,
 access_club_intervention_manager,amarna.club.intervention.manager,amarna.club.intervention,abonnement_amarna.group_club_manager,crud,
+access_club_intervention_category_user,amarna.club.intervention.category.user,amarna.club.intervention.category,abonnement_amarna.group_club_user,r,
+access_club_intervention_category_manager,amarna.club.intervention.category.manager,amarna.club.intervention.category,abonnement_amarna.group_club_manager,crud,
+access_club_intervention_team_user,amarna.club.intervention.team.user,amarna.club.intervention.team,abonnement_amarna.group_club_user,r,
+access_club_intervention_team_manager,amarna.club.intervention.team.manager,amarna.club.intervention.team,abonnement_amarna.group_club_manager,crud,
