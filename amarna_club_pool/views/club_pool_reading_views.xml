@@ -125,8 +125,8 @@
     <!-- Root app: Piscine Club -->
     <menuitem id="menu_club_pool_root"
               name="Piscine"
-              parent="abonnement_amarna.menu_amarna_root"
-              sequence="60"/>
+              groups="abonnement_amarna.group_club_user"
+              sequence="70"/>
 
     <menuitem id="menu_club_pool_readings"
               name="Relevés qualité de l'eau"

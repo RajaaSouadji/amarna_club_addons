@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- ================= Équipements ================= -->
     <record id="view_club_asset_tree" model="ir.ui.view">
         <field name="name">amarna.club.asset.tree</field>
         <field name="model">amarna.club.asset</field>
         <field name="arch" type="xml">
             <list decoration-danger="status == 'broken'"
-                  decoration-warning="status == 'maintenance'">
+                  decoration-warning="status == 'maintenance' or maintenance_due">
                 <field name="name"/>
-                <field name="serial_number"/>
+                <field name="serial_number" optional="hide"/>
                 <field name="activity_id"/>
-                <field name="category"/>
+                <field name="category_id"/>
+                <field name="location" optional="show"/>
+                <field name="staff_id" optional="hide"/>
                 <field name="status"
                        widget="badge"
                        decoration-success="status == 'available'"
                        decoration-info="status == 'inUse'"
                        decoration-warning="status == 'maintenance'"
                        decoration-danger="status == 'broken'"/>
+                <field name="maintenance_due" column_invisible="1"/>
+                <field name="last_maintenance" optional="hide"/>
                 <field name="next_maintenance"/>
+                <field name="usage_count" optional="hide"/>
                 <field name="is_weapon" optional="hide"/>
                 <field name="code" optional="hide"/>
             </list>
+        </field>
+    </record>
+
+    <record id="view_club_asset_kanban" model="ir.ui.view">
+        <field name="name">amarna.club.asset.kanban</field>
+        <field name="model">amarna.club.asset</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" records_draggable="1" quick_create="0">
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between gap-2">
+                            <field name="name" class="fw-bold"/>
+                            <span t-if="record.is_weapon.raw_value" class="badge text-bg-dark">Arme</span>
+                        </div>
+                        <field name="category_id" class="text-muted"/>
+                        <field name="activity_id" class="text-muted small"/>
+                        <field name="location" class="small"/>
+                        <footer>
+                            <span t-if="record.maintenance_due.raw_value" class="badge text-bg-warning">
+                                Entretien à faire
+                            </span>
+                            <field name="staff_id" class="ms-auto small text-muted"/>
+                        </footer>
+                        <field name="is_weapon" invisible="1"/>
+                        <field name="maintenance_due" invisible="1"/>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
@@ -29,36 +63,112 @@
         <field name="model">amarna.club.asset</field>
         <field name="arch" type="xml">
             <form string="Équipement">
+                <header>
+                    <button name="action_issue_weapon" type="object" string="Remettre l'arme"
+                            class="btn-primary" invisible="not is_weapon or weapon_state == 'issued'"/>
+                    <field name="status" widget="statusbar" options="{'clickable': True}"
+                           statusbar_visible="available,inUse,maintenance,broken"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_services" type="object" class="oe_stat_button"
+                                icon="fa-wrench">
+                            <field name="service_count" widget="statinfo" string="Entretiens"/>
+                        </button>
+                        <button name="action_view_contracts" type="object" class="oe_stat_button"
+                                icon="fa-file-text-o">
+                            <field name="contract_count" widget="statinfo" string="Contrats"/>
+                        </button>
+                        <button name="action_view_weapon_log" type="object" class="oe_stat_button"
+                                icon="fa-book" invisible="not is_weapon">
+                            <field name="weapon_log_count" widget="statinfo" string="Registre"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Entretien à faire" bg_color="text-bg-warning"
+                            invisible="not maintenance_due"/>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Nom de l'équipement"/></h1>
                     </div>
                     <group>
                         <group string="Identification">
+                            <field name="category_id"/>
                             <field name="serial_number"/>
                             <field name="code"/>
-                            <field name="category"/>
                             <field name="is_weapon"/>
+                            <field name="weapon_state" invisible="not is_weapon"/>
                             <field name="active" invisible="1"/>
+                            <field name="maintenance_due" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
                         </group>
-                        <group string="Affectation &amp; état">
-                            <field name="mobile_activity_code"/>
+                        <group string="Affectation">
                             <field name="activity_id"/>
-                            <field name="status"/>
+                            <field name="mobile_activity_code"/>
+                            <field name="location"/>
+                            <field name="staff_id"/>
                             <field name="in_use_since" invisible="not in_use_since"/>
+                            <field name="usage_count"/>
                         </group>
                     </group>
-                    <group>
-                        <group string="Maintenance">
-                            <field name="last_maintenance"/>
-                            <field name="next_maintenance"/>
-                        </group>
-                        <group string="Divers">
-                            <field name="image_url"/>
-                            <field name="specs_json"/>
-                        </group>
-                    </group>
+                    <notebook>
+                        <page string="Entretien" name="maintenance">
+                            <group>
+                                <group>
+                                    <field name="maintenance_interval_days"/>
+                                    <field name="last_maintenance" readonly="1"/>
+                                    <field name="next_maintenance"/>
+                                </group>
+                                <group>
+                                    <field name="total_service_cost"/>
+                                </group>
+                            </group>
+                            <field name="service_ids">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="service_type"/>
+                                    <field name="description"/>
+                                    <field name="staff_id"/>
+                                    <field name="supplier_id" optional="hide"/>
+                                    <field name="cost" sum="Total"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Contrats &amp; garanties" name="contracts">
+                            <field name="contract_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="contract_type"/>
+                                    <field name="supplier_id"/>
+                                    <field name="date_end"/>
+                                    <field name="expiry_state" widget="badge"
+                                           decoration-success="expiry_state == 'running'"
+                                           decoration-warning="expiry_state == 'expiring'"
+                                           decoration-danger="expiry_state == 'expired'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Achat" name="purchase">
+                            <group>
+                                <group>
+                                    <field name="purchase_date"/>
+                                    <field name="purchase_value"/>
+                                    <field name="supplier_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Tablette" name="tablet">
+                            <group>
+                                <field name="category"/>
+                                <field name="image_url"/>
+                                <field name="specs_json"/>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -71,15 +181,23 @@
                 <field name="name"/>
                 <field name="serial_number"/>
                 <field name="activity_id"/>
+                <field name="category_id"/>
+                <field name="location"/>
+                <filter string="Entretien à faire" name="filter_due"
+                        domain="[('maintenance_due', '=', True)]"/>
                 <filter string="Armes" name="filter_weapons"
                         domain="[('is_weapon', '=', True)]"/>
                 <filter string="Hors-service" name="filter_broken"
                         domain="[('status', '=', 'broken')]"/>
                 <filter string="En maintenance" name="filter_maintenance"
                         domain="[('status', '=', 'maintenance')]"/>
+                <separator/>
+                <filter string="Archivés" name="inactive" domain="[('active', '=', False)]"/>
                 <group>
                     <filter string="Activité" name="group_activity"
                             context="{'group_by': 'activity_id'}"/>
+                    <filter string="Catégorie" name="group_category"
+                            context="{'group_by': 'category_id'}"/>
                     <filter string="Statut" name="group_status"
                             context="{'group_by': 'status'}"/>
                 </group>
@@ -90,7 +208,11 @@
     <record id="action_club_assets" model="ir.actions.act_window">
         <field name="name">Équipements</field>
         <field name="res_model">amarna.club.asset</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Ajoutez votre premier équipement</p>
+            <p>Terrains, machines, filtres, armes... Chaque équipement a son journal d'entretien, ses contrats et sa date de prochain entretien.</p>
+        </field>
     </record>
 
     <record id="action_club_armory" model="ir.actions.act_window">
@@ -98,24 +220,336 @@
         <field name="res_model">amarna.club.asset</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[('is_weapon', '=', True)]</field>
+        <field name="context">{'default_is_weapon': True}</field>
     </record>
 
-    <!-- Exploitation > Matériel -->
+    <!-- ================= Catégories ================= -->
+    <record id="view_club_asset_category_tree" model="ir.ui.view">
+        <field name="name">amarna.club.asset.category.tree</field>
+        <field name="model">amarna.club.asset.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="maintenance_interval_days"/>
+                <field name="staff_id"/>
+                <field name="asset_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_asset_category_form" model="ir.ui.view">
+        <field name="name">amarna.club.asset.category.form</field>
+        <field name="model">amarna.club.asset.category</field>
+        <field name="arch" type="xml">
+            <form string="Catégorie d'équipement">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_club_assets)d" type="action" class="oe_stat_button"
+                                icon="fa-cubes" context="{'search_default_group_category': 0}">
+                            <field name="asset_count" widget="statinfo" string="Équipements"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name" placeholder="Ex. Machine de musculation"/></h1></div>
+                    <group>
+                        <field name="maintenance_interval_days"/>
+                        <field name="staff_id"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_club_asset_category" model="ir.actions.act_window">
+        <field name="name">Catégories d'équipement</field>
+        <field name="res_model">amarna.club.asset.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= Journal d'entretien ================= -->
+    <record id="view_club_asset_service_tree" model="ir.ui.view">
+        <field name="name">amarna.club.asset.service.tree</field>
+        <field name="model">amarna.club.asset.service</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="asset_id"/>
+                <field name="activity_id" optional="show"/>
+                <field name="service_type"/>
+                <field name="description"/>
+                <field name="staff_id"/>
+                <field name="supplier_id" optional="hide"/>
+                <field name="cost" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_asset_service_form" model="ir.ui.view">
+        <field name="name">amarna.club.asset.service.form</field>
+        <field name="model">amarna.club.asset.service</field>
+        <field name="arch" type="xml">
+            <form string="Intervention d'entretien">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                            <field name="service_type"/>
+                            <field name="date"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="staff_id"/>
+                            <field name="supplier_id"/>
+                            <field name="cost"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_asset_service_search" model="ir.ui.view">
+        <field name="name">amarna.club.asset.service.search</field>
+        <field name="model">amarna.club.asset.service</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="asset_id"/>
+                <field name="description"/>
+                <field name="staff_id"/>
+                <field name="activity_id"/>
+                <filter string="Réparations" name="filter_repair" domain="[('service_type', '=', 'repair')]"/>
+                <filter string="Entretiens préventifs" name="filter_prev" domain="[('service_type', '=', 'preventive')]"/>
+                <filter string="Nettoyages" name="filter_clean" domain="[('service_type', '=', 'cleaning')]"/>
+                <group>
+                    <filter string="Équipement" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'service_type'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_asset_service" model="ir.actions.act_window">
+        <field name="name">Journal d'entretien</field>
+        <field name="res_model">amarna.club.asset.service</field>
+        <field name="view_mode">list,form,calendar</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun entretien enregistré</p>
+            <p>Chaque intervention (réparation, nettoyage, contrôle...) est notée ici et recalcule la prochaine date d'entretien de l'équipement.</p>
+        </field>
+    </record>
+
+    <record id="view_club_asset_service_calendar" model="ir.ui.view">
+        <field name="name">amarna.club.asset.service.calendar</field>
+        <field name="model">amarna.club.asset.service</field>
+        <field name="arch" type="xml">
+            <calendar string="Entretiens" date_start="date" color="service_type" mode="month">
+                <field name="asset_id"/>
+                <field name="service_type"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ================= Contrats & garanties ================= -->
+    <record id="view_club_asset_contract_tree" model="ir.ui.view">
+        <field name="name">amarna.club.asset.contract.tree</field>
+        <field name="model">amarna.club.asset.contract</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="expiry_state == 'expired'"
+                  decoration-warning="expiry_state == 'expiring'">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="contract_type"/>
+                <field name="supplier_id"/>
+                <field name="date_start" optional="hide"/>
+                <field name="date_end"/>
+                <field name="expiry_state" widget="badge"
+                       decoration-success="expiry_state == 'running'"
+                       decoration-warning="expiry_state == 'expiring'"
+                       decoration-danger="expiry_state == 'expired'"/>
+                <field name="cost" optional="hide"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_asset_contract_form" model="ir.ui.view">
+        <field name="name">amarna.club.asset.contract.form</field>
+        <field name="model">amarna.club.asset.contract</field>
+        <field name="arch" type="xml">
+            <form string="Contrat / garantie">
+                <sheet>
+                    <widget name="web_ribbon" title="Expiré" bg_color="text-bg-danger"
+                            invisible="expiry_state != 'expired'"/>
+                    <div class="oe_title"><h1><field name="name" placeholder="Ex. Garantie pompe 2 ans"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                            <field name="contract_type"/>
+                            <field name="supplier_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="expiry_state"/>
+                            <field name="cost"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Conditions, contact du fournisseur..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_asset_contract_search" model="ir.ui.view">
+        <field name="name">amarna.club.asset.contract.search</field>
+        <field name="model">amarna.club.asset.contract</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="supplier_id"/>
+                <filter string="Expire dans 30 jours" name="filter_expiring"
+                        domain="[('date_end', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('date_end', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Expirés" name="filter_expired"
+                        domain="[('date_end', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter string="Garanties" name="filter_warranty" domain="[('contract_type', '=', 'warranty')]"/>
+                <filter string="Contrats d'entretien" name="filter_maint" domain="[('contract_type', '=', 'maintenance')]"/>
+                <group>
+                    <filter string="Type" name="group_type" context="{'group_by': 'contract_type'}"/>
+                    <filter string="Fournisseur" name="group_supplier" context="{'group_by': 'supplier_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_asset_contract" model="ir.actions.act_window">
+        <field name="name">Contrats &amp; garanties</field>
+        <field name="res_model">amarna.club.asset.contract</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_expiring': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun contrat ou garantie à surveiller</p>
+            <p>Enregistrez les garanties, contrats d'entretien, assurances et licences avec leur date de fin pour être prévenu avant leur expiration.</p>
+        </field>
+    </record>
+
+    <!-- ================= Registre d'armurerie ================= -->
+    <record id="view_club_weapon_log_tree" model="ir.ui.view">
+        <field name="name">amarna.club.weapon.log.tree</field>
+        <field name="model">amarna.club.weapon.log</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="state == 'issued'">
+                <field name="issued_at"/>
+                <field name="asset_id"/>
+                <field name="partner_id"/>
+                <field name="issued_by_id"/>
+                <field name="ammo_issued" optional="show"/>
+                <field name="ammo_returned" optional="show"/>
+                <field name="returned_at"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'issued'"
+                       decoration-success="state == 'returned'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_weapon_log_form" model="ir.ui.view">
+        <field name="name">amarna.club.weapon.log.form</field>
+        <field name="model">amarna.club.weapon.log</field>
+        <field name="arch" type="xml">
+            <form string="Remise d'arme">
+                <header>
+                    <button name="action_return" type="object" string="Enregistrer le retour"
+                            class="btn-primary" invisible="state != 'issued'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="asset_id" readonly="state == 'returned'"/>
+                            <field name="partner_id" readonly="state == 'returned'"/>
+                            <field name="issued_by_id" readonly="state == 'returned'"/>
+                        </group>
+                        <group>
+                            <field name="issued_at" readonly="state == 'returned'"/>
+                            <field name="returned_at"/>
+                            <field name="ammo_issued" readonly="state == 'returned'"/>
+                            <field name="ammo_returned"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_weapon_log_search" model="ir.ui.view">
+        <field name="name">amarna.club.weapon.log.search</field>
+        <field name="model">amarna.club.weapon.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="asset_id"/>
+                <field name="partner_id"/>
+                <filter string="Armes sorties" name="filter_issued" domain="[('state', '=', 'issued')]"/>
+                <filter string="Rendues" name="filter_returned" domain="[('state', '=', 'returned')]"/>
+                <group>
+                    <filter string="Arme" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Membre" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_weapon_log" model="ir.actions.act_window">
+        <field name="name">Registre d'armurerie</field>
+        <field name="res_model">amarna.club.weapon.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_issued': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune arme sortie</p>
+            <p>Chaque remise d'arme est consignée ici avec le membre, les munitions et l'heure de retour.</p>
+        </field>
+    </record>
+
+    <!-- ================= Menus : app « Matériel » ================= -->
     <menuitem id="menu_club_assets_root"
               name="Matériel"
-              parent="abonnement_amarna.menu_amarna_operations_root"
-              sequence="20"/>
+              groups="abonnement_amarna.group_club_user"
+              sequence="30"/>
 
-    <menuitem id="menu_club_assets"
-              name="Équipements"
-              parent="menu_club_assets_root"
-              action="action_club_assets"
-              sequence="10"/>
+    <menuitem id="menu_club_assets_equipment" name="Équipements"
+              parent="menu_club_assets_root" sequence="10"/>
+    <menuitem id="menu_club_assets" name="Tous les équipements"
+              parent="menu_club_assets_equipment" action="action_club_assets" sequence="10"/>
+    <menuitem id="menu_club_armory" name="Armurerie"
+              parent="menu_club_assets_equipment" action="action_club_armory" sequence="20"/>
 
-    <menuitem id="menu_club_armory"
-              name="Armurerie"
-              parent="menu_club_assets_root"
-              action="action_club_armory"
-              sequence="20"/>
+    <menuitem id="menu_club_assets_upkeep" name="Entretien"
+              parent="menu_club_assets_root" sequence="20"/>
+    <menuitem id="menu_club_asset_service" name="Journal d'entretien"
+              parent="menu_club_assets_upkeep" action="action_club_asset_service" sequence="10"/>
+    <menuitem id="menu_club_asset_contract" name="Contrats &amp; garanties"
+              parent="menu_club_assets_upkeep" action="action_club_asset_contract" sequence="20"/>
+
+    <menuitem id="menu_club_assets_control" name="Contrôles"
+              parent="menu_club_assets_root" sequence="30"/>
+    <menuitem id="menu_club_weapon_log" name="Registre d'armurerie"
+              parent="menu_club_assets_control" action="action_club_weapon_log" sequence="10"/>
+    <!-- Points de contrôle: see checkpoint_views.xml -->
+
+    <menuitem id="menu_club_assets_config" name="Configuration"
+              parent="menu_club_assets_root" sequence="90"
+              groups="abonnement_amarna.group_club_manager"/>
+    <menuitem id="menu_club_asset_category" name="Catégories"
+              parent="menu_club_assets_config" action="action_club_asset_category" sequence="10"/>
 
 </odoo>

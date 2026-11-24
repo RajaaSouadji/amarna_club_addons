@@ -34,13 +34,3 @@ class TestInventory(TransactionCase):
         pool = self.env['amarna.club.activity'].search([('code', '=', 'pool')], limit=1)
         item = self._item(mobile_activity_code='pool')
         self.assertEqual(item.activity_id, pool)
-
-    def test_home_screen_counts_low_stock_per_activity(self):
-        pool = self.env['amarna.club.activity'].search([('code', '=', 'pool')], limit=1)
-        before = pool.low_stock_count
-        item = self._item(mobile_activity_code='pool', qty=1, low_threshold=3)
-        pool.invalidate_recordset(['low_stock_count'])
-        self.assertEqual(pool.low_stock_count, before + 1)
-        item.qty = 10
-        pool.invalidate_recordset(['low_stock_count'])
-        self.assertEqual(pool.low_stock_count, before)

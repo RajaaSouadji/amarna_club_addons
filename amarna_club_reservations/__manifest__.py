@@ -10,6 +10,6 @@
     'data': [
         'views/club_reservation_views.xml',
     ],
-    'application': False,
+    'application': True,
     'installable': True,
 }

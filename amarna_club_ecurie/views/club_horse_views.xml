@@ -95,8 +95,8 @@
     <!-- Root app: Écurie -->
     <menuitem id="menu_club_ecurie_root"
               name="Écurie"
-              parent="abonnement_amarna.menu_amarna_root"
-              sequence="50"/>
+              groups="abonnement_amarna.group_club_user"
+              sequence="60"/>
 
     <menuitem id="menu_club_horses"
               name="Chevaux"

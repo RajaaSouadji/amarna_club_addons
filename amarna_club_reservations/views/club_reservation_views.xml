@@ -171,7 +171,7 @@
     </record>
 
     <menuitem id="menu_club_reservations_root" name="Réservations"
-              parent="abonnement_amarna.menu_amarna_root" sequence="10"/>
+              groups="abonnement_amarna.group_club_user" sequence="20"/>
     <menuitem id="menu_club_reservations_today" name="Aujourd'hui"
               parent="menu_club_reservations_root" action="action_club_reservations" sequence="1"/>
     <menuitem id="menu_club_reservations_all" name="Toutes les réservations"

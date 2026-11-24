@@ -185,16 +185,3 @@ class TestAmarnaConfig(TransactionCase):
         self.assertIn('Samir Renommé', pool.assigned_staff)
         staff.activity_ids = False
         self.assertNotIn('Samir Renommé', pool.assigned_staff or '')
-
-    def test_home_screen_counts_todays_bookings(self):
-        pool = self.env['amarna.club.activity'].search([('code', '=', 'pool')], limit=1)
-        before = pool.reservation_today_count
-        today = fields.Date.context_today(self.env.user)
-        booking = self.env['amarna.club.reservation'].create({
-            'name': 'Accueil test', 'activity_id': pool.id, 'reservation_date': today,
-            'start_hour': 10.0, 'end_hour': 11.0, 'people_count': 1})
-        pool.invalidate_recordset(['reservation_today_count'])
-        self.assertEqual(pool.reservation_today_count, before + 1)
-        booking.action_cancel()
-        pool.invalidate_recordset(['reservation_today_count'])
-        self.assertEqual(pool.reservation_today_count, before)

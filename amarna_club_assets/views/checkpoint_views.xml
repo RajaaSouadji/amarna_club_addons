@@ -29,8 +29,8 @@
 
     <menuitem id="menu_club_checkpoints"
               name="Points de contrôle"
-              parent="menu_club_assets_root"
+              parent="menu_club_assets_control"
               action="action_club_checkpoints"
-              sequence="30"/>
+              sequence="20"/>
 
 </odoo>

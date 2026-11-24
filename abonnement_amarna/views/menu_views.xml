@@ -2,36 +2,22 @@
 <odoo>
 
     <!--
-        One app for the whole club. Every optional module (equipment,
-        interventions, inventory, stable, pool, reservations) adds its screens
-        under one of the sections below; a section with nothing installed in it
-        stays hidden. Sequences leave room for the optional modules:
-
-            10 Réservations      (amarna_club_reservations)
-            20 Membres
-            30 Facturation
-            40 Exploitation      (assets, interventions, inventory)
-            50 Écurie            (amarna_club_ecurie)
-            60 Piscine           (amarna_club_pool)
-            70 Catalogue & tarifs
-            90 Configuration
+        Core app "Abonnements". Each optional module (reservations, equipment,
+        maintenance, stock, stable, pool, staff) is its own app with its own
+        top-level menu and Configuration section, as in standard Odoo.
     -->
-    <menuitem id="menu_amarna_root" name="Amarna Club" sequence="1"
+    <menuitem id="menu_amarna_root" name="Abonnements" sequence="10"
               groups="group_club_user"/>
 
-    <menuitem id="menu_amarna_subscription_root" name="Membres"
+    <menuitem id="menu_amarna_subscription_root" name="Membres et accès"
               parent="menu_amarna_root" sequence="20"/>
 
     <!-- Facturation centralisée : toutes les factures du club -->
     <menuitem id="menu_amarna_billing_root" name="Facturation"
               parent="menu_amarna_root" sequence="30"/>
 
-    <!-- Exploitation : matériel, maintenance et stock (modules optionnels) -->
-    <menuitem id="menu_amarna_operations_root" name="Exploitation"
-              parent="menu_amarna_root" sequence="40"/>
-
     <!-- Catalogue : activités, formules et durées -->
-    <menuitem id="menu_amarna_product_root" name="Catalogue &amp; tarifs"
+    <menuitem id="menu_amarna_product_root" name="Catalogue"
               parent="menu_amarna_root" sequence="70"/>
 
     <!-- Configuration du club -->

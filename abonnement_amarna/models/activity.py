@@ -73,10 +73,6 @@ class AmarnaClubActivity(models.Model):
     sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
     color = fields.Integer(string='Couleur')
-    reservation_today_count = fields.Integer(
-        string="Réservations du jour", compute='_compute_dashboard_counts')
-    unpaid_subscription_count = fields.Integer(
-        string='Abonnements impayés', compute='_compute_dashboard_counts')
 
     subscription_plan_ids = fields.One2many(
         "amarna.subscription.plan",
@@ -230,19 +226,6 @@ class AmarnaClubActivity(models.Model):
             if start_at < self.closure_end and end_at > self.closure_start:
                 return False
         return True
-
-    def _compute_dashboard_counts(self):
-        """Figures shown on the club home screen (one query per figure)."""
-        today = fields.Date.context_today(self)
-        reservations = dict(self.env['amarna.club.reservation']._read_group(
-            [('activity_id', 'in', self.ids), ('reservation_date', '=', today),
-             ('status', '!=', 'cancelled')], ['activity_id'], ['__count']))
-        unpaid = dict(self.env['amarna.subscription']._read_group(
-            [('activity_id', 'in', self.ids), ('subscription_status', '=', 'unpaid')],
-            ['activity_id'], ['__count']))
-        for rec in self:
-            rec.reservation_today_count = reservations.get(rec, 0)
-            rec.unpaid_subscription_count = unpaid.get(rec, 0)
 
     @api.depends('current_occupancy', 'max_capacity')
     def _compute_occupancy_pct(self):
