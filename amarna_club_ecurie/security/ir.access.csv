@@ -1,3 +1,11 @@
 id,name,model_id,group_id/id,operation,domain
 access_club_horse_user,amarna.club.horse.user,amarna.club.horse,abonnement_amarna.group_club_user,cru,
 access_club_horse_manager,amarna.club.horse.manager,amarna.club.horse,abonnement_amarna.group_club_manager,crud,
+access_club_horse_box_user,amarna.club.horse.box.user,amarna.club.horse.box,abonnement_amarna.group_club_user,r,
+access_club_horse_box_manager,amarna.club.horse.box.manager,amarna.club.horse.box,abonnement_amarna.group_club_manager,crud,
+access_club_horse_care_user,amarna.club.horse.care.user,amarna.club.horse.care,abonnement_amarna.group_club_user,cru,
+access_club_horse_care_manager,amarna.club.horse.care.manager,amarna.club.horse.care,abonnement_amarna.group_club_manager,crud,
+access_club_horse_feed_user,amarna.club.horse.feed.user,amarna.club.horse.feed,abonnement_amarna.group_club_user,cru,
+access_club_horse_feed_manager,amarna.club.horse.feed.manager,amarna.club.horse.feed,abonnement_amarna.group_club_manager,crud,
+access_club_horse_boarding_user,amarna.club.horse.boarding.user,amarna.club.horse.boarding,abonnement_amarna.group_club_user,r,
+access_club_horse_boarding_manager,amarna.club.horse.boarding.manager,amarna.club.horse.boarding,abonnement_amarna.group_club_manager,crud,

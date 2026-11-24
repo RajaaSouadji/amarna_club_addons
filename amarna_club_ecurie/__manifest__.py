@@ -6,7 +6,7 @@
     'summary': 'Gestion des chevaux : statut, fatigue, soins vétérinaires',
     'author': 'Amarna',
     'license': 'LGPL-3',
-    'depends': ['abonnement_amarna'],
+    'depends': ['abonnement_amarna', 'mail'],
     'data': [
         'security/ir.access.csv',
         'views/club_horse_views.xml',
