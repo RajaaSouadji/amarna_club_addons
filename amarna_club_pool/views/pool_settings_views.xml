@@ -58,6 +58,18 @@
                             <field name="amarna_pool_turbidity_max" class="oe_inline"/> NTU
                         </setting>
                     </block>
+                    <block title="Sécurité et surveillance" name="amarna_pool_safety_block">
+                        <setting id="amarna_pool_lifeguard_ratio"
+                                 string="Ratio de surveillance"
+                                 help="Nombre maximal de baigneurs par maître-nageur affecté à la piscine.">
+                            <field name="amarna_pool_max_bathers_per_lifeguard" class="oe_inline"/> baigneurs
+                        </setting>
+                        <setting id="amarna_pool_auto_close_setting"
+                                 string="Fermeture automatique"
+                                 help="Un relevé d'eau non conforme ferme la piscine sur la tablette jusqu'au prochain relevé conforme.">
+                            <field name="amarna_pool_auto_close"/>
+                        </setting>
+                    </block>
                     <block title="Score de conformité" name="amarna_pool_score_block">
                         <setting id="amarna_pool_weights"
                                  string="Points retirés par paramètre"

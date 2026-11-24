@@ -16,3 +16,6 @@ class ResConfigSettings(models.TransientModel):
     amarna_pool_weight_chlorine = fields.Integer(related='company_id.amarna_pool_weight_chlorine', readonly=False)
     amarna_pool_weight_ph = fields.Integer(related='company_id.amarna_pool_weight_ph', readonly=False)
     amarna_pool_weight_turbidity = fields.Integer(related='company_id.amarna_pool_weight_turbidity', readonly=False)
+    amarna_pool_max_bathers_per_lifeguard = fields.Integer(
+        related='company_id.amarna_pool_max_bathers_per_lifeguard', readonly=False)
+    amarna_pool_auto_close = fields.Boolean(related='company_id.amarna_pool_auto_close', readonly=False)

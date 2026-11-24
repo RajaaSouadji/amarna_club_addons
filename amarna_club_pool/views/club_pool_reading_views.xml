@@ -122,16 +122,4 @@
         </field>
     </record>
 
-    <!-- Root app: Piscine Club -->
-    <menuitem id="menu_club_pool_root"
-              name="Piscine"
-              groups="abonnement_amarna.group_club_user"
-              sequence="70"/>
-
-    <menuitem id="menu_club_pool_readings"
-              name="Relevés qualité de l'eau"
-              parent="menu_club_pool_root"
-              action="action_club_pool_readings"
-              sequence="10"/>
-
 </odoo>

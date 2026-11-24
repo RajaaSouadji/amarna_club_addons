@@ -85,3 +85,27 @@ class AmarnaClubPoolReading(models.Model):
             if not rec.turbidity_ok:
                 score -= company.amarna_pool_weight_turbidity
             rec.score = max(score, 0.0)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        readings = super().create(vals_list)
+        readings.sorted('reading_time')[-1:]._apply_auto_close()
+        return readings
+
+    def _apply_auto_close(self):
+        """Close the pool on an out-of-range reading, reopen it on a good one."""
+        company = self.env.company
+        if not company.amarna_pool_auto_close:
+            return
+        pool = self.env['amarna.club.activity'].search([('code', '=', 'pool')], limit=1)
+        for reading in self:
+            if not pool:
+                break
+            if not reading.conform and pool.mobile_status != 'closed':
+                pool.write({
+                    'mobile_status': 'closed', 'closure_start': fields.Datetime.now(),
+                    'closure_end': False, 'pool_auto_closed': True})
+            elif reading.conform and pool.pool_auto_closed:
+                pool.write({
+                    'mobile_status': 'open', 'closure_start': False,
+                    'closure_end': False, 'pool_auto_closed': False})

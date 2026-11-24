@@ -6,10 +6,11 @@
     'summary': "Relevés qualité de l'eau de la piscine avec conformité",
     'author': 'Amarna',
     'license': 'LGPL-3',
-    'depends': ['abonnement_amarna'],
+    'depends': ['abonnement_amarna', 'mail'],
     'data': [
         'security/ir.access.csv',
         'views/club_pool_reading_views.xml',
+        'views/pool_views.xml',
         'views/pool_settings_views.xml',
     ],
     'demo': ['demo/pool_demo.xml'],

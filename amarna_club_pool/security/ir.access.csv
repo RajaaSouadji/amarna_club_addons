@@ -1,3 +1,9 @@
 id,name,model_id,group_id/id,operation,domain
 access_club_pool_reading_user,amarna.club.pool.reading.user,amarna.club.pool.reading,abonnement_amarna.group_club_user,cru,
 access_club_pool_reading_manager,amarna.club.pool.reading.manager,amarna.club.pool.reading,abonnement_amarna.group_club_manager,crud,
+access_club_pool_task_user,amarna.club.pool.task.user,amarna.club.pool.task,abonnement_amarna.group_club_user,cru,
+access_club_pool_task_manager,amarna.club.pool.task.manager,amarna.club.pool.task,abonnement_amarna.group_club_manager,crud,
+access_club_pool_task_log_user,amarna.club.pool.task.log.user,amarna.club.pool.task.log,abonnement_amarna.group_club_user,cr,
+access_club_pool_task_log_manager,amarna.club.pool.task.log.manager,amarna.club.pool.task.log,abonnement_amarna.group_club_manager,crud,
+access_club_pool_incident_user,amarna.club.pool.incident.user,amarna.club.pool.incident,abonnement_amarna.group_club_user,cru,
+access_club_pool_incident_manager,amarna.club.pool.incident.manager,amarna.club.pool.incident,abonnement_amarna.group_club_manager,crud,

@@ -24,6 +24,20 @@ class ResCompany(models.Model):
     amarna_pool_weight_turbidity = fields.Integer(
         string='Points si turbidité hors norme', default=20)
 
+    amarna_pool_max_bathers_per_lifeguard = fields.Integer(
+        string='Baigneurs maximum par maître-nageur', default=25,
+        help="Au-delà de ce ratio, la surveillance est signalée insuffisante sur la fiche de la piscine.")
+    amarna_pool_auto_close = fields.Boolean(
+        string='Fermer la piscine si l\'eau n\'est pas conforme',
+        help="Un relevé hors norme passe la piscine à « Fermé » sur la tablette; "
+             "elle rouvre au prochain relevé conforme.")
+
+    @api.constrains('amarna_pool_max_bathers_per_lifeguard')
+    def _check_amarna_pool_ratio(self):
+        for company in self:
+            if company.amarna_pool_max_bathers_per_lifeguard < 1:
+                raise ValidationError('Le ratio de surveillance doit être au moins de 1 baigneur par maître-nageur.')
+
     @api.constrains('amarna_pool_temp_min', 'amarna_pool_temp_max',
                     'amarna_pool_chlorine_min', 'amarna_pool_chlorine_max',
                     'amarna_pool_ph_min', 'amarna_pool_ph_max')

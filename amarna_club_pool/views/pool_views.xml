@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= Tâches d'entretien ================= -->
+    <record id="view_club_pool_task_tree" model="ir.ui.view">
+        <field name="name">amarna.club.pool.task.tree</field>
+        <field name="model">amarna.club.pool.task</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'late'" decoration-warning="state == 'soon'">
+                <field name="name"/>
+                <field name="interval_days"/>
+                <field name="last_done"/>
+                <field name="next_due"/>
+                <field name="staff_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'ok'"
+                       decoration-warning="state == 'soon'"
+                       decoration-danger="state == 'late'"/>
+                <button name="action_done" type="object" string="Fait" icon="fa-check"
+                        class="btn-link"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_pool_task_form" model="ir.ui.view">
+        <field name="name">amarna.club.pool.task.form</field>
+        <field name="model">amarna.club.pool.task</field>
+        <field name="arch" type="xml">
+            <form string="Tâche d'entretien">
+                <header>
+                    <button name="action_done" type="object" string="Marquer comme faite"
+                            class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="ok,soon,late"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="En retard" bg_color="text-bg-danger"
+                            invisible="state != 'late'"/>
+                    <div class="oe_title"><h1><field name="name" placeholder="Ex. Contre-lavage du filtre"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="interval_days"/>
+                            <field name="staff_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="last_done"/>
+                            <field name="next_due"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Mode opératoire" name="howto">
+                            <field name="instructions"/>
+                        </page>
+                        <page string="Historique" name="history">
+                            <field name="log_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_pool_task_search" model="ir.ui.view">
+        <field name="name">amarna.club.pool.task.search</field>
+        <field name="model">amarna.club.pool.task</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="staff_id"/>
+                <filter string="En retard" name="filter_late" domain="[('state', '=', 'late')]"/>
+                <filter string="Bientôt" name="filter_soon" domain="[('state', '=', 'soon')]"/>
+                <group>
+                    <filter string="Responsable" name="group_staff" context="{'group_by': 'staff_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_pool_task" model="ir.actions.act_window">
+        <field name="name">Tâches d'entretien</field>
+        <field name="res_model">amarna.club.pool.task</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune tâche planifiée</p>
+            <p>Contre-lavage, nettoyage du préfiltre, contrôle du doseur... Donnez une fréquence à chaque tâche, l'échéance se recalcule à chaque exécution.</p>
+        </field>
+    </record>
+
+    <!-- ================= Incidents ================= -->
+    <record id="view_club_pool_incident_tree" model="ir.ui.view">
+        <field name="name">amarna.club.pool.incident.tree</field>
+        <field name="model">amarna.club.pool.incident</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'closed'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="incident_type"/>
+                <field name="severity" widget="badge"
+                       decoration-info="severity == 'minor'"
+                       decoration-warning="severity == 'moderate'"
+                       decoration-danger="severity == 'serious'"/>
+                <field name="partner_id" optional="show"/>
+                <field name="staff_id" optional="show"/>
+                <field name="emergency_called" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_pool_incident_form" model="ir.ui.view">
+        <field name="name">amarna.club.pool.incident.form</field>
+        <field name="model">amarna.club.pool.incident</field>
+        <field name="arch" type="xml">
+            <form string="Incident">
+                <header>
+                    <button name="action_close" type="object" string="Clore" class="btn-primary"
+                            invisible="state == 'closed'"/>
+                    <button name="action_reopen" type="object" string="Rouvrir"
+                            invisible="state == 'open'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Résumé de l'incident"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="incident_type"/>
+                            <field name="severity"/>
+                            <field name="emergency_called"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="staff_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                        <field name="action_taken"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_pool_incident_search" model="ir.ui.view">
+        <field name="name">amarna.club.pool.incident.search</field>
+        <field name="model">amarna.club.pool.incident</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="staff_id"/>
+                <filter string="Ouverts" name="filter_open" domain="[('state', '=', 'open')]"/>
+                <filter string="Graves" name="filter_serious" domain="[('severity', '=', 'serious')]"/>
+                <filter string="Secours appelés" name="filter_emergency" domain="[('emergency_called', '=', True)]"/>
+                <group>
+                    <filter string="Nature" name="group_type" context="{'group_by': 'incident_type'}"/>
+                    <filter string="Gravité" name="group_severity" context="{'group_by': 'severity'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_pool_incident" model="ir.actions.act_window">
+        <field name="name">Registre des incidents</field>
+        <field name="res_model">amarna.club.pool.incident</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun incident enregistré</p>
+            <p>Le registre garde la trace de chaque blessure, malaise ou sauvetage, avec les mesures prises.</p>
+        </field>
+    </record>
+
+    <!-- ================= Fiche de l'activité : surveillance ================= -->
+    <record id="view_club_activity_form_pool" model="ir.ui.view">
+        <field name="name">amarna.club.activity.form.pool</field>
+        <field name="model">amarna.club.activity</field>
+        <field name="inherit_id" ref="abonnement_amarna.view_club_activity_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Surveillance de la baignade" invisible="code != 'pool'">
+                    <group>
+                        <field name="lifeguard_count"/>
+                        <field name="bathers_per_lifeguard"/>
+                    </group>
+                    <group>
+                        <field name="lifeguard_ratio_ok" widget="boolean"/>
+                        <field name="pool_auto_closed"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Settings entry of the pool -->
+    <record id="action_pool_settings" model="ir.actions.act_window">
+        <field name="name">Paramètres de la piscine</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'amarna_club_pool'}</field>
+    </record>
+
+    <!-- ================= Menus : app « Piscine » ================= -->
+    <menuitem id="menu_club_pool_root"
+              name="Piscine"
+              groups="abonnement_amarna.group_club_user"
+              sequence="70"/>
+
+    <menuitem id="menu_club_pool_water" name="Qualité de l'eau"
+              parent="menu_club_pool_root" sequence="10"/>
+    <menuitem id="menu_club_pool_readings" name="Relevés"
+              parent="menu_club_pool_water" action="action_club_pool_readings" sequence="10"/>
+
+    <menuitem id="menu_club_pool_upkeep" name="Entretien"
+              parent="menu_club_pool_root" sequence="20"/>
+    <menuitem id="menu_club_pool_task" name="Tâches d'entretien"
+              parent="menu_club_pool_upkeep" action="action_club_pool_task" sequence="10"/>
+
+    <menuitem id="menu_club_pool_safety" name="Sécurité"
+              parent="menu_club_pool_root" sequence="30"/>
+    <menuitem id="menu_club_pool_incident" name="Registre des incidents"
+              parent="menu_club_pool_safety" action="action_club_pool_incident" sequence="10"/>
+
+    <menuitem id="menu_club_pool_config" name="Configuration"
+              parent="menu_club_pool_root" sequence="90"
+              groups="abonnement_amarna.group_club_manager"/>
+    <menuitem id="menu_club_pool_settings" name="Paramètres de la piscine"
+              parent="menu_club_pool_config" action="action_pool_settings" sequence="10"
+              groups="base.group_system"/>
+
+</odoo>
