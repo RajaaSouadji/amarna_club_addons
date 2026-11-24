@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= Fiche du personnel ================= -->
+    <record id="view_amarna_club_staff_form_extra" model="ir.ui.view">
+        <field name="name">amarna.club.staff.form.extra</field>
+        <field name="model">amarna.club.staff</field>
+        <field name="inherit_id" ref="abonnement_amarna.view_amarna_club_staff_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_title" position="before">
+                <field name="image_1920" widget="image" class="oe_avatar"/>
+            </div>
+            <field name="phone" position="after">
+                <field name="email"/>
+                <field name="hire_date"/>
+            </field>
+            <sheet position="inside">
+                <notebook>
+                    <page string="Certifications" name="certifications">
+                        <field name="certification_ids">
+                            <list decoration-danger="state == 'expired'"
+                                  decoration-warning="state == 'expiring'">
+                                <field name="type_id"/>
+                                <field name="reference"/>
+                                <field name="date_obtained"/>
+                                <field name="date_end"/>
+                                <field name="state" widget="badge"
+                                       decoration-success="state in ('valid', 'permanent')"
+                                       decoration-warning="state == 'expiring'"
+                                       decoration-danger="state == 'expired'"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Gardes" name="shifts">
+                        <field name="shift_ids">
+                            <list>
+                                <field name="start_at"/>
+                                <field name="end_at"/>
+                                <field name="activity_id"/>
+                                <field name="duration" sum="Total"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+        </field>
+    </record>
+
+    <record id="view_amarna_club_staff_kanban" model="ir.ui.view">
+        <field name="name">amarna.club.staff.kanban</field>
+        <field name="model">amarna.club.staff</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex gap-3">
+                            <field name="image_1920" widget="image" options="{'img_class': 'rounded-circle'}"
+                                   style="max-width: 64px;"/>
+                            <div class="flex-grow-1">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="role" class="text-muted d-block"/>
+                                <field name="activity_ids" widget="many2many_tags"/>
+                            </div>
+                        </div>
+                        <footer>
+                            <span t-if="record.expired_certification_count.raw_value" class="badge text-bg-danger">
+                                Certification expirée
+                            </span>
+                            <span t-elif="record.expiring_certification_count.raw_value" class="badge text-bg-warning">
+                                Certification à renouveler
+                            </span>
+                            <field name="expired_certification_count" invisible="1"/>
+                            <field name="expiring_certification_count" invisible="1"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_amarna_club_staff_search" model="ir.ui.view">
+        <field name="name">amarna.club.staff.search</field>
+        <field name="model">amarna.club.staff</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="role"/>
+                <field name="activity_ids"/>
+                <group>
+                    <filter string="Fonction" name="group_role" context="{'group_by': 'role'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_staff_team" model="ir.actions.act_window">
+        <field name="name">Équipe</field>
+        <field name="res_model">amarna.club.staff</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_amarna_club_staff_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Ajoutez le personnel du club</p>
+            <p>Chaque fiche porte la fonction, les activités, les certifications avec leur échéance et le planning des gardes.</p>
+        </field>
+    </record>
+
+    <!-- ================= Types de certification ================= -->
+    <record id="view_club_certification_type_tree" model="ir.ui.view">
+        <field name="name">amarna.club.certification.type.tree</field>
+        <field name="model">amarna.club.certification.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="validity_months"/>
+                <field name="role"/>
+                <field name="activity_ids" widget="many2many_tags"/>
+                <field name="required"/>
+                <field name="certification_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_certification_type_form" model="ir.ui.view">
+        <field name="name">amarna.club.certification.type.form</field>
+        <field name="model">amarna.club.certification.type</field>
+        <field name="arch" type="xml">
+            <form string="Type de certification">
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Ex. Brevet de maître-nageur"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="validity_months"/>
+                            <field name="required"/>
+                        </group>
+                        <group>
+                            <field name="role"/>
+                            <field name="activity_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_club_certification_type" model="ir.actions.act_window">
+        <field name="name">Types de certification</field>
+        <field name="res_model">amarna.club.certification.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= Certifications ================= -->
+    <record id="view_club_certification_tree" model="ir.ui.view">
+        <field name="name">amarna.club.certification.tree</field>
+        <field name="model">amarna.club.certification</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'expired'" decoration-warning="state == 'expiring'">
+                <field name="staff_id"/>
+                <field name="type_id"/>
+                <field name="reference" optional="show"/>
+                <field name="date_obtained" optional="show"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"
+                       decoration-success="state in ('valid', 'permanent')"
+                       decoration-warning="state == 'expiring'"
+                       decoration-danger="state == 'expired'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_certification_form" model="ir.ui.view">
+        <field name="name">amarna.club.certification.form</field>
+        <field name="model">amarna.club.certification</field>
+        <field name="arch" type="xml">
+            <form string="Certification">
+                <sheet>
+                    <widget name="web_ribbon" title="Expirée" bg_color="text-bg-danger"
+                            invisible="state != 'expired'"/>
+                    <group>
+                        <group>
+                            <field name="staff_id"/>
+                            <field name="type_id"/>
+                            <field name="reference"/>
+                        </group>
+                        <group>
+                            <field name="date_obtained"/>
+                            <field name="date_end"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="document" filename="document_name"/>
+                        <field name="document_name" invisible="1"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_certification_search" model="ir.ui.view">
+        <field name="name">amarna.club.certification.search</field>
+        <field name="model">amarna.club.certification</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="staff_id"/>
+                <field name="type_id"/>
+                <filter string="Expire dans 60 jours" name="filter_expiring"
+                        domain="[('date_end', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('date_end', '&lt;=', (context_today() + relativedelta(days=60)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Expirées" name="filter_expired"
+                        domain="[('date_end', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter string="Personne" name="group_staff" context="{'group_by': 'staff_id'}"/>
+                    <filter string="Certification" name="group_type" context="{'group_by': 'type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_certification" model="ir.actions.act_window">
+        <field name="name">Certifications</field>
+        <field name="res_model">amarna.club.certification</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_expiring': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune certification à surveiller</p>
+            <p>Brevet de maître-nageur, diplôme de monitrice, permis de port d'arme... Saisissez la date d'obtention : l'échéance se calcule d'après la validité du type.</p>
+        </field>
+    </record>
+
+    <!-- ================= Planning des gardes ================= -->
+    <record id="view_club_shift_tree" model="ir.ui.view">
+        <field name="name">amarna.club.shift.tree</field>
+        <field name="model">amarna.club.shift</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="start_at"/>
+                <field name="end_at"/>
+                <field name="staff_id"/>
+                <field name="activity_id"/>
+                <field name="duration" sum="Total"/>
+                <field name="notes" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_club_shift_form" model="ir.ui.view">
+        <field name="name">amarna.club.shift.form</field>
+        <field name="model">amarna.club.shift</field>
+        <field name="arch" type="xml">
+            <form string="Garde">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="staff_id"/>
+                            <field name="activity_id"/>
+                        </group>
+                        <group>
+                            <field name="start_at"/>
+                            <field name="end_at"/>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_club_shift_calendar" model="ir.ui.view">
+        <field name="name">amarna.club.shift.calendar</field>
+        <field name="model">amarna.club.shift</field>
+        <field name="arch" type="xml">
+            <calendar date_start="start_at" date_stop="end_at" color="activity_id" mode="week">
+                <field name="staff_id"/>
+                <field name="activity_id" filters="1"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_club_shift_search" model="ir.ui.view">
+        <field name="name">amarna.club.shift.search</field>
+        <field name="model">amarna.club.shift</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="staff_id"/>
+                <field name="activity_id"/>
+                <group>
+                    <filter string="Personne" name="group_staff" context="{'group_by': 'staff_id'}"/>
+                    <filter string="Activité" name="group_activity" context="{'group_by': 'activity_id'}"/>
+                    <filter string="Semaine" name="group_week" context="{'group_by': 'start_at:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_club_shift" model="ir.actions.act_window">
+        <field name="name">Planning des gardes</field>
+        <field name="res_model">amarna.club.shift</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune garde planifiée</p>
+            <p>Planifiez qui travaille sur quelle activité et à quelle heure. Une personne ne peut pas avoir deux gardes en même temps.</p>
+        </field>
+    </record>
+
+    <!-- ================= Paramètres ================= -->
+    <record id="res_config_settings_view_form_amarna_staff" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.amarna_club_staff</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="66"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Personnel" string="Personnel" name="amarna_club_staff">
+                    <block title="Certifications" name="amarna_staff_cert_block">
+                        <setting id="amarna_staff_enforce"
+                                 string="Exiger les certifications"
+                                 help="Refuse l'affectation à une activité tant qu'une certification exigée manque ou a expiré.">
+                            <field name="amarna_staff_enforce_certifications"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_staff_settings" model="ir.actions.act_window">
+        <field name="name">Paramètres du personnel</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'amarna_club_staff'}</field>
+    </record>
+
+    <!-- The staff list now lives in its own app. -->
+    <record id="abonnement_amarna.menu_amarna_club_staff" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- ================= Menus : app « Personnel » ================= -->
+    <menuitem id="menu_club_staff_root" name="Personnel"
+              groups="abonnement_amarna.group_club_user" sequence="80"/>
+
+    <menuitem id="menu_club_staff_team" name="Équipe"
+              parent="menu_club_staff_root" sequence="10"/>
+    <menuitem id="menu_club_staff" name="Personnel du club"
+              parent="menu_club_staff_team" action="action_staff_team" sequence="10"/>
+    <menuitem id="menu_club_shift" name="Planning des gardes"
+              parent="menu_club_staff_team" action="action_club_shift" sequence="20"/>
+
+    <menuitem id="menu_club_staff_certs" name="Certifications"
+              parent="menu_club_staff_root" sequence="20"/>
+    <menuitem id="menu_club_certification" name="Certifications"
+              parent="menu_club_staff_certs" action="action_club_certification" sequence="10"/>
+
+    <menuitem id="menu_club_staff_config" name="Configuration"
+              parent="menu_club_staff_root" sequence="90"
+              groups="abonnement_amarna.group_club_manager"/>
+    <menuitem id="menu_club_certification_type" name="Types de certification"
+              parent="menu_club_staff_config" action="action_club_certification_type" sequence="10"/>
+    <menuitem id="menu_club_staff_settings" name="Paramètres du personnel"
+              parent="menu_club_staff_config" action="action_staff_settings" sequence="20"
+              groups="base.group_system"/>
+
+</odoo>

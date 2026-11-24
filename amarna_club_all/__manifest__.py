@@ -15,6 +15,7 @@
         'amarna_club_ecurie',
         'amarna_club_pool',
         'amarna_club_reservations',
+        'amarna_club_staff',
     ],
     'installable': True,
 }

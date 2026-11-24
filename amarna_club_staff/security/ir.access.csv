@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_club_certification_type_user,amarna.club.certification.type.user,amarna.club.certification.type,abonnement_amarna.group_club_user,r,
+access_club_certification_type_manager,amarna.club.certification.type.manager,amarna.club.certification.type,abonnement_amarna.group_club_manager,crud,
+access_club_certification_user,amarna.club.certification.user,amarna.club.certification,abonnement_amarna.group_club_user,r,
+access_club_certification_manager,amarna.club.certification.manager,amarna.club.certification,abonnement_amarna.group_club_manager,crud,
+access_club_shift_user,amarna.club.shift.user,amarna.club.shift,abonnement_amarna.group_club_user,r,
+access_club_shift_manager,amarna.club.shift.manager,amarna.club.shift,abonnement_amarna.group_club_manager,crud,
