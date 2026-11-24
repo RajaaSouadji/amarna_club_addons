@@ -52,10 +52,14 @@ class AmarnaClubInventoryMove(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        # `applied` is set at creation so that users, who may create but not
+        # modify a ledger line, never need write access on it.
+        pending = [not vals.get('applied') for vals in vals_list]
+        vals_list = [dict(vals, applied=True) for vals in vals_list]
         moves = super().create(vals_list)
-        for move in moves.filtered(lambda m: not m.applied):
-            move.item_id.with_context(amarna_stock_move=True).qty += move.qty_delta
-            move.applied = True
+        for move, to_apply in zip(moves, pending):
+            if to_apply:
+                move.item_id.with_context(amarna_stock_move=True).qty += move.qty_delta
         return moves
 
     def write(self, vals):

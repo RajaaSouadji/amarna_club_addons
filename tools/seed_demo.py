@@ -430,6 +430,262 @@ def seed_scans(odoo, partners):
     log('scans ok:', done)
 
 
+def ref_id(odoo, model, name, extra=None, field='name'):
+    """Id of the record called `name`, created with `extra` values if missing."""
+    vals = dict(extra or {}, **{field: name})
+    return odoo.ensure(model, [(field, '=', name)], vals)
+
+
+def seed_equipment(odoo, acts, staff):
+    # Categories of equipment, with their preventive interval (days).
+    categories = {
+        'Équipement Piscine': 90, 'Machine de musculation': 60, 'Terrain de padel': 120,
+        'Arme de tir': 7, 'Matériel de paintball': 30, 'Matériel équestre': 45,
+    }
+    cat_ids = {name: ref_id(odoo, 'amarna.club.asset.category', name,
+                            {'maintenance_interval_days': days})
+               for name, days in categories.items()}
+    assets = odoo.search('amarna.club.asset', [],
+                         ('id', 'name', 'category', 'is_weapon', 'mobile_activity_code'))
+    for asset in assets:
+        label = asset['category'] or ''
+        match = next((n for n in cat_ids if n.lower() in label.lower()), None)
+        if asset['is_weapon']:
+            match = 'Arme de tir'
+        elif not match:
+            match = {'pool': 'Équipement Piscine', 'gym': 'Machine de musculation',
+                     'padel': 'Terrain de padel', 'paintball': 'Matériel de paintball',
+                     'horses': 'Matériel équestre'}.get(asset['mobile_activity_code'])
+        if match:
+            odoo.call('amarna.club.asset', 'write', [[asset['id']], {
+                'category_id': cat_ids[match],
+                'staff_id': staff.get('Mourad Haddad') or False}])
+    by_name = {a['name']: a['id'] for a in assets}
+    pump = next((i for n, i in by_name.items() if 'ompe' in n), None)
+    supplier = ref_id(odoo, 'res.partner', 'Hydro Services Alger',
+                      {'is_company': True, 'city': 'Alger', 'email': 'contact@hydroservices.dz'})
+    if pump and not odoo.search('amarna.club.asset.service', [('asset_id', '=', pump)], limit=1):
+        for off, kind, text, cost in ((-90, 'preventive', 'Révision annuelle', 12000),
+                                      (-35, 'repair', 'Changement du joint', 4500)):
+            odoo.call('amarna.club.asset.service', 'create', [{
+                'asset_id': pump, 'date': day(off), 'service_type': kind,
+                'description': text, 'cost': cost, 'supplier_id': supplier,
+                'staff_id': staff.get('Mourad Haddad') or False}])
+        odoo.call('amarna.club.asset.contract', 'create', [{
+            'name': 'Garantie pompe 2 ans', 'asset_id': pump, 'contract_type': 'warranty',
+            'supplier_id': supplier, 'date_start': day(-700), 'date_end': day(20), 'cost': 0}])
+    # Armoury register: one weapon out, one back.
+    weapons = [a['id'] for a in assets if a['is_weapon']]
+    member = odoo.search('res.partner', [('name', '=', 'Abdelkader Bouzid')], limit=1)
+    if len(weapons) >= 2 and member and not odoo.call(
+            'amarna.club.weapon.log', 'search_count', [[]]):
+        out = odoo.call('amarna.club.weapon.log', 'create', [{
+            'asset_id': weapons[0], 'partner_id': member[0]['id'], 'ammo_issued': 50,
+            'issued_by_id': staff.get('Rachid Bouzid') or False}])
+        back = odoo.call('amarna.club.weapon.log', 'create', [{
+            'asset_id': weapons[1], 'partner_id': member[0]['id'], 'ammo_issued': 25,
+            'issued_at': stamp(days=-1)}])
+        odoo.call('amarna.club.weapon.log', 'action_return', [[back]])
+    log('equipment ok: categories, journal, contracts, armoury register')
+
+
+def seed_maintenance(odoo, staff):
+    faults = ['Électricité', 'Plomberie', 'Mécanique', 'Sécurité', 'Informatique']
+    ids = {name: ref_id(odoo, 'amarna.club.intervention.category', name) for name in faults}
+    by_title = {
+        'Fuite': 'Plomberie', 'robinet': 'Plomberie', 'éclairage': 'Électricité',
+        'Extracteur': 'Mécanique', 'Vélo': 'Mécanique', 'filets': 'Sécurité',
+        'chloration': 'Mécanique'}
+    for ticket in odoo.search('amarna.club.intervention', [], ('id', 'name', 'category_id')):
+        match = next((c for key, c in by_title.items() if key in ticket['name']), None)
+        if match and not ticket['category_id']:
+            odoo.call('amarna.club.intervention', 'write',
+                      [[ticket['id']], {'category_id': ids[match]}])
+    members = [staff[n] for n in ('Mourad Haddad', 'Sofiane Belkacem', 'Yacine Amrani') if n in staff]
+    ref_id(odoo, 'amarna.club.intervention.team', 'Équipe technique',
+           {'staff_ids': [(6, 0, members)]})
+    log('maintenance ok: fault categories, team')
+
+
+def seed_stock(odoo, acts):
+    places = {name: ref_id(odoo, 'amarna.club.inventory.location', name,
+                           {'activity_id': acts.get(code) or False})
+              for name, code in (('Local technique piscine', 'pool'), ('Armurerie', 'shooting'),
+                                 ('Sellerie', 'horses'), ('Réserve générale', None))}
+    supplier = ref_id(odoo, 'res.partner', 'Grossiste Mitidja',
+                      {'is_company': True, 'city': 'Blida'})
+    items = odoo.search('amarna.club.inventory.item', [],
+                        ('id', 'name', 'mobile_activity_code', 'qty', 'location_id'))
+    place_by_code = {'pool': 'Local technique piscine', 'shooting': 'Armurerie',
+                     'horses': 'Sellerie'}
+    for item in items:
+        if item['location_id']:
+            continue
+        place = places[place_by_code.get(item['mobile_activity_code'], 'Réserve générale')]
+        odoo.call('amarna.club.inventory.item', 'write', [[item['id']], {
+            'location_id': place, 'supplier_id': supplier, 'reorder_qty': 20,
+            'unit_cost': 350.0}])
+    if items and not odoo.call('amarna.club.inventory.move', 'search_count', [[]]):
+        first = items[0]['id']
+        odoo.call('amarna.club.inventory.move', 'create', [{
+            'item_id': first, 'move_type': 'in', 'reason': 'purchase', 'qty': 30,
+            'date': stamp(days=-6), 'notes': 'Livraison Grossiste Mitidja'}])
+        odoo.call('amarna.club.inventory.move', 'create', [{
+            'item_id': first, 'move_type': 'out', 'reason': 'consumption', 'qty': 8,
+            'date': stamp(days=-2), 'notes': 'Consommation de la semaine'}])
+        count = odoo.call('amarna.club.inventory.count', 'create', [{
+            'location_id': places['Local technique piscine']}])
+        odoo.call('amarna.club.inventory.count', 'action_load_items', [[count]])
+    log('stock ok: locations, ledger, count')
+
+
+def seed_stable(odoo):
+    horses = odoo.search('amarna.club.horse', [], ('id', 'name', 'box_number'), order='id')
+    boxes = {}
+    for horse in horses:
+        label = horse['box_number'] or 'Box %d' % horse['id']
+        boxes[horse['id']] = ref_id(odoo, 'amarna.club.horse.box', label)
+        odoo.call('amarna.club.horse', 'write', [[horse['id']], {'box_id': boxes[horse['id']]}])
+    ref_id(odoo, 'amarna.club.horse.box', 'Paddock nord', {'kind': 'paddock', 'capacity': 4})
+    ref_id(odoo, 'amarna.club.horse.box', 'Box 7')
+    farrier = ref_id(odoo, 'res.partner', 'Maréchalerie Kouider', {'is_company': True, 'city': 'Blida'})
+    vet = ref_id(odoo, 'res.partner', 'Dr Benyoucef (vétérinaire)', {'city': 'Alger'})
+    for horse in horses:
+        if odoo.search('amarna.club.horse.care', [('horse_id', '=', horse['id'])], limit=1):
+            continue
+        cur = odoo.call('amarna.club.horse', 'read', [[horse['id']],
+                        ['last_farrier', 'last_vaccine', 'last_deworming']])[0]
+        for field, kind, provider, cost, text in (
+                ('last_farrier', 'farrier', farrier, 3500, 'Ferrage 4 fers'),
+                ('last_vaccine', 'vaccine', vet, 2800, 'Rappel grippe équine'),
+                ('last_deworming', 'deworming', vet, 1200, 'Vermifuge')):
+            if cur[field]:
+                odoo.call('amarna.club.horse.care', 'create', [{
+                    'horse_id': horse['id'], 'care_type': kind, 'date': cur[field],
+                    'provider_id': provider, 'cost': cost, 'description': text}])
+        if not odoo.search('amarna.club.horse.feed', [('horse_id', '=', horse['id'])], limit=1):
+            for meal, feed, qty in (('morning', 'Foin', 3.0), ('noon', 'Granulés', 1.5),
+                                    ('evening', 'Foin', 3.0)):
+                odoo.call('amarna.club.horse.feed', 'create', [{
+                    'horse_id': horse['id'], 'meal': meal, 'feed_name': feed, 'quantity': qty}])
+    # A boarder with a contract.
+    owner = odoo.search('res.partner', [('name', '=', 'Karim Hadjadj')], limit=1)
+    if owner and not odoo.search('amarna.club.horse', [('name', '=', 'Nour')], limit=1):
+        nour = odoo.call('amarna.club.horse', 'create', [{
+            'name': 'Nour', 'code': 'h-nour', 'breed': 'Arabe', 'sex': 'mare',
+            'birth_date': day(-365 * 8), 'owner_id': owner[0]['id'], 'is_boarder': True,
+            'box_id': odoo.search('amarna.club.horse.box', [('name', '=', 'Box 7')])[0]['id']}])
+        contract = odoo.call('amarna.club.horse.boarding', 'create', [{
+            'horse_id': nour, 'owner_id': owner[0]['id'], 'monthly_fee': 30000,
+            'date_start': day(-60)}])
+        odoo.call('amarna.club.horse.boarding', 'action_start', [[contract]])
+    log('stable ok: boxes, care journal, feeding, boarder')
+
+
+def seed_pool(odoo, staff):
+    for name, days, who in (('Contre-lavage du filtre', 7, 'Samir Ouali'),
+                            ('Nettoyage du préfiltre', 3, 'Samir Ouali'),
+                            ('Contrôle du doseur de chlore', 14, 'Mourad Haddad')):
+        task = ref_id(odoo, 'amarna.club.pool.task', name,
+                      {'interval_days': days, 'staff_id': staff.get(who) or False})
+        task_row = odoo.call('amarna.club.pool.task', 'read', [[task], ['last_done']])[0]
+        if not task_row['last_done'] and name != 'Nettoyage du préfiltre':
+            odoo.call('amarna.club.pool.task', 'action_done', [[task]])
+    if not odoo.search('amarna.club.pool.incident', [], limit=1):
+        odoo.call('amarna.club.pool.incident', 'create', [{
+            'name': 'Glissade au bord du grand bassin', 'incident_type': 'injury',
+            'severity': 'minor', 'staff_id': staff.get('Samir Ouali') or False,
+            'description': "Un enfant a glissé sur le carrelage mouillé.",
+            'action_taken': 'Pansement et information des parents.',
+            'date': stamp(days=-3)}])
+    log('pool ok: tasks, incident')
+
+
+def seed_booking_desk(odoo, acts, partners):
+    padel = acts['padel']
+    courts = {}
+    for index in range(1, 5):
+        courts[index] = ref_id(odoo, 'amarna.club.resource', 'Terrain %d' % index,
+                               {'activity_id': padel, 'capacity': 1})
+    if not odoo.search('amarna.club.reservation.waiting', [], limit=1):
+        if not odoo.search('amarna.club.reservation', [
+                ('resource_id', '=', courts[1]), ('reservation_date', '=', day(4)),
+                ('status', '!=', 'cancelled')], limit=1):
+            odoo.call('amarna.club.reservation', 'create', [{
+                'activity_id': padel, 'resource_id': courts[1], 'client_name': 'Yacine Cherif',
+                'partner_id': partners['Yacine Cherif'], 'reservation_date': day(4),
+                'start_hour': 18.0, 'end_hour': 19.0, 'people_count': 4}])
+        odoo.call('amarna.club.reservation.waiting', 'create', [{
+            'partner_id': partners['Ines Boukhari'], 'activity_id': padel,
+            'resource_id': courts[1], 'reservation_date': day(4),
+            'start_hour': 18.0, 'end_hour': 19.0, 'people_count': 4}])
+    log('booking desk ok: courts, waiting list')
+
+
+def seed_members_extra(odoo, partners):
+    for index, (name, pid) in enumerate(list(partners.items())[:12]):
+        odoo.call('res.partner', 'write', [[pid], {
+            'amarna_birth_date': day(-365 * (18 + index * 3)),
+            'amarna_medical_certificate_end': day(-10 if index == 3 else 20 + index * 25),
+            'amarna_emergency_name': 'Proche de %s' % name,
+            'amarna_emergency_phone': '+213 55%d 00 11 %02d' % (index % 9, index)}])
+    reason = ref_id(odoo, 'amarna.subscription.close.reason', 'Déménagement')
+    cancelled = odoo.search('amarna.subscription', [('state', '=', 'cancelled')], ('id',), limit=1)
+    if cancelled:
+        odoo.call('amarna.subscription', 'write', [[cancelled[0]['id']], {'close_reason_id': reason}])
+    frozen = odoo.search('amarna.subscription', [('partner_id', '=', partners['Redouane Meziane']),
+                                                  ('state', '=', 'confirmed')], ('id', 'freeze_start'), limit=1)
+    if frozen and not frozen[0]['freeze_start']:
+        wizard = odoo.call('amarna.subscription.freeze', 'create', [{
+            'subscription_id': frozen[0]['id'], 'date_from': day(-2), 'date_to': day(8)}])
+        odoo.call('amarna.subscription.freeze', 'action_freeze', [[wizard]])
+    log('members ok: member cards, stop reason, one suspension')
+
+
+def seed_personnel(odoo, acts, staff):
+    types = {
+        'Brevet de maître-nageur': ('lifeguard', 12, ['pool']),
+        'Diplôme de monitrice d\'équitation': ('horse_keeper', 36, ['horses']),
+        'Permis de manipulation d\'armes': (None, 24, ['shooting']),
+        'Premiers secours (PSC1)': (None, 24, []),
+    }
+    type_ids = {}
+    for name, (role, months, codes) in types.items():
+        vals = {'validity_months': months, 'role': role or False,
+                'activity_ids': [(6, 0, [acts[c] for c in codes])]}
+        type_ids[name] = ref_id(odoo, 'amarna.club.certification.type', name, vals)
+    holders = (('Samir Ouali', 'Brevet de maître-nageur', -300),
+               ('Samir Ouali', 'Premiers secours (PSC1)', -700),
+               ('Meriem Cherif', "Diplôme de monitrice d'équitation", -400),
+               ('Rachid Bouzid', "Permis de manipulation d'armes", -100),
+               ('Nadia Merabet', 'Premiers secours (PSC1)', -200))
+    for who, kind, off in holders:
+        if who in staff and not odoo.search('amarna.club.certification', [
+                ('staff_id', '=', staff[who]), ('type_id', '=', type_ids[kind])], limit=1):
+            odoo.call('amarna.club.certification', 'create', [{
+                'staff_id': staff[who], 'type_id': type_ids[kind], 'date_obtained': day(off)}])
+    if 'Samir Ouali' in staff and not odoo.search('amarna.club.shift', [], limit=1):
+        for off in range(0, 5):
+            base = dt.datetime.combine(TODAY, dt.time(8, 0)) + dt.timedelta(days=off)
+            odoo.call('amarna.club.shift', 'create', [{
+                'staff_id': staff['Samir Ouali'], 'activity_id': acts['pool'],
+                'start_at': base.strftime('%Y-%m-%d %H:%M:%S'),
+                'end_at': (base + dt.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')}])
+    log('personnel ok: certifications, shifts')
+
+
+def seed_club_modules(odoo, acts, partners):
+    staff = {row['name']: row['id'] for row in odoo.search('amarna.club.staff', [], ('id', 'name'))}
+    seed_equipment(odoo, acts, staff)
+    seed_maintenance(odoo, staff)
+    seed_stock(odoo, acts)
+    seed_stable(odoo)
+    seed_pool(odoo, staff)
+    seed_booking_desk(odoo, acts, partners)
+    seed_members_extra(odoo, partners)
+    seed_personnel(odoo, acts, staff)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     parser.add_argument('--url', default='http://localhost:8069')
@@ -444,6 +700,7 @@ def main():
     subs = seed_subscriptions(odoo, partners, cards, plans)
     seed_reservations(odoo, partners, subs, acts)
     seed_operations(odoo, acts)
+    seed_club_modules(odoo, acts, partners)
     seed_scans(odoo, partners)
     log('done')
 

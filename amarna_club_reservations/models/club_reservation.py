@@ -33,7 +33,11 @@ class AmarnaClubReservation(models.Model):
                 ('id', '!=', rec.id), ('resource_id', '=', rec.resource_id.id),
                 ('status', '!=', 'cancelled'),
                 ('start_at', '<', rec.end_at), ('end_at', '>', rec.start_at)])
-            if sum(others.mapped('people_count')) + rec.people_count > rec.resource_id.capacity:
+            capacity = rec.resource_id.capacity
+            # Capacity 1 = booked as a whole (a court): the group size is irrelevant.
+            taken = len(others) if capacity == 1 else sum(others.mapped('people_count'))
+            wanted = 1 if capacity == 1 else rec.people_count
+            if taken + wanted > capacity:
                 raise ValidationError(
                     "« %s » est déjà réservé(e) sur ce créneau (%d place(s) au total)." % (
                         rec.resource_id.name, rec.resource_id.capacity))

@@ -33,6 +33,9 @@ class TestBookingDesk(TransactionCase):
             self._book(18.5, 19.5)
         self._book(19.0, 20.0)      # back to back is fine
 
+    def test_a_whole_court_accepts_a_group_of_four(self):
+        self._book(18.0, 19.0, people_count=4)
+
     def test_cancelled_booking_frees_the_court(self):
         first = self._book(18.0, 19.0)
         first.action_cancel()
