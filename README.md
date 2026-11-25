@@ -1,24 +1,32 @@
-# Amarna Club – Odoo 17 addons
+# Amarna Club – Odoo 20 addons
 
 Backend of the Amarna Club. The tablet app (`Amarna-Club/`) talks to these
 models over JSON-RPC; Odoo owns all business data and rules.
 
+Requires Odoo 20.0 (Python 3.12+, PostgreSQL 16+). Build a database with
+`tools/bootstrap_db.py` (Algerian company, DZD, chart of accounts, all modules)
+and fill it with demo data using `tools/seed_demo.py`.
+
 ## Modules
+
+Each module is its own app, with its own icon in the left sidebar.
 
 | Module | Role |
 |---|---|
-| `abonnement_amarna` | **Core.** Activities, subscription plans and durations, subscriptions, reservation billing rules, **centralised billing** (`amarna.billing.mixin`), RFID cards, access rules, check-ins. Other modules depend on it. |
-| `amarna_club_assets` | Equipment and the armory (weapons). |
-| `amarna_club_interventions` | Incidents and maintenance tickets, shared with the tablet. |
-| `amarna_club_inventory` | Consumables with low-stock thresholds. |
-| `amarna_club_ecurie` | Horses: status, fatigue, vet and farrier care. |
-| `amarna_club_pool` | Pool water-quality readings and conformity. |
-| `amarna_club_reservations` | Reservation screens and menus (model owned by the core). |
+| `abonnement_amarna` | **Core** (app *Abonnements*). Members, subscription plans and durations, subscriptions (suspension, stop reasons), **centralised billing** (`amarna.billing.mixin`), RFID cards, access rules, check-ins. Other modules depend on it. |
+| `amarna_club_reservations` | App *Réservations*: courts and lanes, waiting list, weekly repeat, no-shows. |
+| `amarna_club_assets` | App *Matériel*: equipment, maintenance journal, contracts and warranties, armory. |
+| `amarna_club_interventions` | App *Maintenance*: tickets, teams, recurring and preventive tickets. |
+| `amarna_club_inventory` | App *Stock*: consumables, locations, stock ledger, physical counts. |
+| `amarna_club_maintenance_stock` | Bridge (auto-install): parts used on a ticket leave the stock. |
+| `amarna_club_ecurie` | App *Écurie*: horses, care journal, boxes, feeding plans, boarding contracts. |
+| `amarna_club_pool` | App *Piscine*: water-quality readings, recurring tasks, incidents. |
+| `amarna_club_staff` | App *Personnel*: certifications with expiry, shift planning. |
+| `amarna_club_theme` | Left app navigator with icons (replaces the dropdown). |
 | `amarna_club_all` | Meta-module that installs the whole suite. |
 
-A module exists only where an activity owns a unique kind of data (see
-`odoo17/prompt1.md`). Shooting, gym, padel and paintball reuse the shared
-assets, reservations and inventory.
+Shooting, gym, padel and paintball reuse the shared assets, reservations and
+inventory.
 
 ## Billing: one path for everything
 
