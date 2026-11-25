@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Guards against visual bugs that no server-side test would otherwise notice.
 
-* Odoo 17-style chatter (``<div class="oe_chatter">`` with the mail fields in
+* Legacy chatter markup (``<div class="oe_chatter">`` with the mail fields in
   it) is no longer interpreted by Odoo 20: the raw follower / message tables
   were drawn beside the sheet and squeezed the form into a few pixels.
 * A model without a ``name`` shows up as ``model,id`` in the breadcrumb and
