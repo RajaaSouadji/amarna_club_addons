@@ -12,6 +12,11 @@
         'views/club_reservation_views.xml',
         'views/reservation_extra_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'amarna_club_reservations/static/src/planning/*',
+        ],
+    },
     'application': True,
     'installable': True,
 }

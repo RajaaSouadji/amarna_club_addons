@@ -47,7 +47,7 @@ class AmarnaScanWizard(models.TransientModel):
     is_unlimited = fields.Boolean(readonly=True)
     sessions_label = fields.Char(string='Séances', compute='_compute_sessions_label')
     card_state = fields.Selection([
-        ('active', 'Active'), ('inactive', 'Inactive'), ('lost', 'Perdue'), ('blocked', 'Bloquée'),
+        ('active', 'Accès ouvert'), ('inactive', 'Sans accès'), ('lost', 'Perdue'), ('blocked', 'Bloquée'),
     ], string='Statut carte', readonly=True)
     subscription_status = fields.Selection([
         ('draft', 'Brouillon'), ('active', 'Actif'), ('unpaid', 'Impayé'), ('expired', 'Expiré'), ('cancelled', 'Annulé'),

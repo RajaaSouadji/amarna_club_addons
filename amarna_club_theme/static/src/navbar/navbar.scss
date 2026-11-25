@@ -28,6 +28,26 @@
     padding-left: 12px;
     align-items: center;
 
+    .o_amarna_home_btn {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin-right: 8px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--bs-secondary-color, #6c757d);
+
+        &:hover,
+        &:focus-visible {
+            background: rgba(var(--bs-primary-rgb, 113, 75, 103), .09);
+            color: var(--bs-primary, #714b67);
+        }
+    }
+
     .o_menu_brand {
         font-weight: 700;
         font-size: 1.05rem;

@@ -134,6 +134,14 @@ body.o_amarna_sidebar_on {
         }
     }
 
+    .o_amarna_app_home {
+        margin-bottom: 6px;
+
+        .o_amarna_app_icon {
+            color: var(--bs-primary, #714b67);
+        }
+    }
+
     .o_amarna_app_initial {
         width: 32px;
         height: 32px;

@@ -108,10 +108,20 @@ msgstr "Action requise"
 #: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_plan__active
 #: model:ir.model.fields,field_description:abonnement_amarna.field_amarna_subscription_type__active
 #: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_access__state__active
-#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__active
-#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__active
 msgid "Active"
 msgstr "Actif"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__active
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__active
+msgid "Accès ouvert"
+msgstr "Accès ouvert"
+
+#. module: abonnement_amarna
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__inactive
+#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__inactive
+msgid "Sans accès"
+msgstr "Sans accès"
 
 #. module: abonnement_amarna
 #: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_rfid_card_form
@@ -1195,12 +1205,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_subscription_search
 msgid "Impayés"
 msgstr ""
-
-#. module: abonnement_amarna
-#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_rfid_card__state__inactive
-#: model:ir.model.fields.selection,name:abonnement_amarna.selection__amarna_scan_wizard__card_state__inactive
-msgid "Inactive"
-msgstr "Inactive"
 
 #. module: abonnement_amarna
 #: model_terms:ir.ui.view,arch_db:abonnement_amarna.view_amarna_checkin_form

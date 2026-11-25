@@ -63,6 +63,6 @@
               name="Historique des scans"
               parent="menu_amarna_subscription_root"
               action="action_amarna_checkin"
-              sequence="6"/>
+              sequence="4"/>
 
 </odoo>

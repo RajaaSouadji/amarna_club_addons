@@ -65,7 +65,8 @@
         </field>
     </record>
 
-    <menuitem id="menu_amarna_invoices" name="Factures"
-              parent="menu_amarna_billing_root" action="action_amarna_invoices" sequence="1"/>
+    <!-- Dans l'application Facturation d'Odoo, pas dans l'application Abonnements. -->
+    <menuitem id="menu_amarna_invoices" name="Factures du club"
+              parent="account.menu_finance_receivables" action="action_amarna_invoices" sequence="1"/>
 
 </odoo>

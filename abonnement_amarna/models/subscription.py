@@ -190,6 +190,16 @@ class AmarnaSubscription(models.Model):
             rec.remaining_sessions = rec.plan_id.session_count
             rec.line_ids = [(5, 0, 0), (0, 0, rec.plan_id._billing_line_vals())]
 
+    @api.onchange('partner_id')
+    def _onchange_partner_card(self):
+        """The member's card (one per member) is used without picking it."""
+        for rec in self:
+            card = rec.partner_id.amarna_rfid_card_ids[:1]
+            if card:
+                rec.rfid_card_id = card
+            elif rec.rfid_card_id and rec.rfid_card_id.partner_id != rec.partner_id:
+                rec.rfid_card_id = False
+
     # ------------------------------------------------------- Constraints
 
     @api.constrains('rfid_card_id', 'partner_id')
@@ -224,6 +234,10 @@ class AmarnaSubscription(models.Model):
         for vals in vals_list:
             if vals.get('name', 'Nouveau') in ('New', 'Nouveau'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('amarna.subscription') or 'Nouveau'
+            if 'rfid_card_id' not in vals and vals.get('partner_id'):
+                card = self.env['amarna.rfid.card'].search([('partner_id', '=', vals['partner_id'])], limit=1)
+                if card:
+                    vals['rfid_card_id'] = card.id
             plan = Plan.browse(vals['plan_id']) if vals.get('plan_id') else Plan
             if plan:
                 vals.setdefault('remaining_sessions', plan.session_count)

@@ -47,8 +47,15 @@ Renewals start a new period and invoice it; access stays closed until that
 invoice is paid. Reservations covered by a subscription cost nothing and check
 in against its sessions. A reservation cannot be checked in while unpaid.
 
-The **Facturation** menu lists every Amarna invoice, with an "À encaisser"
-filter.
+Every Amarna invoice is listed in the standard **Facturation** app, under
+**Clients > Factures du club**, with an "À encaisser" filter. The club app has
+no billing menu of its own.
+
+Each member has one RFID card, scanned once on the member's sheet; their
+subscriptions and bookings use it by themselves. Cards and their access
+authorisations are one page (**Abonnements > Membres et accès > Cartes RFID**).
+Bookings are one page too: **Réservations > Planning**, with the waiting list one
+click away.
 
 ## Configuration: nothing is hard-coded
 

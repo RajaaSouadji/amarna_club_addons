@@ -27,6 +27,25 @@ class TestBookingDesk(TransactionCase):
             'partner_id': self.member.id, 'reservation_date': self.day,
             'start_hour': start, 'end_hour': end, 'people_count': 1}, **vals))
 
+    def test_the_bookings_have_a_single_page_with_the_waiting_list_one_click_away(self):
+        env = self.env
+        root = env.ref('amarna_club_reservations.menu_club_reservations_root')
+        pages = root.child_id.filtered(lambda m: m.action).mapped('name')
+        self.assertEqual(pages, ['Planning'])
+        for gone in ('menu_club_reservations_all', 'menu_club_reservations_today',
+                     'menu_club_reservations_waiting'):
+            self.assertFalse(env.ref('amarna_club_reservations.' + gone, raise_if_not_found=False), gone)
+        planning = env.ref('amarna_club_reservations.action_club_reservation_planning')
+        self.assertEqual(planning.view_mode, 'calendar,list,form')
+        # the list view of the Planning carries the "Liste d'attente" button
+        arch = self.Reservation.get_view(
+            env.ref('amarna_club_reservations.view_club_reservation_tree').id, 'list')['arch']
+        self.assertIn("Liste d&#x27;attente" if "&#x27;" in arch else "Liste d'attente", arch)
+        # and its search offers the filters the removed pages used to give
+        search = self.Reservation.get_view(planning.search_view_id.id, 'search')['arch']
+        for name in ('today', 'upcoming', 'cancelled'):
+            self.assertIn('name="%s"' % name, search)
+
     def test_a_court_cannot_be_booked_twice_on_the_same_slot(self):
         self._book(18.0, 19.0)
         with self.assertRaises(ValidationError):

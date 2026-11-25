@@ -1,0 +1,118 @@
+// Home screen: a soft gradient with the applications as white tiles.
+.o_amarna_home {
+    height: 100%;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #ece9f7 0%, #dcd7ef 55%, #efecf8 100%);
+
+    .o_amarna_home_inner {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 48px 24px 64px;
+    }
+
+    .o_amarna_home_search {
+        max-width: 360px;
+        margin: 0 auto 36px;
+
+        input {
+            border-radius: 999px;
+            padding: 10px 18px;
+            border: 1px solid rgba(113, 75, 103, .18);
+            background: rgba(255, 255, 255, .75);
+            box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
+        }
+    }
+
+    .o_amarna_home_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+        gap: 28px 12px;
+        justify-items: center;
+    }
+
+    .o_amarna_home_app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 124px;
+        padding: 8px 4px;
+        border-radius: 14px;
+        color: #2b2b36;
+        text-decoration: none;
+        text-align: center;
+
+        &:hover,
+        &:focus-visible {
+            background: rgba(255, 255, 255, .45);
+            color: #2b2b36;
+            outline: none;
+
+            .o_amarna_home_tile {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 18px rgba(16, 24, 40, .16);
+            }
+        }
+    }
+
+    .o_amarna_home_tile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 88px;
+        height: 88px;
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(16, 24, 40, .12);
+        transition: transform .14s ease, box-shadow .14s ease;
+
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+        }
+
+        .oi {
+            font-size: 2.4rem;
+            padding: 8px;
+            border-radius: 12px;
+        }
+    }
+
+    .o_amarna_home_initial {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #fff;
+        border-radius: 12px;
+        background: var(--bs-secondary, #6c757d);
+    }
+
+    .o_amarna_home_name {
+        font-size: .92rem;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+}
+
+// On the home screen the sidebar is not needed: the grid is the navigator, and no
+// application is "current" (the bar keeps only the home button and the systray).
+body.o_amarna_home_on {
+    .o_main_navbar {
+        .o_menu_brand,
+        .o_amarna_brand_icon,
+        .o_menu_sections {
+            display: none !important;
+        }
+    }
+
+    .o_amarna_sidebar {
+        display: none;
+    }
+
+    &.o_amarna_sidebar_on > .o_action_manager {
+        margin-left: 0;
+    }
+}

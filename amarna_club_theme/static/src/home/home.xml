@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+  <t t-name="amarna_club_theme.Home">
+    <div class="o_amarna_home">
+      <div class="o_amarna_home_inner">
+        <div class="o_amarna_home_search">
+          <input type="search" class="form-control" placeholder="Rechercher une application…"
+                 t-att-value="this.state.query" t-on-input="this.onSearchInput" t-on-keydown="this.onSearchKeydown"
+                 autocomplete="off" aria-label="Rechercher une application"/>
+        </div>
+        <div class="o_amarna_home_grid">
+          <a t-foreach="this.apps" t-as="app" t-key="app.id"
+             class="o_amarna_home_app"
+             t-att-href="this.href(app)"
+             t-att-data-menu-xmlid="app.xmlid"
+             t-on-click.prevent="() => this.onSelect(app)">
+            <span class="o_amarna_home_tile">
+              <img t-if="app.webIconData" t-att-src="app.webIconData" alt=""/>
+              <i t-elif="app.webIcon" class="oi" t-att-data-icon="this.fontIcon(app).name"
+                 t-att-style="'color:' + this.fontIcon(app).color + ';background:' + (this.fontIcon(app).background || 'transparent')"/>
+              <span t-else="" class="o_amarna_home_initial" t-out="this.initial(app)"/>
+            </span>
+            <span class="o_amarna_home_name" t-out="app.name"/>
+          </a>
+        </div>
+        <p t-if="!this.apps.length" class="o_amarna_home_empty text-muted">Aucune application ne correspond.</p>
+      </div>
+    </div>
+  </t>
+
+</templates>

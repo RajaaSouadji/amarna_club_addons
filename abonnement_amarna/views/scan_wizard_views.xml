@@ -142,6 +142,6 @@
               name="Scanner une carte"
               parent="menu_amarna_subscription_root"
               action="action_amarna_scan_wizard"
-              sequence="7"/>
+              sequence="3"/>
 
 </odoo>

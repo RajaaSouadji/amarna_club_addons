@@ -3,6 +3,17 @@
 
   <!-- The current app shows its icon in front of its name in the top bar. -->
   <t t-inherit="web.NavBar" t-inherit-mode="extension">
+    <!-- button back to the home screen (grid of applications) -->
+    <xpath expr="//t[@t-call='web.NavBar.AppsMenu']" position="before">
+      <button t-if="!this.ui.isSmall" type="button" class="o_amarna_home_btn" title="Toutes les applications"
+              aria-label="Toutes les applications"
+              t-on-click="() => this.env.services.action.doAction('amarna_club_theme.action_amarna_home', { clearBreadcrumbs: true })">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/>
+        </svg>
+      </button>
+    </xpath>
     <xpath expr="//t[@t-call='web.NavBar.AppsMenu']" position="after">
       <img t-if="!this.ui.isSmall and this.currentApp and this.currentApp.webIconData"
            class="o_amarna_brand_icon" t-att-src="this.currentApp.webIconData" alt=""/>

@@ -72,6 +72,10 @@ class ResPartner(models.Model):
     amarna_subscription_ids = fields.One2many(
         'amarna.subscription', 'partner_id', string='Abonnements Amarna')
     amarna_subscription_count = fields.Integer(compute='_compute_amarna_subscription_count')
+    amarna_rfid_card_ids = fields.One2many(
+        'amarna.rfid.card', 'partner_id', string='Carte RFID',
+        help="La carte d'accès du membre : scannez-la ici une fois, ses abonnements et "
+             "réservations l'utilisent ensuite d'eux-mêmes.")
 
     @api.depends('amarna_birth_date')
     def _compute_amarna_is_minor(self):

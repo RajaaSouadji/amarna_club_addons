@@ -182,6 +182,10 @@ class AmarnaClubReservation(models.Model):
                     activity.name if activity else vals.get('mobile_activity_code'),
                     vals.get('client_name'),
                 ])) or 'Réservation'
+            if 'rfid_card_id' not in vals and vals.get('partner_id'):
+                card = self.env['amarna.rfid.card'].search([('partner_id', '=', vals['partner_id'])], limit=1)
+                if card:
+                    vals['rfid_card_id'] = card.id
         return super().create(vals_list)
 
     def write(self, vals):
@@ -274,6 +278,11 @@ class AmarnaClubReservation(models.Model):
     def _onchange_partner_id(self):
         if self.partner_id and not self.client_name:
             self.client_name = self.partner_id.name
+        card = self.partner_id.amarna_rfid_card_ids[:1]
+        if card:
+            self.rfid_card_id = card
+        elif self.rfid_card_id and self.rfid_card_id.partner_id != self.partner_id:
+            self.rfid_card_id = False
 
     @api.onchange('subscription_id')
     def _onchange_subscription_id(self):

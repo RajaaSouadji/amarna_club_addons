@@ -177,6 +177,18 @@
                             <field name="amarna_emergency_phone" widget="phone"/>
                         </group>
                     </group>
+                    <group string="Carte d'accès (RFID)">
+                        <field name="amarna_rfid_card_ids" nolabel="1" colspan="2">
+                            <list editable="bottom">
+                                <field name="name" placeholder="Passez la carte devant le lecteur"/>
+                                <field name="state" widget="badge" readonly="1"
+                                       decoration-success="state == 'active'"
+                                       decoration-danger="state in ('lost', 'blocked')"
+                                       decoration-info="state == 'inactive'"/>
+                                <field name="access_until" readonly="1"/>
+                            </list>
+                        </field>
+                    </group>
                     <field name="comment" placeholder="Notes internes (allergies, remarques...)"/>
                 </sheet>
                 <chatter/>

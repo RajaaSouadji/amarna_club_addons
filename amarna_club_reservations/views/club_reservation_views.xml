@@ -59,7 +59,8 @@
                             <field name="partner_id"/>
                             <field name="client_name"/>
                             <field name="subscription_id"/>
-                            <field name="rfid_card_id"/>
+                            <field name="rfid_card_id" domain="[('partner_id', '=', partner_id)]"
+                                   options="{'no_create': True}" placeholder="Carte du membre"/>
                             <field name="people_count"/>
                             <field name="notes"/>
                         </group>
@@ -133,6 +134,8 @@
                         domain="[('reservation_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
                 <filter string="À venir" name="upcoming"
                         domain="[('reservation_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('status', '!=', 'cancelled')]"/>
+                <filter string="Hors annulées" name="not_cancelled" domain="[('status', '!=', 'cancelled')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('status', '=', 'cancelled')]"/>
                 <separator/>
                 <filter string="En attente" name="pending" domain="[('status', '=', 'pending')]"/>
                 <filter string="Arrivées" name="checkedin" domain="[('status', '=', 'checkedin')]"/>
@@ -147,31 +150,9 @@
         </field>
     </record>
 
-    <record id="action_club_reservations" model="ir.actions.act_window">
-        <field name="name">Réservations du jour</field>
-        <field name="res_model">amarna.club.reservation</field>
-        <field name="view_mode">list,form,calendar</field>
-        <field name="search_view_id" ref="view_club_reservation_search"/>
-        <field name="context">{'search_default_today': 1}</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Aucune réservation</p>
-            <p>Créez une réservation pour une activité, puis facturez-la et enregistrez l'arrivée.</p>
-        </field>
-    </record>
-
-    <record id="action_club_reservations_all" model="ir.actions.act_window">
-        <field name="name">Toutes les réservations</field>
-        <field name="res_model">amarna.club.reservation</field>
-        <field name="view_mode">list,form,calendar</field>
-        <field name="search_view_id" ref="view_club_reservation_search"/>
-        <field name="context">{}</field>
-    </record>
-
+    <!-- One page for the bookings: the Planning (calendar / list / form). Its search
+         offers "Aujourd'hui", "À venir", "Annulées"... so no second list is needed. -->
     <menuitem id="menu_club_reservations_root" web_icon="amarna_club_reservations,static/description/icon.svg" name="Réservations"
               groups="abonnement_amarna.group_club_user" sequence="20"/>
-    <menuitem id="menu_club_reservations_today" name="Aujourd'hui"
-              parent="menu_club_reservations_root" action="action_club_reservations" sequence="1"/>
-    <menuitem id="menu_club_reservations_all" name="Toutes les réservations"
-              parent="menu_club_reservations_root" action="action_club_reservations_all" sequence="2"/>
 
 </odoo>

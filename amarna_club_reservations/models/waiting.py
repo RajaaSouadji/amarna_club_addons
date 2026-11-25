@@ -22,7 +22,7 @@ class AmarnaClubReservationWaiting(models.Model):
     people_count = fields.Integer(string='Personnes', default=1)
     state = fields.Selection(
         [('waiting', 'En attente'), ('promoted', 'Réservé'), ('cancelled', 'Annulé')],
-        default='waiting', required=True, tracking=True, copy=False)
+        string='Statut', default='waiting', required=True, tracking=True, copy=False)
     reservation_id = fields.Many2one(
         'amarna.club.reservation', string='Réservation créée', readonly=True, copy=False)
 

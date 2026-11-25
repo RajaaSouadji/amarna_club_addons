@@ -1,6 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><odoo>
- <record id="view_amarna_rfid_access_tree" model="ir.ui.view"><field name="name">amarna.rfid.access.tree</field><field name="model">amarna.rfid.access</field><field name="arch" type="xml"><list><field name="name"/><field name="card_id"/><field name="partner_id"/><field name="subscription_id"/><field name="reservation_id"/><field name="start_datetime"/><field name="end_datetime"/><field name="state" widget="badge"/></list></field></record>
- <record id="view_amarna_rfid_access_form" model="ir.ui.view"><field name="name">amarna.rfid.access.form</field><field name="model">amarna.rfid.access</field><field name="arch" type="xml"><form><sheet><group><field name="name"/><field name="card_id"/><field name="partner_id"/><field name="subscription_id"/><field name="reservation_id"/><field name="start_datetime"/><field name="end_datetime"/><field name="source"/><field name="state"/><field name="active"/></group></sheet></form></field></record>
- <record id="action_amarna_rfid_access" model="ir.actions.act_window"><field name="name">Autorisations RFID</field><field name="res_model">amarna.rfid.access</field><field name="view_mode">list,form</field></record>
- <menuitem id="menu_amarna_rfid_access" name="Autorisations d’accès" parent="menu_amarna_subscription_root" action="action_amarna_rfid_access" sequence="6"/>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Les autorisations d'accès n'ont plus de menu : elles se consultent dans l'onglet
+         « Autorisations d'accès » de la fiche de la carte (menu Cartes RFID). Ces vues
+         servent à ouvrir une ligne de cet onglet. -->
+    <record id="view_amarna_rfid_access_tree" model="ir.ui.view">
+        <field name="name">amarna.rfid.access.tree</field>
+        <field name="model">amarna.rfid.access</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="card_id"/>
+                <field name="partner_id"/>
+                <field name="subscription_id"/>
+                <field name="reservation_id"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amarna_rfid_access_form" model="ir.ui.view">
+        <field name="name">amarna.rfid.access.form</field>
+        <field name="model">amarna.rfid.access</field>
+        <field name="arch" type="xml">
+            <form string="Autorisation d'accès">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="card_id"/>
+                            <field name="partner_id"/>
+                            <field name="source"/>
+                        </group>
+                        <group>
+                            <field name="subscription_id" invisible="not subscription_id"/>
+                            <field name="reservation_id" invisible="not reservation_id"/>
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                            <field name="state"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
 </odoo>

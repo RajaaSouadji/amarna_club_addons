@@ -1,48 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- Une seule page pour les cartes ET leurs autorisations d'accès :
+         la liste montre, pour chaque carte, si elle ouvre l'accès et jusqu'à quand ;
+         la fiche liste ses autorisations (générées par les abonnements et réservations payés). -->
     <record id="view_amarna_rfid_card_tree" model="ir.ui.view">
         <field name="name">amarna.rfid.card.tree</field>
         <field name="model">amarna.rfid.card</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-muted="state in ('lost', 'blocked')">
                 <field name="name"/>
                 <field name="partner_id"/>
-                <field name="state" widget="badge"/>
-                <field name="assigned_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-danger="state in ('lost', 'blocked')"
+                       decoration-info="state == 'inactive'"/>
+                <field name="access_source" optional="show"/>
+                <field name="access_until" optional="show"/>
+                <field name="assigned_date" optional="hide"/>
             </list>
         </field>
     </record>
+
+    <record id="view_amarna_rfid_card_search" model="ir.ui.view">
+        <field name="name">amarna.rfid.card.search</field>
+        <field name="model">amarna.rfid.card</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Carte ou membre"
+                       filter_domain="['|', ('name', 'ilike', self), ('partner_id', 'ilike', self)]"/>
+                <field name="partner_id"/>
+                <filter string="Accès ouvert" name="open" domain="[('state', '=', 'active')]"/>
+                <filter string="Sans accès" name="closed" domain="[('state', '=', 'inactive')]"/>
+                <filter string="Perdues / bloquées" name="lost" domain="[('state', 'in', ('lost', 'blocked'))]"/>
+                <separator/>
+                <filter string="Non attribuées" name="free" domain="[('partner_id', '=', False)]"/>
+                <group>
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="view_amarna_rfid_card_form" model="ir.ui.view">
         <field name="name">amarna.rfid.card.form</field>
         <field name="model">amarna.rfid.card</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Carte RFID">
                 <header>
-                    <button name="action_open_scan" string="SCAN" type="object" class="oe_highlight"/>
-                    <button name="action_activate" string="Activer" type="object" class="oe_highlight" invisible="state == 'active'"/>
-                    <button name="action_deactivate" string="Désactiver" type="object" invisible="state != 'active'"/>
-                    <button name="action_block" string="Bloquer" type="object" invisible="state == 'blocked'"/>
-                    <button name="action_unassign" string="Désattribuer" type="object" invisible="not partner_id"/>
-                    <field name="state" widget="statusbar" statusbar_visible="active,inactive,blocked"/>
+                    <button name="action_open_scan" string="Tester la carte" type="object" class="oe_highlight"
+                            invisible="not id"/>
+                    <button name="action_lost" string="Déclarer perdue" type="object"
+                            invisible="state in ('lost', 'blocked')"
+                            confirm="Déclarer cette carte perdue ? Elle n'ouvrira plus aucun accès."/>
+                    <button name="action_block" string="Bloquer" type="object"
+                            invisible="state in ('lost', 'blocked')"/>
+                    <button name="action_restore" string="Rétablir" type="object"
+                            invisible="state not in ('lost', 'blocked')"/>
+                    <button name="action_unassign" string="Retirer au membre" type="object"
+                            invisible="not partner_id"
+                            confirm="Retirer cette carte à son membre ?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="inactive,active"/>
                 </header>
                 <sheet>
-                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Passez la carte devant le lecteur" default_focus="1"/></h1>
+                    </div>
                     <group>
-                        <field name="partner_id"/>
-                        <field name="assigned_date"/>
-                        <field name="company_id"/>
+                        <group>
+                            <field name="partner_id" options="{'no_create_edit': True}"/>
+                            <field name="assigned_date"/>
+                        </group>
+                        <group>
+                            <field name="access_source" invisible="not access_source"/>
+                            <field name="access_until" invisible="not access_until"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
                     </group>
-                    <field name="note"/>
+                    <notebook>
+                        <page string="Autorisations d'accès" name="access">
+                            <field name="access_ids" nolabel="1" readonly="1">
+                                <list decoration-muted="state in ('expired', 'cancelled')">
+                                    <field name="name"/>
+                                    <field name="start_datetime"/>
+                                    <field name="end_datetime"/>
+                                    <field name="source" optional="hide"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'active'"
+                                           decoration-info="state == 'scheduled'"/>
+                                </list>
+                            </field>
+                            <p class="text-muted">
+                                Ces autorisations sont créées toutes seules : un abonnement confirmé et payé, ou une
+                                réservation payée, ouvre l'accès ; une suspension, un impayé ou une annulation le ferme.
+                            </p>
+                        </page>
+                        <page string="Passages" name="checkins">
+                            <field name="checkin_ids" nolabel="1" readonly="1">
+                                <list>
+                                    <field name="checkin_datetime"/>
+                                    <field name="activity_id"/>
+                                    <field name="subscription_id"/>
+                                    <field name="sessions_after"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note" nolabel="1" placeholder="Notes internes..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
+
     <record id="action_amarna_rfid_cards" model="ir.actions.act_window">
         <field name="name">Cartes RFID</field>
         <field name="res_model">amarna.rfid.card</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_amarna_rfid_card_search"/>
         <field name="context">{'active_test': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune carte</p>
+            <p>Passez une carte devant le lecteur dans le champ « Numéro », choisissez le membre et enregistrez.
+               Vous pouvez aussi l'ajouter directement sur la fiche du membre.</p>
+        </field>
     </record>
+
     <menuitem id="menu_amarna_rfid_cards"
               name="Cartes RFID"
               parent="menu_amarna_subscription_root"

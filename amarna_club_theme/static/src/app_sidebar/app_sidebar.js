@@ -17,6 +17,7 @@ export class AppSidebar extends Component {
 
     setup() {
         this.menuService = useService("menu");
+        this.actionService = useService("action");
         this.ui = proxy(useService("ui"));
         this.state = proxy({ collapsed: this.readCollapsed() });
         onMounted(() => this.syncBody());
@@ -89,6 +90,12 @@ export class AppSidebar extends Component {
 
     onSelect(app) {
         this.menuService.selectMenu(app);
+    }
+
+    goHome() {
+        this.actionService.doAction("amarna_club_theme.action_amarna_home", {
+            clearBreadcrumbs: true,
+        });
     }
 }
 

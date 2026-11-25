@@ -12,9 +12,8 @@
     <menuitem id="menu_amarna_subscription_root" name="Membres et accès"
               parent="menu_amarna_root" sequence="20"/>
 
-    <!-- Facturation centralisée : toutes les factures du club -->
-    <menuitem id="menu_amarna_billing_root" name="Facturation"
-              parent="menu_amarna_root" sequence="30"/>
+    <!-- Pas de menu Facturation ici : les factures du club se trouvent dans l'application
+         Facturation d'Odoo (Clients > Factures du club). -->
 
     <!-- Catalogue : activités, formules et durées -->
     <menuitem id="menu_amarna_product_root" name="Catalogue"

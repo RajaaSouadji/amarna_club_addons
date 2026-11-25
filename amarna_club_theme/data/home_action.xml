@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Home screen (grid of applications), opened at login -->
+    <record id="action_amarna_home" model="ir.actions.client">
+        <field name="name">Accueil</field>
+        <field name="tag">amarna_club_theme.home</field>
+    </record>
+
+</odoo>

@@ -68,14 +68,16 @@
                             <field name="plan_id" options="{'no_create': True}"/>
                             <field name="activity_id"/>
                             <field name="start_date"/>
-                            <field name="rfid_card_id" options="{'no_create': True}"/>
+                            <field name="rfid_card_id" domain="[('partner_id', '=', partner_id)]"
+                                   context="{'default_partner_id': partner_id}"
+                                   placeholder="Rempli avec la carte du membre"
+                                   options="{'no_create_edit': True}"/>
                             <field name="auto_renew"/>
                         </group>
                         <group string="Période">
                             <field name="expiration_date"/>
                             <field name="is_unlimited" invisible="1"/>
                             <field name="remaining_sessions" invisible="is_unlimited"/>
-                            <field name="subscription_status" widget="badge" readonly="1"/>
                         </group>
                     </group>
                     <group string="Paiement" invisible="state == 'draft'">

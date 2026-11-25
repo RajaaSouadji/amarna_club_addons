@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+  <t t-name="amarna_club_reservations.PlanningButtons">
+    <button type="button" class="btn btn-secondary o_amarna_waiting_btn"
+            t-on-click="() => this.env.services.action.doAction('amarna_club_reservations.action_club_waiting')">
+      Liste d'attente
+    </button>
+  </t>
+
+</templates>
