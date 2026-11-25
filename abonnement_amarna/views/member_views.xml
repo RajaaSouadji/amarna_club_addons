@@ -137,16 +137,93 @@
         </field>
     </record>
 
-    <!-- Membres : les contacts qui ont (ou ont eu) un abonnement -->
+    <!-- ================= Fiche membre simplifiée =================
+         Le menu Membres n'utilise pas la fiche contact complète d'Odoo (adresse,
+         onglets Contacts, Ventes et achats, Facturation...) : seulement ce que
+         l'accueil d'un club doit savoir. -->
+    <record id="view_amarna_member_form" model="ir.ui.view">
+        <field name="name">res.partner.form.amarna.member.simple</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Membre">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_amarna_subscriptions" type="object" class="oe_stat_button"
+                                icon="fa-id-card-o" invisible="not amarna_subscription_count">
+                            <field name="amarna_subscription_count" widget="statinfo" string="Abonnements"/>
+                        </button>
+                    </div>
+                    <field name="avatar_128" invisible="1"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"
+                           options="{'preview_image': 'avatar_128'}"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="amarna_is_member" invisible="1"/>
+                    <field name="amarna_is_minor" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom et prénom" default_focus="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Contact">
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="amarna_birth_date"/>
+                            <field name="amarna_guardian_id" invisible="not amarna_is_minor"
+                                   domain="[('id', '!=', id)]"/>
+                        </group>
+                        <group string="Santé et urgence">
+                            <field name="amarna_medical_certificate_end"/>
+                            <field name="amarna_emergency_name"/>
+                            <field name="amarna_emergency_phone" widget="phone"/>
+                        </group>
+                    </group>
+                    <field name="comment" placeholder="Notes internes (allergies, remarques...)"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_amarna_member_list" model="ir.ui.view">
+        <field name="name">res.partner.list.amarna.member</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="amarna_birth_date" optional="hide"/>
+                <field name="amarna_medical_certificate_end" optional="show"/>
+                <field name="amarna_subscription_count" string="Abonnements" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Membres : les contacts créés ici, ou qui ont (ou ont eu) un abonnement -->
     <record id="action_amarna_members" model="ir.actions.act_window">
         <field name="name">Membres</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">list,form</field>
-        <field name="domain">[('amarna_subscription_ids', '!=', False)]</field>
+        <field name="domain">['|', ('amarna_is_member', '=', True), ('amarna_subscription_ids', '!=', False)]</field>
+        <field name="context">{'default_amarna_is_member': True, 'default_is_company': False}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Aucun membre pour le moment</p>
-            <p>Un contact devient membre dès qu'il a un abonnement. Sa fiche garde le certificat médical, le contact d'urgence et la date de naissance.</p>
+            <p>Créez la fiche d'un membre, puis ajoutez-lui un abonnement.</p>
         </field>
+    </record>
+
+    <record id="action_amarna_members_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_amarna_member_list"/>
+        <field name="act_window_id" ref="action_amarna_members"/>
+    </record>
+    <record id="action_amarna_members_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_amarna_member_form"/>
+        <field name="act_window_id" ref="action_amarna_members"/>
     </record>
 
     <menuitem id="menu_amarna_members" name="Membres"

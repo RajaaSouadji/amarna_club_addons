@@ -105,3 +105,18 @@ class TestMembers(TransactionCase):
         self.sub.close_reason_id = reason
         self.assertEqual(self.sub.subscription_status, 'cancelled')
         self.assertEqual(self.sub.close_reason_id.name, 'Déménagement')
+
+    def test_member_created_from_the_menu_is_listed_and_form_is_short(self):
+        action = self.env.ref('abonnement_amarna.action_amarna_members')
+        context = {'default_amarna_is_member': True}
+        new_member = self.env['res.partner'].with_context(**context).create({'name': 'Nouveau membre'})
+        self.assertTrue(new_member.amarna_is_member)
+        listed = self.env['res.partner'].search(eval(action.domain))
+        self.assertIn(new_member, listed)
+        self.assertIn(self.partner, listed)
+        # the dedicated form has none of the standard contact tabs
+        form = self.env.ref('abonnement_amarna.view_amarna_member_form')
+        arch = self.env['res.partner'].get_view(form.id, 'form')['arch']
+        for tab in ('sales_purchases', 'accounting', 'contact_addresses', 'internal_notes'):
+            self.assertNotIn(tab, arch)
+        self.assertIn('amarna_medical_certificate_end', arch)

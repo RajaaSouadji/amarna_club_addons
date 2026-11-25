@@ -56,6 +56,10 @@ class ResPartner(models.Model):
     """Member card: what the front desk needs to know about a person."""
     _inherit = 'res.partner'
 
+    amarna_is_member = fields.Boolean(
+        string='Membre du club', default=False,
+        help="Coché automatiquement quand la fiche est créée depuis le menu Membres. "
+             "Un contact qui a un abonnement est aussi un membre.")
     amarna_birth_date = fields.Date(string='Date de naissance')
     amarna_is_minor = fields.Boolean(string='Mineur', compute='_compute_amarna_is_minor')
     amarna_guardian_id = fields.Many2one(
