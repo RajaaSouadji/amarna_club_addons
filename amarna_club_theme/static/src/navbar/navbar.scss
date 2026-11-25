@@ -1,0 +1,72 @@
+// Top bar: light, flat, with the app icon in front of the app name.
+// Everything goes through the navbar's own CSS variables, so the dropdowns,
+// the systray and the mobile burger follow without extra rules.
+:root {
+    --amarna-navbar-h: 54px;
+}
+
+.o_main_navbar {
+    --o-navbar-height: var(--amarna-navbar-h);
+    --NavBar-entry-color: var(--bs-body-color, #212529);
+    --NavBar-entry-color--hover: var(--bs-body-color, #212529);
+    --NavBar-entry-color--active: var(--bs-primary, #714b67);
+    --NavBar-brand-color: var(--bs-body-color, #212529);
+    --NavBar-entry-backgroundColor: transparent;
+    --NavBar-entry-backgroundColor--hover: rgba(var(--bs-primary-rgb, 113, 75, 103), .09);
+    --NavBar-entry-backgroundColor--focus: rgba(var(--bs-primary-rgb, 113, 75, 103), .09);
+    --NavBar-entry-backgroundColor--active: rgba(var(--bs-primary-rgb, 113, 75, 103), .15);
+    --o-navbar-badge-bg: var(--bs-danger, #dc3545);
+    --o-navbar-badge-color: #fff;
+    --o-navbar-badge-text-shadow: none;
+
+    background: var(--bs-body-bg, #fff);
+    color: var(--bs-body-color, #212529);
+    border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+    box-shadow: 0 1px 4px rgba(16, 24, 40, .06);
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 12px;
+    align-items: center;
+
+    .o_menu_brand {
+        font-weight: 700;
+        font-size: 1.05rem;
+        letter-spacing: -.01em;
+    }
+
+    .o_amarna_brand_icon {
+        flex: 0 0 auto;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, .2);
+    }
+
+    .o_menu_sections {
+        margin-left: 6px;
+        padding-left: 12px;
+        border-left: 1px solid var(--bs-border-color, #dee2e6);
+
+        .o_nav_entry,
+        .dropdown-toggle:not(.o-dropdown-toggle-custo) {
+            border-radius: 8px;
+            font-weight: 500;
+        }
+    }
+
+    // Systray: dark icons, round user picture.
+    .o_menu_systray {
+        gap: 2px;
+
+        .o_user_menu img,
+        .o_avatar img {
+            border-radius: 50%;
+        }
+    }
+}
+
+// the left sidebar starts right under the bar
+.o_amarna_sidebar {
+    top: var(--amarna-navbar-h);
+}

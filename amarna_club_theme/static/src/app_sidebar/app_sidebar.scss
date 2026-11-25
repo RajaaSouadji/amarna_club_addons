@@ -2,7 +2,7 @@
 // puts on <body>; below the "small" breakpoint nothing changes.
 $amarna-sidebar-w: 232px;
 $amarna-sidebar-w-collapsed: 64px;
-$amarna-navbar-h: 46px;
+$amarna-navbar-h: 54px;
 
 body.o_amarna_sidebar_on {
     --amarna-sidebar-w: #{$amarna-sidebar-w};
@@ -29,7 +29,7 @@ body.o_amarna_sidebar_on {
 
 .o_amarna_sidebar {
     position: fixed;
-    top: $amarna-navbar-h;
+    top: var(--amarna-navbar-h, $amarna-navbar-h);
     bottom: 0;
     left: 0;
     z-index: 20;

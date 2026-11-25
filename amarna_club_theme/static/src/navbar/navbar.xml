@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+  <!-- The current app shows its icon in front of its name in the top bar. -->
+  <t t-inherit="web.NavBar" t-inherit-mode="extension">
+    <xpath expr="//t[@t-call='web.NavBar.AppsMenu']" position="after">
+      <img t-if="!this.ui.isSmall and this.currentApp and this.currentApp.webIconData"
+           class="o_amarna_brand_icon" t-att-src="this.currentApp.webIconData" alt=""/>
+    </xpath>
+  </t>
+
+</templates>

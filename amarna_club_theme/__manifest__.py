@@ -11,6 +11,7 @@
         'web.assets_backend': [
             'amarna_club_theme/static/src/app_sidebar/*',
             'amarna_club_theme/static/src/chatter_bottom/*',
+            'amarna_club_theme/static/src/navbar/*',
         ],
     },
     'installable': True,
