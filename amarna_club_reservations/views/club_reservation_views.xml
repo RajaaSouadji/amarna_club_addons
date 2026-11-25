@@ -170,7 +170,7 @@
         <field name="context">{}</field>
     </record>
 
-    <menuitem id="menu_club_reservations_root" name="Réservations"
+    <menuitem id="menu_club_reservations_root" web_icon="amarna_club_reservations,static/description/icon.svg" name="Réservations"
               groups="abonnement_amarna.group_club_user" sequence="20"/>
     <menuitem id="menu_club_reservations_today" name="Aujourd'hui"
               parent="menu_club_reservations_root" action="action_club_reservations" sequence="1"/>

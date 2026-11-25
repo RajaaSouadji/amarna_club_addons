@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+  <t t-name="amarna_club_theme.AppSidebar">
+    <aside t-if="!this.ui.isSmall" class="o_amarna_sidebar d-print-none" aria-label="Applications">
+      <nav class="o_amarna_sidebar_nav">
+        <t t-foreach="this.groups" t-as="group" t-key="group.key">
+          <div class="o_amarna_sidebar_group">
+            <div class="o_amarna_sidebar_label" t-out="group.label"/>
+            <a t-foreach="group.apps" t-as="app" t-key="app.id"
+               class="o_amarna_app"
+               t-att-class="{ active: this.isCurrent(app) }"
+               t-att-href="this.href(app)"
+               t-att-data-menu-xmlid="app.xmlid"
+               t-att-data-tooltip="this.state.collapsed ? app.name : undefined"
+               data-tooltip-position="right"
+               t-att-aria-current="this.isCurrent(app) ? 'page' : undefined"
+               t-on-click.prevent="() => this.onSelect(app)">
+              <span class="o_amarna_app_icon">
+                <img t-if="app.webIconData" t-att-src="app.webIconData" alt=""/>
+                <i t-elif="app.webIcon" class="oi" t-att-data-icon="this.fontIcon(app).name"
+                   t-att-style="'color:' + this.fontIcon(app).color + ';background:' + (this.fontIcon(app).background || 'transparent')"/>
+                <span t-else="" class="o_amarna_app_initial" t-out="this.initial(app)"/>
+              </span>
+              <span class="o_amarna_app_name" t-out="app.name"/>
+            </a>
+          </div>
+        </t>
+      </nav>
+      <button type="button" class="o_amarna_sidebar_toggle"
+              t-att-title="this.state.collapsed ? 'Déplier le menu' : 'Replier le menu'"
+              t-att-aria-expanded="!this.state.collapsed"
+              t-on-click="() => this.toggleCollapsed()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m15 6-6 6 6 6"/>
+        </svg>
+        <span class="o_amarna_app_name">Replier</span>
+      </button>
+    </aside>
+  </t>
+
+</templates>

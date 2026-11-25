@@ -521,7 +521,7 @@
     </record>
 
     <!-- ================= Menus : app « Matériel » ================= -->
-    <menuitem id="menu_club_assets_root"
+    <menuitem id="menu_club_assets_root" web_icon="amarna_club_assets,static/description/icon.svg"
               name="Matériel"
               groups="abonnement_amarna.group_club_user"
               sequence="30"/>

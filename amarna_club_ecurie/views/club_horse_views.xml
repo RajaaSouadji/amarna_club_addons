@@ -448,7 +448,7 @@
     </record>
 
     <!-- ================= Menus : app « Écurie » ================= -->
-    <menuitem id="menu_club_ecurie_root"
+    <menuitem id="menu_club_ecurie_root" web_icon="amarna_club_ecurie,static/description/icon.svg"
               name="Écurie"
               groups="abonnement_amarna.group_club_user"
               sequence="60"/>

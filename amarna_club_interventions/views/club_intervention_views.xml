@@ -302,7 +302,7 @@
     </record>
 
     <!-- Menus : app « Maintenance » -->
-    <menuitem id="menu_club_interventions_root"
+    <menuitem id="menu_club_interventions_root" web_icon="amarna_club_interventions,static/description/icon.svg"
               name="Maintenance"
               groups="abonnement_amarna.group_club_user"
               sequence="40"/>

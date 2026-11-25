@@ -298,7 +298,7 @@
     </record>
 
     <!-- ================= Menus : app « Stock » ================= -->
-    <menuitem id="menu_club_inventory_root"
+    <menuitem id="menu_club_inventory_root" web_icon="amarna_club_inventory,static/description/icon.svg"
               name="Stock"
               groups="abonnement_amarna.group_club_user"
               sequence="50"/>

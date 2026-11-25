@@ -338,7 +338,7 @@
     </record>
 
     <!-- ================= Menus : app « Personnel » ================= -->
-    <menuitem id="menu_club_staff_root" name="Personnel"
+    <menuitem id="menu_club_staff_root" web_icon="amarna_club_staff,static/description/icon.svg" name="Personnel"
               groups="abonnement_amarna.group_club_user" sequence="80"/>
 
     <menuitem id="menu_club_staff_team" name="Équipe"

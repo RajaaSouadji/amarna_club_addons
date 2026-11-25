@@ -210,7 +210,7 @@
     </record>
 
     <!-- ================= Menus : app « Piscine » ================= -->
-    <menuitem id="menu_club_pool_root"
+    <menuitem id="menu_club_pool_root" web_icon="amarna_club_pool,static/description/icon.svg"
               name="Piscine"
               groups="abonnement_amarna.group_club_user"
               sequence="70"/>

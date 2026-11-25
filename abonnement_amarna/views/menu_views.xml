@@ -6,7 +6,7 @@
         maintenance, stock, stable, pool, staff) is its own app with its own
         top-level menu and Configuration section, as in standard Odoo.
     -->
-    <menuitem id="menu_amarna_root" name="Abonnements" sequence="10"
+    <menuitem id="menu_amarna_root" web_icon="abonnement_amarna,static/description/icon.svg" name="Abonnements" sequence="10"
               groups="group_club_user"/>
 
     <menuitem id="menu_amarna_subscription_root" name="Membres et accès"

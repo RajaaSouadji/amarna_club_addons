@@ -16,6 +16,7 @@
         'amarna_club_pool',
         'amarna_club_reservations',
         'amarna_club_staff',
+        'amarna_club_theme',
     ],
     'installable': True,
 }
