@@ -4,17 +4,6 @@
   <t t-name="amarna_club_theme.AppSidebar">
     <aside t-if="!this.ui.isSmall" class="o_amarna_sidebar d-print-none" aria-label="Applications">
       <nav class="o_amarna_sidebar_nav">
-        <a class="o_amarna_app o_amarna_app_home" href="/odoo"
-           t-att-data-tooltip="this.state.collapsed ? 'Accueil' : undefined" data-tooltip-position="right"
-           t-on-click.prevent="() => this.goHome()">
-          <span class="o_amarna_app_icon">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-              <rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/>
-              <rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/>
-            </svg>
-          </span>
-          <span class="o_amarna_app_name">Accueil</span>
-        </a>
         <t t-foreach="this.groups" t-as="group" t-key="group.key">
           <div class="o_amarna_sidebar_group">
             <div class="o_amarna_sidebar_label" t-out="group.label"/>
