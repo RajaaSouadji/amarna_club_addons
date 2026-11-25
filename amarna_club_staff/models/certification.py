@@ -83,3 +83,9 @@ class AmarnaClubCertification(models.Model):
                 rec.state = 'expiring'
             else:
                 rec.state = 'valid'
+
+    @api.depends('staff_id', 'type_id')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.staff_id.display_name or 'Certification', rec.type_id.name or '')

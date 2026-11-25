@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AmarnaSubscriptionHistory(models.Model):
@@ -18,3 +18,9 @@ class AmarnaSubscriptionHistory(models.Model):
         ('initial', 'Création'), ('renewal', 'Renouvellement'), ('change', 'Changement de plan'),
     ], default='initial', required=True)
     note = fields.Text()
+
+    @api.depends('subscription_id', 'plan_id', 'start_date')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.subscription_id.display_name or 'Période', rec.plan_id.name or '')

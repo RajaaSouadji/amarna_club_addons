@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AmarnaCheckin(models.Model):
@@ -14,3 +14,11 @@ class AmarnaCheckin(models.Model):
     sessions_before = fields.Integer(string='Séances avant le scan')
     sessions_after = fields.Integer(string='Séances après le scan')
     subscription_id = fields.Many2one('amarna.subscription', string='Abonnement')
+
+    @api.depends('partner_id', 'checkin_datetime')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.partner_id.name or 'Passage',
+                fields.Datetime.context_timestamp(rec, rec.checkin_datetime).strftime('%d/%m/%Y %H:%M')
+                if rec.checkin_datetime else '')

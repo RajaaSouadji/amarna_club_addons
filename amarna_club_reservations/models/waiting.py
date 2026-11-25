@@ -69,3 +69,9 @@ class AmarnaClubReservationWaiting(models.Model):
                 except (ValidationError, UserError):
                     continue
                 break
+
+    @api.depends('partner_id', 'activity_id', 'reservation_date')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.partner_id.name or 'Attente', rec.activity_id.name or '')

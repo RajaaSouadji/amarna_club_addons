@@ -48,3 +48,9 @@ class AmarnaClubWeaponLog(models.Model):
         for log in self.filtered(lambda r: r.state == 'issued'):
             log.write({'state': 'returned', 'returned_at': fields.Datetime.now()})
             log.asset_id.write({'status': 'available'})
+
+    @api.depends('asset_id', 'partner_id')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.asset_id.name or 'Arme', rec.partner_id.name or '')

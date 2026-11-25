@@ -36,3 +36,9 @@ class AmarnaClubShift(models.Model):
                 raise ValidationError(
                     "%s a déjà une garde sur ce créneau (%s)." % (
                         rec.staff_id.name, overlap.activity_id.name))
+
+    @api.depends('staff_id', 'activity_id')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.staff_id.display_name or 'Garde', rec.activity_id.name or '')

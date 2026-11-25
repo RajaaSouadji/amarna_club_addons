@@ -18,6 +18,11 @@ class AmarnaClubInterventionPart(models.Model):
 
     _qty_positive = models.Constraint('check (qty > 0)', 'La quantité doit être positive.')
 
+    @api.depends('item_id')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = rec.item_id.name or 'Pièce'
+
 
 class AmarnaClubIntervention(models.Model):
     _inherit = 'amarna.club.intervention'

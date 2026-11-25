@@ -49,6 +49,13 @@ class AmarnaClubHorseCare(models.Model):
         for care in self.filtered(lambda c: c.care_type == 'vet' and c.next_due):
             care.horse_id.next_vet_visit = datetime.combine(care.next_due, time(9, 0))
 
+    @api.depends('horse_id', 'care_type', 'date')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.horse_id.name or 'Soin',
+                dict(rec._fields['care_type']._description_selection(rec.env)).get(rec.care_type, ''))
+
 
 class AmarnaClubHorseFeed(models.Model):
     """One line of a horse's feeding plan."""
@@ -66,3 +73,8 @@ class AmarnaClubHorseFeed(models.Model):
     quantity = fields.Float(string='Quantité', default=1.0)
     unit = fields.Char(string='Unité', default='kg')
     notes = fields.Char(string='Remarque')
+
+    @api.depends('horse_id', 'feed_name')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (rec.horse_id.name or 'Ration', rec.feed_name or '')

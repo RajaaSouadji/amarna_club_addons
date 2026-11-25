@@ -73,3 +73,8 @@ class AmarnaClubInventoryMove(models.Model):
         if not self.env.su and not self.env.context.get('force_move_delete'):
             raise UserError("Les mouvements de stock ne se suppriment pas : créez un ajustement.")
         return super().unlink()
+
+    @api.depends('item_id', 'qty_delta')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s (%+d)' % (rec.item_id.name or 'Mouvement', rec.qty_delta or 0)

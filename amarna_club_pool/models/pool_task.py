@@ -87,3 +87,8 @@ class AmarnaClubPoolTaskLog(models.Model):
     date = fields.Date(string='Date', required=True, default=fields.Date.context_today)
     user_id = fields.Many2one('res.users', string='Réalisé par', default=lambda self: self.env.user)
     notes = fields.Char(string='Remarque')
+
+    @api.depends('task_id', 'date')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (rec.task_id.name or 'Tâche', rec.date or '')

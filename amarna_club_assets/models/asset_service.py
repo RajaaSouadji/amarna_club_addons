@@ -49,3 +49,9 @@ class AmarnaClubAssetService(models.Model):
         result = super().unlink()
         assets._refresh_maintenance_dates()
         return result
+
+    @api.depends('asset_id', 'date', 'description')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (
+                rec.asset_id.name or 'Entretien', rec.description or rec.date or '')

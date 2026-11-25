@@ -84,3 +84,8 @@ class AmarnaClubInventoryCountLine(models.Model):
 
     _item_uniq = models.Constraint(
         'unique (count_id, item_id)', 'Un article ne peut apparaître qu\'une fois par inventaire.')
+
+    @api.depends('count_id', 'item_id')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = '%s – %s' % (rec.count_id.name or 'Inventaire', rec.item_id.name or '')
