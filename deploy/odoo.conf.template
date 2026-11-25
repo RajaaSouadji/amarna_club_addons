@@ -11,4 +11,6 @@ dbfilter = ^hasnaoui_amarna$
 list_db = False
 ; threaded mode: small club, and the live-update websocket stays on port 8069
 workers = 0
+; Odoo 20 listens on localhost only by default: open it inside the container
+http_interface = 0.0.0.0
 limit_time_real = 1200
