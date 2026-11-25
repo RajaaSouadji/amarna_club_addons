@@ -1,0 +1,44 @@
+# Amarna Club on Docker: Odoo 20 + PostgreSQL 16.
+# Run ./setup.sh once (creates .env and odoo.conf with random passwords), then:
+#   docker compose up -d
+# The addons are this very repository, mounted read-only: updating the code is a
+# "git pull" followed by ./update.sh.
+name: amarna
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: postgres
+    volumes:
+      - amarna_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # no published port: only the Odoo container can reach the database
+
+  odoo:
+    image: odoo:20.0
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8069:8069"   # web + JSON-RPC (the tablet)
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - amarna_odoo:/var/lib/odoo               # filestore and sessions
+      - ..:/mnt/extra-addons:ro                  # the Amarna addons (this repository)
+      - ./odoo.conf:/etc/odoo/odoo.conf:ro
+
+volumes:
+  amarna_pg:
+  amarna_odoo:

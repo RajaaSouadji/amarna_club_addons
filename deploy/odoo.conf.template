@@ -1,0 +1,10 @@
+[options]
+admin_passwd = __ADMIN_PASSWORD__
+; the built-in Odoo addons are always on the path
+addons_path = /mnt/extra-addons
+db_name = hasnaoui_amarna
+dbfilter = ^hasnaoui_amarna$
+list_db = False
+; threaded mode: small club, and the live-update websocket stays on port 8069
+workers = 0
+limit_time_real = 1200
