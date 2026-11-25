@@ -1,5 +1,9 @@
 [options]
 admin_passwd = __ADMIN_PASSWORD__
+db_host = db
+db_port = 5432
+db_user = odoo
+db_password = __DB_PASSWORD__
 ; the built-in Odoo addons are always on the path
 addons_path = /mnt/extra-addons
 db_name = hasnaoui_amarna

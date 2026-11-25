@@ -10,6 +10,8 @@ if [ ! -f .env ]; then
 fi
 # shellcheck disable=SC1091
 . ./.env
-sed "s/__ADMIN_PASSWORD__/${ADMIN_PASSWORD}/" odoo.conf.template > odoo.conf
+umask 077
+sed -e "s/__ADMIN_PASSWORD__/${ADMIN_PASSWORD}/" -e "s/__DB_PASSWORD__/${DB_PASSWORD}/" odoo.conf.template > odoo.conf
+# the container user (odoo, uid 101) must be able to read it
 chmod 644 odoo.conf
 echo "odoo.conf written"
