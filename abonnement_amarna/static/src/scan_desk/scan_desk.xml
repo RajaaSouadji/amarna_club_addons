@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+  <t t-name="abonnement_amarna.ScanDesk">
+    <div class="o_amarna_scan">
+      <div class="o_amarna_scan_inner">
+        <div class="o_amarna_scan_prompt">
+          <i class="fa fa-id-card-o" aria-hidden="true"/>
+          <input type="text" class="form-control o_amarna_scan_input"
+                 placeholder="Passez la carte devant le lecteur"
+                 t-att-value="this.state.code" t-att-disabled="this.state.busy"
+                 t-on-input="this.onInput" t-on-keydown="this.onKeydown"
+                 autocomplete="off" autofocus="autofocus" aria-label="Numéro de la carte"/>
+        </div>
+
+        <div t-if="this.state.result" t-attf-class="o_amarna_scan_verdict o_amarna_scan_{{this.state.result.status}}">
+          <div class="o_amarna_scan_head">
+            <img t-if="this.state.result.member?.id" t-att-src="this.photo(this.state.result.member)" alt=""
+                 class="o_amarna_scan_photo"/>
+            <div>
+              <div class="o_amarna_scan_status" t-out="this.verdictLabel"/>
+              <div class="o_amarna_scan_name" t-if="this.state.result.member?.name"
+                   t-out="this.state.result.member.name"/>
+            </div>
+          </div>
+          <p class="o_amarna_scan_message" t-out="this.state.result.message"/>
+          <dl t-if="this.state.result.subscription" class="o_amarna_scan_facts">
+            <div>
+              <dt>Activité</dt>
+              <dd t-out="this.state.result.subscription.activity or this.state.result.subscription.plan"/>
+            </div>
+            <div>
+              <dt>Séances restantes</dt>
+              <dd t-out="this.state.result.subscription.remaining"/>
+            </div>
+            <div t-if="this.state.result.subscription.expires">
+              <dt>Valable jusqu'au</dt>
+              <dd t-out="this.state.result.subscription.expires"/>
+            </div>
+          </dl>
+          <div t-if="this.state.result.status === 'choose'" class="o_amarna_scan_choices">
+            <button t-foreach="this.state.result.choices" t-as="choice" t-key="choice.id"
+                    type="button" class="btn btn-primary btn-lg"
+                    t-on-click="() => this.choose(choice)">
+              <t t-out="choice.label"/> · <t t-out="choice.remaining"/>
+            </button>
+          </div>
+        </div>
+        <p t-else="" class="o_amarna_scan_hint text-muted">
+          Chaque lecture enregistre le passage et retire une séance (formule à séances).
+        </p>
+
+        <ul t-if="this.state.history.length" class="o_amarna_scan_history">
+          <li t-foreach="this.state.history" t-as="item" t-key="item.key" t-attf-class="o_amarna_scan_{{item.status}}">
+            <span class="o_amarna_scan_time" t-out="item.time"/>
+            <strong t-out="item.who"/>
+            <span class="text-muted" t-out="item.message"/>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </t>
+
+</templates>

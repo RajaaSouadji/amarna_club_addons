@@ -34,7 +34,6 @@ class TestAmarnaBilling(TransactionCase):
             'session_count': 10,
         })
         cls.card = cls.env['amarna.rfid.card'].create({'partner_id': cls.partner.id})
-        cls.card.write({'state': 'active'})
 
     # ------------------------------------------------------------ helpers
 

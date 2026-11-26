@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Lecteur à l'accueil : une lecture de carte = un passage enregistré, sans second clic.
+         « Tester la carte » (fiche de la carte, assistant) reste disponible pour vérifier
+         une carte sans retirer de séance. -->
+    <record id="action_amarna_scan_desk" model="ir.actions.client">
+        <field name="name">Scanner une carte</field>
+        <field name="tag">abonnement_amarna.scan_desk</field>
+    </record>
+
+    <menuitem id="menu_amarna_scan_desk"
+              name="Scanner une carte"
+              parent="menu_amarna_subscription_root"
+              action="action_amarna_scan_desk"
+              sequence="3"/>
+
+</odoo>

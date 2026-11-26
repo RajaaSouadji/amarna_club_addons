@@ -23,12 +23,17 @@ class AmarnaRfidCard(models.Model):
         help="Numéro lu par le lecteur : passez la carte devant le lecteur, ou saisissez-le. "
              "Laissé vide, un numéro interne est généré.")
     partner_id = fields.Many2one('res.partner', string='Membre', ondelete='set null', index=True)
+    restriction = fields.Selection(
+        [('lost', 'Perdue'), ('blocked', 'Bloquée')], string='Restriction', copy=False,
+        help="Posée à la main quand la carte est perdue ou volée, ou pour bloquer un membre. "
+             "Tant qu'elle est posée, la carte n'ouvre aucun accès.")
     state = fields.Selection([
         ('inactive', 'Sans accès'), ('active', 'Accès ouvert'),
         ('lost', 'Perdue'), ('blocked', 'Bloquée'),
-    ], string='État', default='inactive', required=True,
-        help="« Accès ouvert » / « Sans accès » suivent automatiquement les abonnements et "
-             "réservations payés du membre. « Perdue » et « Bloquée » sont posées à la main.")
+    ], string='État', compute='_compute_state', store=True,
+        help="Jamais saisi : « Perdue » et « Bloquée » viennent de la restriction posée à la main ; "
+             "sinon « Accès ouvert » quand une autorisation d'accès est en cours (abonnement ou "
+             "réservation payé), « Sans accès » dans le cas contraire.")
     assigned_date = fields.Date(string='Date d’attribution', default=fields.Date.today)
     access_ids = fields.One2many('amarna.rfid.access', 'card_id', string='Autorisations d’accès', readonly=True)
     checkin_ids = fields.One2many('amarna.checkin', 'rfid_card_id', string='Passages', readonly=True)
@@ -49,6 +54,20 @@ class AmarnaRfidCard(models.Model):
             ).sorted('end_datetime', reverse=True)[:1]
             card.access_until = current.end_datetime or False
             card.access_source = current.name or False
+
+    @api.depends('restriction', 'access_ids.state', 'access_ids.active',
+                 'access_ids.start_datetime', 'access_ids.end_datetime')
+    def _compute_state(self):
+        now = fields.Datetime.now()
+        for card in self:
+            if card.restriction:
+                card.state = card.restriction
+            elif card.access_ids.filtered(
+                    lambda a: a.active and a.state in ('scheduled', 'active')
+                    and a.start_datetime <= now <= a.end_datetime):
+                card.state = 'active'
+            else:
+                card.state = 'inactive'
 
     # ---------------------------------------------------------------- CRUD
 
@@ -95,13 +114,10 @@ class AmarnaRfidCard(models.Model):
     # --------------------------------------------------------------- State
 
     def _sync_access_state(self):
-        now = fields.Datetime.now()
-        for card in self:
-            valid_access = card.access_ids.filtered(lambda access: access.active and access.state in ('scheduled', 'active') and access.start_datetime <= now <= access.end_datetime)
-            if valid_access and card.state not in ('blocked', 'lost'):
-                card.with_context(skip_rfid_sync=True).write({'state': 'active'})
-            elif not valid_access and card.state == 'active':
-                card.with_context(skip_rfid_sync=True).write({'state': 'inactive'})
+        """Recompute the state: authorisations start and end with the clock, not only
+        when a record changes."""
+        self.env.add_to_compute(self._fields['state'], self)
+        self.mapped('state')
 
     def action_open_scan(self):
         """Check this card at the door: opens the scan screen already filled with it."""
@@ -111,22 +127,15 @@ class AmarnaRfidCard(models.Model):
         action['name'] = 'Scanner une carte RFID'
         return action
 
-    def action_activate(self):
-        self.write({'state': 'active'})
-
-    def action_deactivate(self):
-        self.write({'state': 'inactive'})
-
     def action_block(self):
-        self.write({'state': 'blocked'})
+        self.write({'restriction': 'blocked'})
 
     def action_lost(self):
-        self.write({'state': 'lost'})
+        self.write({'restriction': 'lost'})
 
     def action_restore(self):
-        """Lift a block / a loss declaration: the state is recomputed from the authorisations."""
-        self.write({'state': 'inactive'})
-        self._sync_access_state()
+        """Lift a block / a loss declaration: the state follows the authorisations again."""
+        self.write({'restriction': False})
 
     def action_unassign(self):
-        self.write({'partner_id': False, 'state': 'inactive'})
+        self.write({'partner_id': False})

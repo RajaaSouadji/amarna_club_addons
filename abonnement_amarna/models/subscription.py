@@ -3,6 +3,7 @@ from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models
 from odoo.fields import Domain
+from odoo.tools.misc import format_amount
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -377,6 +378,44 @@ class AmarnaSubscription(models.Model):
             'domain': [('subscription_id', '=', self.id)],
             'context': {'default_subscription_id': self.id, 'default_partner_id': self.partner_id.id},
         }
+
+    # ------------------------------------------------------------ Check-in
+
+    def _scan_denial(self):
+        """Why this subscription cannot let its member in right now, or False.
+
+        One place for the rule, used by the one-step scan screen and by the
+        scan wizard, so both always give the same answer and the same reason."""
+        self.ensure_one()
+        if not self.active or self.state != 'confirmed':
+            return "Abonnement non confirmé (brouillon ou annulé)."
+        if self.is_frozen:
+            return "Abonnement suspendu jusqu'au %s." % self.freeze_end
+        if self.expiration_date and self.expiration_date < fields.Date.context_today(self):
+            return "Abonnement expiré (Échéance : %s)." % self.expiration_date
+        if not self.payment_valid:
+            if self.billing_state == 'to_invoice':
+                return "Aucune facture émise pour cette période : facturez l'abonnement."
+            return "Paiement en attente : reste à payer %s." % format_amount(
+                self.env, self.amount_due, self.currency_id)
+        if not self.is_unlimited and self.remaining_sessions <= 0:
+            return "Solde épuisé (0 séance restante)."
+        return False
+
+    def _record_checkin(self, card):
+        """Take one session (limited plans) and log the passage."""
+        self.ensure_one()
+        before = self.remaining_sessions
+        if not self.is_unlimited:
+            self.write({'remaining_sessions': before - 1})
+        return self.env['amarna.checkin'].create({
+            'partner_id': self.partner_id.id,
+            'rfid_card_id': card.id,
+            'activity_id': self.activity_id.id,
+            'sessions_before': before,
+            'sessions_after': self.remaining_sessions,
+            'subscription_id': self.id,
+        })
 
     # --------------------------------------------------------------- Cron
 

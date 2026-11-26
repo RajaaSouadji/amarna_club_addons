@@ -24,7 +24,6 @@ class TestMembers(TransactionCase):
             'name': 'Forfait membres', 'activity_id': cls.activity.id,
             'subscription_type_id': sub_type.id, 'list_price': 0.0})
         cls.card = cls.env['amarna.rfid.card'].create({'partner_id': cls.partner.id})
-        cls.card.write({'state': 'active'})
         cls.sub = cls.env['amarna.subscription'].create({
             'partner_id': cls.partner.id, 'plan_id': cls.plan.id,
             'rfid_card_id': cls.card.id, 'start_date': cls.today})

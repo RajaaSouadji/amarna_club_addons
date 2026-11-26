@@ -90,6 +90,15 @@ class AmarnaScanWizard(models.TransientModel):
         self.card_id = card
         self.action_scan()
 
+    def _reopen(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'amarna.scan.wizard',
+            'res_id': self.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
     def action_scan(self):
         requested_subscription = self.subscription_id or self.env['amarna.subscription'].browse(
             self.env.context.get('default_subscription_id')
@@ -126,13 +135,7 @@ class AmarnaScanWizard(models.TransientModel):
         if self.card_id.state in ('blocked', 'lost'):
             self.result_state = 'denied'
             self.result_message = "❌ Cette carte RFID est bloquée ou perdue."
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'amarna.scan.wizard',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-            }
+            return self._reopen()
 
         # 2. Rechercher l'abonnement actif lié à cette carte
         subscriptions = self.env['amarna.subscription'].search([
@@ -143,13 +146,7 @@ class AmarnaScanWizard(models.TransientModel):
         if not subscriptions:
             self.result_state = 'denied'
             self.result_message = "❌ Aucun abonnement actif trouvé pour cette carte."
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'amarna.scan.wizard',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-            }
+            return self._reopen()
 
         # Afficher toutes les inscriptions de cette carte et sélectionner
         # automatiquement la première formule actuellement utilisable.
@@ -167,64 +164,11 @@ class AmarnaScanWizard(models.TransientModel):
         self.subscription_id = sub.id
 
         # 3. Vérifier les conditions de l'abonnement sélectionné
-        if not sub.active or sub.state != 'confirmed':
+        denial = sub._scan_denial()
+        if denial:
             self.result_state = 'denied'
-            self.result_message = "❌ Abonnement non confirmé (brouillon ou annulé)."
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'amarna.scan.wizard',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-            }
-
-        if sub.is_frozen:
-            self.result_state = 'denied'
-            self.result_message = "❌ Abonnement suspendu jusqu'au %s." % sub.freeze_end
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'amarna.scan.wizard',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-            }
-
-        if sub.expiration_date and sub.expiration_date < fields.Date.today():
-            self.result_state = 'denied'
-            self.result_message = "❌ Abonnement expiré (Échéance : %s)." % sub.expiration_date
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'amarna.scan.wizard',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-            }
-
-        if not sub.payment_valid:
-            self.result_state = 'denied'
-            if sub.billing_state == 'to_invoice':
-                self.result_message = "❌ Aucune facture émise pour cette période : facturez l'abonnement."
-            else:
-                self.result_message = "❌ Paiement en attente : reste à payer %s." % format_amount(
-                    self.env, sub.amount_due, sub.currency_id)
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'amarna.scan.wizard',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-            }
-
-        if not sub.is_unlimited and sub.remaining_sessions <= 0:
-            self.result_state = 'denied'
-            self.result_message = "❌ Solde épuisé (0 séance restante)."
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'amarna.scan.wizard',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-            }
+            self.result_message = "❌ " + denial
+            return self._reopen()
 
         # 4. Rechercher le dernier passage (check-in) pour ce client
         last_checkin = self.env['amarna.checkin'].search([
@@ -253,13 +197,7 @@ class AmarnaScanWizard(models.TransientModel):
         self.result_state = 'ok'
         self.result_message = "✅ Carte et abonnement valides. Prêt à valider le scan."
 
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'amarna.scan.wizard',
-            'res_id': self.id,
-            'view_mode': 'form',
-            'target': 'new',
-        }
+        return self._reopen()
 
     def action_do_checkin(self):
         """Valide le scan, décrémente les séances et enregistre le check-in."""
@@ -269,28 +207,11 @@ class AmarnaScanWizard(models.TransientModel):
 
         # On récupère l'abonnement
         sub = self.subscription_id
-
-        if (not sub or sub.rfid_card_id != self.card_id or not sub.active
-                or sub.state != 'confirmed' or not sub.payment_valid
-                or (not sub.is_unlimited and sub.remaining_sessions <= 0)):
+        if not sub or sub.rfid_card_id != self.card_id or sub._scan_denial():
             raise UserError("Une erreur est survenue : l'abonnement n'est plus valide pour le check-in.")
 
-        # Sauvegarde des séances avant
-        sessions_before = sub.remaining_sessions
-
-        # Décrémenter (formule à séances uniquement) et enregistrer
-        if not sub.is_unlimited:
-            sub.write({'remaining_sessions': sessions_before - 1})
-
-        # Créer le check-in
-        checkin = self.env['amarna.checkin'].create({
-            'partner_id': sub.partner_id.id,
-            'rfid_card_id': self.card_id.id,
-            'activity_id': sub.activity_id.id if sub.activity_id else False,
-            'sessions_before': sessions_before,
-            'sessions_after': sub.remaining_sessions,
-            'subscription_id': sub.id,
-        })
+        # Décrémente les séances (formule à séances) et enregistre le passage
+        sub._record_checkin(self.card_id)
 
         # Mettre à jour l'affichage du wizard
         self.remaining_sessions = sub.remaining_sessions
@@ -304,10 +225,4 @@ class AmarnaScanWizard(models.TransientModel):
         ) % (sub.partner_id.name, sub.activity_id.name if sub.activity_id else '',
              'Illimité' if sub.is_unlimited else sub.remaining_sessions)
 
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'amarna.scan.wizard',
-            'res_id': self.id,
-            'view_mode': 'form',
-            'target': 'new',
-        }
+        return self._reopen()

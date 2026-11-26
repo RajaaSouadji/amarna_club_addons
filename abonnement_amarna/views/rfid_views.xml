@@ -51,21 +51,22 @@
                     <button name="action_open_scan" string="Tester la carte" type="object" class="oe_highlight"
                             invisible="not id"/>
                     <button name="action_lost" string="Déclarer perdue" type="object"
-                            invisible="state in ('lost', 'blocked')"
+                            invisible="restriction"
                             confirm="Déclarer cette carte perdue ? Elle n'ouvrira plus aucun accès."/>
                     <button name="action_block" string="Bloquer" type="object"
-                            invisible="state in ('lost', 'blocked')"/>
+                            invisible="restriction"/>
                     <button name="action_restore" string="Rétablir" type="object"
-                            invisible="state not in ('lost', 'blocked')"/>
+                            invisible="not restriction"/>
                     <button name="action_unassign" string="Retirer au membre" type="object"
                             invisible="not partner_id"
                             confirm="Retirer cette carte à son membre ?"/>
-                    <field name="state" widget="statusbar" statusbar_visible="inactive,active"/>
+                    <field name="state" widget="statusbar" statusbar_visible="inactive,active" readonly="1"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Passez la carte devant le lecteur" default_focus="1"/></h1>
                     </div>
+                    <field name="restriction" invisible="1"/>
                     <group>
                         <group>
                             <field name="partner_id" options="{'no_create_edit': True}"/>

@@ -74,6 +74,11 @@
                                  help="Nombre de jours avant la fin à partir duquel un abonnement est signalé.">
                             <field name="amarna_expiry_warning_days" class="oe_inline"/> jours
                         </setting>
+                        <setting id="amarna_checkin_guard"
+                                 string="Même carte lue deux fois"
+                                 help="Si la même carte est lue de nouveau dans ce délai, le passage n'est pas enregistré une seconde fois et aucune séance n'est retirée. 0 = pas de garde.">
+                            <field name="amarna_checkin_guard_minutes" class="oe_inline"/> minutes
+                        </setting>
                         <setting id="amarna_ticket_due"
                                  string="Délai d'intervention"
                                  help="Échéance proposée automatiquement pour une nouvelle intervention.">

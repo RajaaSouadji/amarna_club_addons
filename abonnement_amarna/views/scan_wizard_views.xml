@@ -134,14 +134,4 @@
         <field name="target">new</field>
     </record>
 
-    <!-- ===================================================== -->
-    <!-- MENU RACCOURCI DANS ABONNEMENTS & ACCÈS -->
-    <!-- ===================================================== -->
-
-    <menuitem id="menu_amarna_scan"
-              name="Scanner une carte"
-              parent="menu_amarna_subscription_root"
-              action="action_amarna_scan_wizard"
-              sequence="3"/>
-
 </odoo>

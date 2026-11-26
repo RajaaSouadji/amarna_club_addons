@@ -32,6 +32,10 @@ class ResCompany(models.Model):
         string="Alerte fin d'abonnement (jours)", default=7,
         help="Un abonnement qui se termine dans moins de ce nombre de jours "
              "est signalé comme « bientôt expiré » sur la tablette.")
+    amarna_checkin_guard_minutes = fields.Integer(
+        string="Même carte lue deux fois (minutes)", default=5,
+        help="Si la même carte est lue de nouveau dans ce délai, le passage n'est pas "
+             "enregistré une seconde fois et aucune séance n'est retirée. 0 = pas de garde.")
     amarna_ticket_due_days = fields.Integer(
         string="Délai d'intervention par défaut (jours)", default=3,
         help="Échéance proposée automatiquement pour une nouvelle intervention.")
@@ -65,10 +69,11 @@ class ResCompany(models.Model):
             if company.amarna_default_end_hour <= company.amarna_default_start_hour:
                 raise ValidationError('Le créneau par défaut doit finir après son début.')
 
-    @api.constrains('amarna_expiry_warning_days', 'amarna_ticket_due_days')
+    @api.constrains('amarna_expiry_warning_days', 'amarna_ticket_due_days', 'amarna_checkin_guard_minutes')
     def _check_amarna_days(self):
         for company in self:
-            if company.amarna_expiry_warning_days < 0 or company.amarna_ticket_due_days < 0:
+            if (company.amarna_expiry_warning_days < 0 or company.amarna_ticket_due_days < 0
+                    or company.amarna_checkin_guard_minutes < 0):
                 raise ValidationError('Les délais ne peuvent pas être négatifs.')
 
     @api.constrains('amarna_booking_horizon_days', 'amarna_default_people_count')

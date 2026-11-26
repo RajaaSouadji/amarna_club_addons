@@ -33,9 +33,15 @@ Socle partagé par tout le club.
         'views/rfid_views.xml',
         'views/rfid_access_views.xml',
         'views/scan_wizard_views.xml',
+        'views/scan_desk_views.xml',
         'views/checkin_views.xml',
         'views/member_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'abonnement_amarna/static/src/scan_desk/*',
+        ],
+    },
     'demo': ['demo/activity_demo.xml'],
     'application': True,
     'installable': True,
