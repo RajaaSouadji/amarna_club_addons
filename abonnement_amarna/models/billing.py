@@ -192,6 +192,14 @@ class AmarnaBillingMixin(models.AbstractModel):
             }
         return True
 
+    def action_collect(self):
+        """The desk button: invoice the period if that is not done yet, then open the
+        payment window. Cash, cheque or card is the journal chosen in that window."""
+        self.ensure_one()
+        if self.billing_state == 'to_invoice':
+            self.action_create_invoice()
+        return self.action_register_payment()
+
     def action_register_payment(self):
         """Open the standard Odoo payment wizard on the open invoices."""
         self.ensure_one()

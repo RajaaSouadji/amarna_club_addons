@@ -14,6 +14,7 @@ class ResConfigSettings(models.TransientModel):
     amarna_default_end_hour = fields.Float(related='company_id.amarna_default_end_hour', readonly=False)
     amarna_expiry_warning_days = fields.Integer(related='company_id.amarna_expiry_warning_days', readonly=False)
     amarna_checkin_guard_minutes = fields.Integer(related='company_id.amarna_checkin_guard_minutes', readonly=False)
+    amarna_payment_reminder_days = fields.Integer(related='company_id.amarna_payment_reminder_days', readonly=False)
     amarna_ticket_due_days = fields.Integer(related='company_id.amarna_ticket_due_days', readonly=False)
     amarna_booking_horizon_days = fields.Integer(related='company_id.amarna_booking_horizon_days', readonly=False)
     amarna_default_people_count = fields.Integer(related='company_id.amarna_default_people_count', readonly=False)

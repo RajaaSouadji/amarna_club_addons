@@ -65,6 +65,9 @@ class AmarnaSubscription(models.Model):
 
     rfid_card_id = fields.Many2one('amarna.rfid.card', string='Carte RFID', tracking=True)
     expiry_notified = fields.Boolean(copy=False)
+    payment_reminder_date = fields.Date(
+        string='Dernière relance de paiement', copy=False,
+        help="Dernier jour où une tâche de relance a été créée pour une facture impayée.")
 
     line_ids = fields.One2many('amarna.subscription.line', 'subscription_id', string='Lignes', copy=True)
     amount_untaxed = fields.Monetary(
@@ -441,6 +444,33 @@ class AmarnaSubscription(models.Model):
         # A suspension starts or ends on a given day: refresh the card access.
         self.search([('freeze_end', '!=', False), ('state', '=', 'confirmed')])._sync_rfid_access()
         self.env['amarna.rfid.access'].cron_sync_access()
+        return True
+
+    @api.model
+    def cron_payment_reminders(self):
+        """Daily: a subscription whose invoice stays unpaid gets a "chase the payment" task for
+        its owner (and a note in the history), again every ``amarna_payment_reminder_days``."""
+        today = fields.Date.context_today(self)
+        for sub in self.search([('state', '=', 'confirmed'), ('billing_state', 'in', ('unpaid', 'partial'))]):
+            days = sub.company_id.amarna_payment_reminder_days
+            if not days:
+                continue
+            open_invoices = sub._billing_current_invoices().filtered(
+                lambda m: m.state == 'posted' and m.move_type == 'out_invoice' and m.amount_residual > 0)
+            since = min((m.invoice_date_due or m.invoice_date or today) for m in open_invoices) if open_invoices else today
+            if since + timedelta(days=days) > today:
+                continue
+            if sub.payment_reminder_date and sub.payment_reminder_date + timedelta(days=days) > today:
+                continue
+            sub.message_post(
+                body="Facture impayée depuis le %s : reste à payer %s." % (
+                    since, format_amount(self.env, sub.amount_due, sub.currency_id)),
+                subtype_xmlid='mail.mt_note')
+            if sub.user_id:
+                sub.activity_schedule(
+                    'mail.mail_activity_data_todo',
+                    summary='Relancer le paiement : %s' % sub.name, user_id=sub.user_id.id)
+            sub.payment_reminder_date = today
         return True
 
     @api.model

@@ -338,8 +338,12 @@
     </record>
 
     <!-- ================= Menus : app « Personnel » ================= -->
-    <menuitem id="menu_club_staff_root" web_icon="amarna_club_staff,static/description/icon.svg" name="Personnel"
-              groups="abonnement_amarna.group_club_user" sequence="80"/>
+    <menuitem id="menu_club_staff_root" web_icon="amarna_club_staff,static/description/icon.svg" name="Personnel" sequence="80"/>
+    <!-- Qui voit cette application (rôles). Command.set remplace les groupes d'une version précédente. -->
+    <record id="menu_club_staff_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[Command.clear(), Command.link(ref('abonnement_amarna.group_club_manager'))]"/>
+    </record>
+
 
     <menuitem id="menu_club_staff_team" name="Équipe"
               parent="menu_club_staff_root" sequence="10"/>

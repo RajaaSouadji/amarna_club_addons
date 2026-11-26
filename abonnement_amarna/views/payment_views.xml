@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Encaissements du club : la caisse du jour, par moyen de paiement (journal).
+         Dans l'application Facturation d'Odoo, à côté des factures du club. -->
+    <record id="view_amarna_payment_tree" model="ir.ui.view">
+        <field name="name">amarna.payment.tree</field>
+        <field name="model">account.payment</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" decoration-muted="state == 'canceled'">
+                <field name="date"/>
+                <field name="name" string="Paiement"/>
+                <field name="partner_id" string="Membre"/>
+                <field name="journal_id" string="Moyen de paiement"/>
+                <field name="amarna_activity_id" optional="show"/>
+                <field name="amount" sum="Total encaissé"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge" optional="hide"
+                       decoration-success="state in ('in_process', 'paid')"
+                       decoration-danger="state == 'canceled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amarna_payment_search" model="ir.ui.view">
+        <field name="name">amarna.payment.search</field>
+        <field name="model">account.payment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" string="Membre"/>
+                <field name="name" string="Paiement"/>
+                <field name="journal_id" string="Moyen de paiement"/>
+                <filter string="Aujourd'hui" name="today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Ce mois" name="month"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+                <group>
+                    <filter string="Moyen de paiement" name="group_journal" context="{'group_by': 'journal_id'}"/>
+                    <filter string="Jour" name="group_day" context="{'group_by': 'date:day'}"/>
+                    <filter string="Activité" name="group_activity" context="{'group_by': 'amarna_activity_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amarna_payments" model="ir.actions.act_window">
+        <field name="name">Paiements du club</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('amarna_club', '=', True), ('payment_type', '=', 'inbound'), ('state', '!=', 'canceled')]</field>
+        <field name="search_view_id" ref="view_amarna_payment_search"/>
+        <field name="context">{'search_default_today': 1, 'search_default_group_journal': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun paiement aujourd'hui</p>
+            <p>Les encaissements faits avec le bouton « Encaisser » d'un abonnement ou d'une réservation
+               apparaissent ici, par moyen de paiement : espèces, chèque ou carte.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_amarna_payments" name="Paiements du club"
+              parent="account.menu_finance_receivables" action="action_amarna_payments" sequence="2"/>
+
+</odoo>

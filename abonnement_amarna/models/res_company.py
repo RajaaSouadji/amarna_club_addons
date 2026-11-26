@@ -36,6 +36,11 @@ class ResCompany(models.Model):
         string="Même carte lue deux fois (minutes)", default=5,
         help="Si la même carte est lue de nouveau dans ce délai, le passage n'est pas "
              "enregistré une seconde fois et aucune séance n'est retirée. 0 = pas de garde.")
+    amarna_payment_reminder_days = fields.Integer(
+        string="Relance des impayés (jours)", default=7,
+        help="Un abonnement dont la facture reste impayée depuis ce nombre de jours déclenche une "
+             "tâche « Relancer le paiement » pour son responsable, puis de nouveau à chaque période "
+             "identique tant que rien n'est payé. 0 = pas de relance.")
     amarna_ticket_due_days = fields.Integer(
         string="Délai d'intervention par défaut (jours)", default=3,
         help="Échéance proposée automatiquement pour une nouvelle intervention.")
@@ -69,11 +74,13 @@ class ResCompany(models.Model):
             if company.amarna_default_end_hour <= company.amarna_default_start_hour:
                 raise ValidationError('Le créneau par défaut doit finir après son début.')
 
-    @api.constrains('amarna_expiry_warning_days', 'amarna_ticket_due_days', 'amarna_checkin_guard_minutes')
+    @api.constrains('amarna_expiry_warning_days', 'amarna_ticket_due_days', 'amarna_checkin_guard_minutes',
+                    'amarna_payment_reminder_days')
     def _check_amarna_days(self):
         for company in self:
             if (company.amarna_expiry_warning_days < 0 or company.amarna_ticket_due_days < 0
-                    or company.amarna_checkin_guard_minutes < 0):
+                    or company.amarna_checkin_guard_minutes < 0
+                    or company.amarna_payment_reminder_days < 0):
                 raise ValidationError('Les délais ne peuvent pas être négatifs.')
 
     @api.constrains('amarna_booking_horizon_days', 'amarna_default_people_count')

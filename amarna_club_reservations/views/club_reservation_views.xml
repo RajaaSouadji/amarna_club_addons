@@ -35,11 +35,12 @@
                             invisible="status not in ('pending', 'confirmed')"/>
                     <button name="action_confirm" string="Confirmer" type="object"
                             invisible="status != 'pending'"/>
-                    <button name="action_create_invoice" string="Facturer" type="object"
-                            invisible="status == 'cancelled' or billing_state != 'to_invoice'"/>
-                    <button name="action_register_payment" string="Encaisser" type="object"
+                    <button name="action_collect" string="Encaisser" type="object"
                             class="btn-primary"
-                            invisible="billing_state not in ('unpaid', 'partial')"/>
+                            invisible="status == 'cancelled' or billing_state not in ('to_invoice', 'unpaid', 'partial')"
+                            help="Facture si besoin, puis ouvre l'encaissement (espèces, chèque, carte)."/>
+                    <button name="action_create_invoice" string="Facturer sans encaisser" type="object"
+                            invisible="status == 'cancelled' or billing_state != 'to_invoice'"/>
                     <button name="action_cancel" string="Annuler" type="object"
                             invisible="status in ('cancelled', 'checkedin')"
                             confirm="Annuler cette réservation ?"/>
@@ -152,7 +153,11 @@
 
     <!-- One page for the bookings: the Planning (calendar / list / form). Its search
          offers "Aujourd'hui", "À venir", "Annulées"... so no second list is needed. -->
-    <menuitem id="menu_club_reservations_root" web_icon="amarna_club_reservations,static/description/icon.svg" name="Réservations"
-              groups="abonnement_amarna.group_club_user" sequence="20"/>
+    <menuitem id="menu_club_reservations_root" web_icon="amarna_club_reservations,static/description/icon.svg" name="Réservations" sequence="20"/>
+    <!-- Qui voit cette application (rôles). Command.set remplace les groupes d'une version précédente. -->
+    <record id="menu_club_reservations_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[Command.clear(), Command.link(ref('abonnement_amarna.group_club_reception')), Command.link(ref('abonnement_amarna.group_club_coach'))]"/>
+    </record>
+
 
 </odoo>

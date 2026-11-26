@@ -79,6 +79,11 @@
                                  help="Si la même carte est lue de nouveau dans ce délai, le passage n'est pas enregistré une seconde fois et aucune séance n'est retirée. 0 = pas de garde.">
                             <field name="amarna_checkin_guard_minutes" class="oe_inline"/> minutes
                         </setting>
+                        <setting id="amarna_payment_reminder"
+                                 string="Relance des impayés"
+                                 help="Tâche « Relancer le paiement » pour le responsable de l'abonnement quand sa facture reste impayée depuis ce nombre de jours. 0 = aucune relance.">
+                            <field name="amarna_payment_reminder_days" class="oe_inline"/> jours
+                        </setting>
                         <setting id="amarna_ticket_due"
                                  string="Délai d'intervention"
                                  help="Échéance proposée automatiquement pour une nouvelle intervention.">

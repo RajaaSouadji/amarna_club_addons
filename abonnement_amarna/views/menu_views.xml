@@ -6,8 +6,12 @@
         maintenance, stock, stable, pool, staff) is its own app with its own
         top-level menu and Configuration section, as in standard Odoo.
     -->
-    <menuitem id="menu_amarna_root" web_icon="abonnement_amarna,static/description/icon.svg" name="Abonnements" sequence="10"
-              groups="group_club_user"/>
+    <menuitem id="menu_amarna_root" web_icon="abonnement_amarna,static/description/icon.svg" name="Abonnements" sequence="10"/>
+    <!-- Qui voit cette application (rôles). Command.set remplace les groupes d'une version précédente. -->
+    <record id="menu_amarna_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[Command.clear(), Command.link(ref('abonnement_amarna.group_club_reception')), Command.link(ref('abonnement_amarna.group_club_coach'))]"/>
+    </record>
+
 
     <menuitem id="menu_amarna_subscription_root" name="Membres et accès"
               parent="menu_amarna_root" sequence="20"/>

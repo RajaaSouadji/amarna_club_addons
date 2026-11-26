@@ -34,12 +34,12 @@
                 <header>
                     <button name="action_confirm" string="Confirmer" type="object"
                             class="btn-primary" invisible="state != 'draft'"/>
-                    <button name="action_create_invoice" string="Facturer la période" type="object"
+                    <button name="action_collect" string="Encaisser" type="object"
                             class="btn-primary"
+                            invisible="state != 'confirmed' or billing_state not in ('to_invoice', 'unpaid', 'partial')"
+                            help="Facture la période si besoin, puis ouvre l'encaissement (espèces, chèque, carte)."/>
+                    <button name="action_create_invoice" string="Facturer sans encaisser" type="object"
                             invisible="state != 'confirmed' or billing_state != 'to_invoice'"/>
-                    <button name="action_register_payment" string="Encaisser" type="object"
-                            class="btn-primary"
-                            invisible="billing_state not in ('unpaid', 'partial')"/>
                     <button name="action_renew" string="Renouveler" type="object"
                             invisible="state != 'confirmed'"
                             confirm="Démarrer la période suivante et émettre sa facture ?"/>

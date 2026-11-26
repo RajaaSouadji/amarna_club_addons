@@ -17,6 +17,7 @@
         'amarna_club_reservations',
         'amarna_club_staff',
         'amarna_club_theme',
+        'amarna_club_sms',
     ],
     'installable': True,
 }

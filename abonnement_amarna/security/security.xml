@@ -14,17 +14,45 @@
 
     <!-- Tablet and back-office staff. Implies internal-user rights. -->
     <record id="group_club_user" model="res.groups">
-        <field name="name">Utilisateur</field>
+        <field name="name">Utilisateur (tablette)</field>
         <field name="privilege_id" ref="res_groups_privilege_amarna_club"/>
         <!-- Cashing a subscription or a booking creates invoices and payments. -->
         <field name="implied_ids" eval="[Command.link(ref('base.group_user')), Command.link(ref('account.group_account_invoice'))]"/>
+    </record>
+
+    <!--
+        Job roles. They only decide which apps and menus a person sees: the access
+        rights (ACL) stay those of "Utilisateur", so the tablet and every screen keep
+        working whatever the role. Each role implies "Utilisateur"; "Responsable"
+        implies all of them and also sees the Configuration menus and Personnel.
+
+        Réception : members, subscriptions, cards, scan desk, reservations, payments.
+        Moniteur  : members and scan desk, reservations, equipment, pool, stable, maintenance.
+        Technique : equipment, maintenance, stock, pool.
+    -->
+    <record id="group_club_reception" model="res.groups">
+        <field name="name">Réception</field>
+        <field name="privilege_id" ref="res_groups_privilege_amarna_club"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_club_user'))]"/>
+    </record>
+
+    <record id="group_club_coach" model="res.groups">
+        <field name="name">Moniteur</field>
+        <field name="privilege_id" ref="res_groups_privilege_amarna_club"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_club_user'))]"/>
+    </record>
+
+    <record id="group_club_technician" model="res.groups">
+        <field name="name">Technique</field>
+        <field name="privilege_id" ref="res_groups_privilege_amarna_club"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_club_user'))]"/>
     </record>
 
     <!-- Managers may delete records; the tablet never needs this right. -->
     <record id="group_club_manager" model="res.groups">
         <field name="name">Responsable</field>
         <field name="privilege_id" ref="res_groups_privilege_amarna_club"/>
-        <field name="implied_ids" eval="[Command.link(ref('group_club_user'))]"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_club_reception')), Command.link(ref('group_club_coach')), Command.link(ref('group_club_technician'))]"/>
     </record>
 
     <!--

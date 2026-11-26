@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_amarna_sms" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.amarna_club_sms</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="abonnement_amarna.res_config_settings_view_form_amarna_core"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='amarna_delays_block']" position="after">
+                <block title="SMS aux membres" name="amarna_sms_block">
+                    <setting id="amarna_sms_expiry" string="SMS avant la fin de l'abonnement"
+                             help="Désactivé par défaut. Les SMS passent par le service SMS d'Odoo (crédits payants) et sont envoyés chaque matin à 9h.">
+                        <field name="amarna_sms_expiry_enabled"/>
+                        <div class="content-group" invisible="not amarna_sms_expiry_enabled">
+                            <div class="row mt16">
+                                <label for="amarna_sms_expiry_days" string="Jours avant la fin" class="col-lg-3 o_light_label"/>
+                                <field name="amarna_sms_expiry_days"/>
+                            </div>
+                            <div class="row">
+                                <label for="amarna_sms_expiry_body" string="Texte" class="col-lg-3 o_light_label"/>
+                                <field name="amarna_sms_expiry_body"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

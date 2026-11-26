@@ -212,8 +212,12 @@
     <!-- ================= Menus : app « Piscine » ================= -->
     <menuitem id="menu_club_pool_root" web_icon="amarna_club_pool,static/description/icon.svg"
               name="Piscine"
-              groups="abonnement_amarna.group_club_user"
               sequence="70"/>
+    <!-- Qui voit cette application (rôles). Command.set remplace les groupes d'une version précédente. -->
+    <record id="menu_club_pool_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[Command.clear(), Command.link(ref('abonnement_amarna.group_club_coach')), Command.link(ref('abonnement_amarna.group_club_technician'))]"/>
+    </record>
+
 
     <menuitem id="menu_club_pool_water" name="Qualité de l'eau"
               parent="menu_club_pool_root" sequence="10"/>

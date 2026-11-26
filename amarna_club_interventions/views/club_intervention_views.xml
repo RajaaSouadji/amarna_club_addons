@@ -304,8 +304,12 @@
     <!-- Menus : app « Maintenance » -->
     <menuitem id="menu_club_interventions_root" web_icon="amarna_club_interventions,static/description/icon.svg"
               name="Maintenance"
-              groups="abonnement_amarna.group_club_user"
               sequence="40"/>
+    <!-- Qui voit cette application (rôles). Command.set remplace les groupes d'une version précédente. -->
+    <record id="menu_club_interventions_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[Command.clear(), Command.link(ref('abonnement_amarna.group_club_reception')), Command.link(ref('abonnement_amarna.group_club_coach')), Command.link(ref('abonnement_amarna.group_club_technician'))]"/>
+    </record>
+
 
     <menuitem id="menu_club_interventions_tickets" name="Interventions"
               parent="menu_club_interventions_root" sequence="10"/>

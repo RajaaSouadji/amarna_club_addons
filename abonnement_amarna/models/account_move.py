@@ -50,6 +50,13 @@ class AccountPartialReconcile(models.Model):
     def create(self, vals_list):
         partials = super().create(vals_list)
         self.env.flush_all()
+        for partial in partials:
+            # a payment that settles a club invoice is a club payment
+            payment = (partial.debit_move_id.payment_id | partial.credit_move_id.payment_id)
+            invoice = (partial.debit_move_id.move_id | partial.credit_move_id.move_id).filtered(
+                lambda m: m.is_invoice())
+            if payment and invoice:
+                payment._amarna_tag_from_invoices(invoice)
         moves = partials.mapped('debit_move_id.move_id') | partials.mapped('credit_move_id.move_id')
         moves._amarna_refresh_access()
         return partials

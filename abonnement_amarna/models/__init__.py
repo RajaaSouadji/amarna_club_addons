@@ -4,6 +4,7 @@ from . import res_config_settings
 from . import staff
 from . import billing
 from . import account_move
+from . import account_payment
 from . import activity
 from . import activity_mixin
 from . import subscription_type

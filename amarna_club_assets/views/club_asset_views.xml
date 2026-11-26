@@ -523,8 +523,12 @@
     <!-- ================= Menus : app « Matériel » ================= -->
     <menuitem id="menu_club_assets_root" web_icon="amarna_club_assets,static/description/icon.svg"
               name="Matériel"
-              groups="abonnement_amarna.group_club_user"
               sequence="30"/>
+    <!-- Qui voit cette application (rôles). Command.set remplace les groupes d'une version précédente. -->
+    <record id="menu_club_assets_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[Command.clear(), Command.link(ref('abonnement_amarna.group_club_coach')), Command.link(ref('abonnement_amarna.group_club_technician'))]"/>
+    </record>
+
 
     <menuitem id="menu_club_assets_equipment" name="Équipements"
               parent="menu_club_assets_root" sequence="10"/>

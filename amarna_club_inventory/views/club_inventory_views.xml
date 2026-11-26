@@ -300,8 +300,12 @@
     <!-- ================= Menus : app « Stock » ================= -->
     <menuitem id="menu_club_inventory_root" web_icon="amarna_club_inventory,static/description/icon.svg"
               name="Stock"
-              groups="abonnement_amarna.group_club_user"
               sequence="50"/>
+    <!-- Qui voit cette application (rôles). Command.set remplace les groupes d'une version précédente. -->
+    <record id="menu_club_inventory_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[Command.clear(), Command.link(ref('abonnement_amarna.group_club_technician'))]"/>
+    </record>
+
 
     <menuitem id="menu_club_inventory_items" name="Articles"
               parent="menu_club_inventory_root" sequence="10"/>
