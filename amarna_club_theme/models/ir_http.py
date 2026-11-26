@@ -18,4 +18,9 @@ class IrHttp(models.AbstractModel):
             home = self.env.ref('amarna_club_theme.action_amarna_home', raise_if_not_found=False)
             if home:
                 info['home_action_id'] = home.id
+        # Odoo's guided onboarding tours (Invoicing, Discuss...) are of no use to
+        # the club staff. They start by themselves at login and load an extra
+        # script bundle: when that load goes wrong the user gets an error dialog.
+        info['tour_enabled'] = False
+        info.pop('current_tour', None)
         return info
