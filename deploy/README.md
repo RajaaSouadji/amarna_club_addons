@@ -16,7 +16,8 @@ in the Odoo container. Compose project: `/opt/amarna/addons/deploy`.
     docker compose ps                 # state
     docker compose logs -f odoo       # logs
     docker compose restart odoo       # restart Odoo
-    ./update.sh                       # git pull + update all modules + restart
+    ./update.sh                       # git pull, stop Odoo, update the modules, start Odoo
+    ./update.sh mod_a,mod_b           # only these modules
 
 Containers restart by themselves (`restart: unless-stopped`) and Docker starts at boot.
 
